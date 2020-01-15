@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import './Dashboard.scss';
-import ReactPlayer from 'react-player'
+// import ReactPlayer from 'react-player'
 
 
 export class Dashboard extends React.Component {
@@ -39,10 +39,12 @@ export class Dashboard extends React.Component {
           <div className="part part--4">
             <div className="part__bg-video">
               {/* <ReactPlayer url='containers/movies.mp4' className="part__bg-video--content" lopp playing muted controls/> */}
-              <video className="part__bg-video--content" autoPlay muted loop controls>
-                <source src="movies.mp4" type="video/mp4"></source>
-                <source src="movies2.mp4" type="video/webm"></source>
+              <video className="part__bg-video--content" autoPlay muted loop>
+                <source src="movie.mp4" type="video/mp4"></source>
+                <source src="movie2.webm" type="video/webm"></source>
+                Sorry, your browser doesn't support embedded videos.
               </video>
+              <div className="part__bg-video--gradient"></div>
             </div>
             <Link to="/movies" className="part__link">
               <div className="part__quarter part__quarter--4">

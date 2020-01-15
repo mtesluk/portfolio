@@ -21,24 +21,37 @@
         width: 100%;
         object-fit: cover;
       }
+
+      &--gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0.3;
+        background-image: linear-gradient(to right bottom, #ca4141, #fff);
+        background-blend-mode: overlay;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
     }
 
     &--1 {
-      background-image: linear-gradient(to right bottom, #3ab461, #fff), url("../blog.png");
+      background-image: linear-gradient(to left top, #3b98e4, #fff), url("../blog.png");
       background-blend-mode: overlay;
       background-repeat: no-repeat;
       background-size: cover;
     }
 
     &--2 {
-      background-image: linear-gradient(to right bottom, #3ab461, #fff), url("../react.jpg");
+      background-image: linear-gradient(to right top, #ddb810, #fff), url("../react.jpg");
       background-blend-mode: overlay;
       background-repeat: no-repeat;
       background-size: cover;
     }
 
     &--3 {
-      background-image: linear-gradient(to right bottom, #3ab461, #fff), url("../forum.png");
+      background-image: linear-gradient(to left bottom, #3ab461, #fff), url("../forum.png");
       background-blend-mode: overlay;
       background-repeat: no-repeat;
       background-size: cover;
@@ -64,23 +77,26 @@
 
       &--1 {
           bottom: 10%;
-          right: 10%;
-          margin: auto;
+          left: 50%;
+          transform: translateX(-50%);
       }
 
       &--2 {
           bottom: 10%;
-          left: 10%;
+          left: 50%;
+          transform: translateX(-50%);
       }
 
       &--3 {
           top: 10%;
-          right: 10%;
+          left: 50%;
+          transform: translateX(-50%);
       }
 
       &--4 {
           top: 10%;
-          left: 10%;
+          left: 50%;
+          transform: translateX(-50%);
       }
     }
 
