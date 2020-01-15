@@ -1,0 +1,58 @@
+import React from "react";
+import { Link } from 'react-router-dom';
+import './Dashboard.scss';
+import ReactPlayer from 'react-player'
+
+
+export class Dashboard extends React.Component {
+
+  render() {
+    return (
+      <div className="container">
+          <div className="part part--1">
+            <Link to="/blog" className="part__link">
+              <div className="part__quarter part__quarter--1">
+                <div className="part__name part__name--1">
+                  blog
+                </div>
+              </div>
+            </Link>
+          </div>
+          <div className="part part--2">
+            <Link to="/photos" className="part__link">
+              <div className="part__quarter part__quarter--2">
+                <div className="part__name part__name--2">
+                  photos
+                </div>
+              </div>
+            </Link>
+          </div>
+          <div className="part part--3">
+            <Link to="/forum" className="part__link">
+              <div className="part__quarter part__quarter--3">
+                <div className="part__name part__name--3">
+                  forum
+                </div>
+              </div>
+            </Link>
+          </div>
+          <div className="part part--4">
+            <div className="part__bg-video">
+              {/* <ReactPlayer url='containers/movies.mp4' className="part__bg-video--content" lopp playing muted controls/> */}
+              <video className="part__bg-video--content" autoPlay muted loop controls>
+                <source src="movies.mp4" type="video/mp4"></source>
+                <source src="movies2.mp4" type="video/webm"></source>
+              </video>
+            </div>
+            <Link to="/movies" className="part__link">
+              <div className="part__quarter part__quarter--4">
+                <div className="part__name part__name--4">
+                  movies
+                </div>
+              </div>
+            </Link>
+          </div>
+      </div>
+    );
+  }
+};
