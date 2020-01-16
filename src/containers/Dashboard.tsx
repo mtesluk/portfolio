@@ -40,8 +40,8 @@ export class Dashboard extends React.Component {
             <div className="part__bg-video">
               {/* <ReactPlayer url='containers/movies.mp4' className="part__bg-video--content" lopp playing muted controls/> */}
               <video className="part__bg-video--content" autoPlay muted loop>
-                <source src="movie.mp4" type="video/mp4"></source>
-                <source src="movie2.webm" type="video/webm"></source>
+                <source src="movie-dashboard.mp4" type="video/mp4"></source>
+                <source src="movie-dashboard-2.webm" type="video/webm"></source>
                 Sorry, your browser doesn't support embedded videos.
               </video>
               <div className="part__bg-video--gradient"></div>
