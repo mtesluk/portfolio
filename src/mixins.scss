@@ -1,0 +1,6 @@
+@mixin background($col) {
+    background-image: linear-gradient(rgb(12, 11, 11), $col);
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

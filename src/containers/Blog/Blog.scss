@@ -1,0 +1,9 @@
+@import '../../mixins.scss';
+
+.containerr {
+    @include background(#5293a7);
+
+    .content {
+        font-size: 10rem;
+    }
+}

@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import './Dashboard.scss';
-// import ReactPlayer from 'react-player'
 
 
 export class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container__dashboard">
           <div className="part part--1">
             <Link to="/blog" className="part__link">
               <div className="part__quarter part__quarter--1">
