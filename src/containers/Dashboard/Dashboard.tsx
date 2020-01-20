@@ -9,7 +9,7 @@ export class Dashboard extends React.Component {
     return (
       <div className="container__dashboard">
           <div className="part part--1">
-            <Link to="/blog" className="part__link">
+            <Link to="/blog" className="part__link link">
               <div className="part__quarter part__quarter--1">
                 <div className="part__name part__name--1">
                   blog
@@ -18,7 +18,7 @@ export class Dashboard extends React.Component {
             </Link>
           </div>
           <div className="part part--2">
-            <Link to="/photos" className="part__link">
+            <Link to="/photos" className="part__link link">
               <div className="part__quarter part__quarter--2">
                 <div className="part__name part__name--2">
                   photos
@@ -27,7 +27,7 @@ export class Dashboard extends React.Component {
             </Link>
           </div>
           <div className="part part--3">
-            <Link to="/forum" className="part__link">
+            <Link to="/forum" className="part__link link">
               <div className="part__quarter part__quarter--3">
                 <div className="part__name part__name--3">
                   forum
@@ -45,7 +45,7 @@ export class Dashboard extends React.Component {
               </video>
               <div className="part__bg-video--gradient"></div>
             </div>
-            <Link to="/movies" className="part__link">
+            <Link to="/movies" className="part__link link">
               <div className="part__quarter part__quarter--4">
                 <div className="part__name part__name--4">
                   movies

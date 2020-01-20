@@ -1,9 +1,57 @@
 @import '../../mixins.scss';
+@import '../../common.scss';
+@import '../../var.scss';
+@import '../../components.scss';
 
-.containerr {
+.blog {
+    color: #fff;
+    height: 100%;
     @include background-gradient(#121111, #5293a7);
 
-    .content {
-        font-size: 10rem;
+    &__nav {
+        margin: auto;
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-size: $font-size-navbar;
+
+        &--left {
+            width: 80%;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+        }
+
+        &--logo {
+            font-size: $font-size-navbar-logo;
+        }
+
+        &--link {
+            color: #fff;
+        }
+
+        &--elem {
+            margin: 0 5rem;
+            color: #fff;
+        }
+
+        &--right {
+            display: flex;
+            flex-direction: row;
+            justify-content: right;
+        }
+    }
+
+    &__content {
+        margin: 0 auto;
+        width: 50%;
+        font-size: $font-size-text;
+    }
+
+    &__container {
+        padding: 5rem 0;
     }
 }
