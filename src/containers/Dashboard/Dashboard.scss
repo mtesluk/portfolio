@@ -1,3 +1,5 @@
+@import '../../mixins.scss';
+
 .container__dashboard {
   width:100vw;
   height:100vh;
@@ -28,32 +30,20 @@
         height: 100%;
         width: 100%;
         opacity: 0.3;
-        background-image: linear-gradient(to right bottom, #ca4141, #fff);
-        background-blend-mode: overlay;
-        background-repeat: no-repeat;
-        background-size: cover;
+        @include background-gradient(#ca4141, #fff);
       }
     }
 
     &--1 {
-      background-image: linear-gradient(to left top, #3b98e4, #fff), url("../assets/blog-dashboard.png");
-      background-blend-mode: overlay;
-      background-repeat: no-repeat;
-      background-size: cover;
+      @include background-img-gradient(#3b98e4, #fff, "assets/blog-dashboard.png");
     }
 
     &--2 {
-      background-image: linear-gradient(to right top, #ddb810, #fff), url("../assets/travel-dashboard.jpg");
-      background-blend-mode: overlay;
-      background-repeat: no-repeat;
-      background-size: cover;
+      @include background-img-gradient(#ddb810, #fff, "assets/travel-dashboard.jpg");
     }
 
     &--3 {
-      background-image: linear-gradient(to left bottom, #3ab461, #fff), url("../assets/forum-dashboard.png");
-      background-blend-mode: overlay;
-      background-repeat: no-repeat;
-      background-size: cover;
+      @include background-img-gradient(#3ab461, #fff, "assets/forum-dashboard.png");
     }
 
     &--4 {

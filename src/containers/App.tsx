@@ -8,7 +8,7 @@ import {
 
 import { Blog } from './Blog/Blog';
 import { Forum } from './Forum/Forum';
-import { Dashboard } from './Dashboard';
+import { Dashboard } from './Dashboard/Dashboard';
 import { Photos } from '../components/Photos';
 import { Movies } from '../components/Movies';
 

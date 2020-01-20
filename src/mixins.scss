@@ -1,5 +1,14 @@
-@mixin background($col) {
-    background-image: linear-gradient(rgb(12, 11, 11), $col);
+@mixin background-gradient($color-1, $color-2) {
+    background-image: linear-gradient($color-1, $color-2);
+    @include common-background-settings;
+}
+
+@mixin background-img-gradient($color-1, $color-2, $img-path) {
+    background-image: linear-gradient(to left top, $color-1, $color-2), url($img-path);
+    @include common-background-settings;
+}
+
+@mixin common-background-settings {
     background-blend-mode: overlay;
     background-repeat: no-repeat;
     background-size: cover;
