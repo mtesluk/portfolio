@@ -11,6 +11,7 @@ import { Forum } from './Forum/Forum';
 import { Dashboard } from './Dashboard/Dashboard';
 import { Photos } from '../components/Photos';
 import { Movies } from '../components/Movies';
+import { NotFound } from '../components/NotFound';
 
 
 class App extends React.Component {
@@ -25,6 +26,7 @@ class App extends React.Component {
             <Route path="/photos" component={Photos} />
             <Route path="/forum" component={Forum} />
             <Route path="/movies" component={Movies} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </Router>
       </div>
