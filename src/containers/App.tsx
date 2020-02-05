@@ -12,7 +12,7 @@ import { Dashboard } from './Dashboard/Dashboard';
 import { Photos } from '../components/Photos';
 import { Movies } from '../components/Movies';
 import { NotFound } from '../components/NotFound';
-// import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationContainer } from 'react-notifications';
 
 
 class App extends React.Component {
@@ -30,6 +30,7 @@ class App extends React.Component {
             <Route path="*" component={NotFound} />
           </Switch>
         </Router>
+        <NotificationContainer/>
       </div>
     );
   }

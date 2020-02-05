@@ -1,5 +1,6 @@
 import React from "react";
 import './Add.scss';
+import { NotificationService } from '../../shared/services/Notification';
 
 
 interface Props {}
@@ -117,6 +118,8 @@ export class AddForm extends React.Component <Props, State> {
 
   onSubmit(event: any) {
     event.preventDefault();
+    // const notification: NotificationService = new NotificationService();
+    // notification.createNotification('ad', 'info')
     // axios.post(config.endpoints.postNewBLog, this.state.elements).then(response => {
     //   console.log(response)
     // }).catch(error => {

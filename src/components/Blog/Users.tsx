@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, LinearProgress } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { config  } from "../../config";
+import axios from "axios";
 
 
 interface User {
@@ -28,39 +30,39 @@ interface Props {
 
 export const Users = (props: Props) => {
   const [blogs, setBlogs] = useState<string[]>([]);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<{is: boolean, index: number}>({is: false, index: -1});
   // const classes = useStyles();
-  const getUser = (id: number) => {
-    // axios.get(config.endpoint.blog.user + id).then(response => {
-    //   console.log(1)
-    // }).catch(error => {
-    //   console.log(1)
-    // })
+  const getUser = (id: number, index: number) => {
+    axios.get(config.endpoints.blog.users + id).then(response => {
+      console.log(1)
+      setLoading({is: false, index: index})
+    }).catch(error => {
+      console.log(1)
+    })
     return {id: 1, username: 'mati', blogs: []}
   }
 
 
   const getUsers = () => {
-    // axios.get(config.endpoint.blog.users).then(response => {
-    //   console.log(1)
-    //   setLoading(false)
-    // }).catch(error => {
-    //   console.log(1)
-    // })
+    axios.get(config.endpoints.blog.users).then(response => {
+      console.log(1)
+    }).catch(error => {
+      console.log(1)
+    })
     return [{id: 1, username: 'mati'}, {id: 2, username: 'kuba'}]
   }
 
-  const onExpand = (e: any, id: number) => {
-    setLoading(true)
-    const blogs: string[] = getUser(id).blogs;
+  const onExpand = (e: any, id: number, index: number) => {
+    setLoading({is: true, index: index})
+    const blogs: string[] = getUser(id, index).blogs;
     setBlogs(blogs);
   }
 
-  const getExpansion = (user: User) => {
+  const getExpansion = (user: User, index: number) => {
     return (
       <div key={user.id}>
-        {blogs.length === 0 && isLoading ? <LinearProgress color="secondary" /> : <span></span>}
-        <ExpansionPanel onChange={(e) => onExpand(e, user.id)}>
+        {blogs.length === 0 && isLoading.is && isLoading.index === index ? <LinearProgress color="secondary" /> : <span></span>}
+        <ExpansionPanel onChange={(e) => onExpand(e, user.id, index)}>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -69,7 +71,6 @@ export const Users = (props: Props) => {
             {user.username}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <LinearProgress color="secondary" />
             {blogs.map((name: string, id: number) => <div key={id}>{name}</div>)}
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -79,7 +80,7 @@ export const Users = (props: Props) => {
 
   return (
     <div className="list">
-      {getUsers().map((user: User) => getExpansion(user))}
+      {getUsers().map((user: User, id: number) => getExpansion(user, id))}
     </div>
   );
 };
