@@ -4,39 +4,45 @@ import './Add.scss';
 
 interface Props {}
 interface State {
-  values: string[];
+  elements: Element[];
+}
+
+interface Element {
+  value: string,
+  type: 'paragraph' | 'image'
 }
 
 export class AddForm extends React.Component <Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      values: ["1", "2", "3"]
+      elements: [{value: '', type: 'paragraph'}]
     }
   }
-  // const [values, setValues] = useState<string[]>(['']);
 
   addNewP(e: any, id: number) {
-    const array: string[] = [...this.state.values];
-    array.splice(id+1, 0, '');
-    this.setState({
-      values: [...array]
-    });
-    this.forceUpdate();
-    console.log(array)
+    this.addElem('paragraph', id);
   }
 
   addNewI(e: any, id: number) {
-    const array: string[] = [...this.state.values];
-    array.splice(id+1, 0, '');
+    this.addElem('image', id);
+  }
+
+  addElem(type: 'paragraph' | 'image', id: number) {
+    const array: Element[] = [...this.state.elements];
+    array.splice(id+1, 0, {value: '', type: type});
     this.setState({
-      values: [...array]
+      elements: [...array]
     });
     console.log(array)
   }
 
-  remove(e: any) {
-    ;
+  remove(e: any, id: number) {
+    const array: Element[] = [...this.state.elements];
+    array.splice(id, 1);
+    this.setState({
+      elements: [...array]
+    });
   }
 
   paragraph(v: string, id: number) {
@@ -50,17 +56,17 @@ export class AddForm extends React.Component <Props, State> {
           placeholder=""
           rows={5}
           value={v}
-          onChange={(e) => this.s(e, id)}
+          onChange={(e) => this.handleValueChange(e, id)}
         />
       </div>
     )
   }
 
-  s(e: any, i: number) {
-    const array: string[] = [...this.state.values];
-    array[i] = e.target.value;
+  handleValueChange(e: any, i: number) {
+    const array: Element[] = [...this.state.elements];
+    array[i].value = e.target.value;
     this.setState({
-      values: array
+      elements: array
     })
   }
 
@@ -76,9 +82,9 @@ export class AddForm extends React.Component <Props, State> {
 
   toolAction(id: number) {
     let removeButton = <div></ div>;
-    const isDeletable = id === 0 && this.state.values.length > 0;
+    const isDeletable = id === 0 && this.state.elements.length > 0;
     if (!isDeletable) {
-      removeButton = <button type="button" className="form__remove-p" onClick={(e) => this.remove(e)}>Remove</button>
+      removeButton = <button type="button" className="form__remove-p" onClick={(e) => this.remove(e, id)}>Remove</button>
     }
 
     return (
@@ -90,27 +96,23 @@ export class AddForm extends React.Component <Props, State> {
     )
   }
 
-  part(val: string, id: number) {
-    console.log('[VALUE]', val, 'id', id);
+  part(elem: Element, id: number) {
+
     return (
       <div className="form__part-form" key={id}>
-        {this.paragraph(val, id)}
+        {elem.type === 'paragraph' ? this.paragraph(elem.value, id) : this.img()}
         {this.toolAction(id)}
       </div>
     )
   }
 
   handleSubmit(event: any) {
-    event.preventDefault();
-  }
-
-  handleChange(event: any) {
-    const _tempValues: any = [...this.state.values];
-    _tempValues[event.target.id] = event.target.value;
-
-    this.setState({
-      values: _tempValues
-    });
+    // event.preventDefault();
+    // axios.post(config.endpoints.postNewBLog, this.state.elements).then(response => {
+    //   console.log(response)
+    // }).catch(error => {
+    //   console.log(error)
+    // })
   }
 
   render() {
@@ -118,7 +120,7 @@ export class AddForm extends React.Component <Props, State> {
       <div>
         <form className="form" onSubmit={(e) => this.handleSubmit(e)}>
           {
-            this.state.values.map((val, id) => this.part(val, id))
+            this.state.elements.map((elem, id) => this.part(elem, id))
           }
           <button type="submit" className="form__submit">Submit</button>
         </form>
