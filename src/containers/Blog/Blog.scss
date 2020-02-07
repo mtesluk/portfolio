@@ -9,6 +9,7 @@
     @include background-gradient(#353232, #5293a7);
 
     &__nav {
+        width: 100%;
         font-size: $font-size-navbar;
         background-color: #353232;
 

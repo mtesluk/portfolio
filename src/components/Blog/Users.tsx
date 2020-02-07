@@ -31,13 +31,12 @@ interface Props {
 export const Users = (props: Props) => {
   const [blogs, setBlogs] = useState<string[]>([]);
   const [isLoading, setLoading] = useState<{is: boolean, index: number}>({is: false, index: -1});
-  // const classes = useStyles();
+
   const getUser = (id: number, index: number) => {
     axios.get(config.endpoints.blog.users + id).then(response => {
-      // console.log(1)
       setLoading({is: false, index: index})
     }).catch(error => {
-      // console.log(1)
+      // setLoading({is: false, index: index})
     })
     return {id: 1, username: 'mati', blogs: []}
   }
