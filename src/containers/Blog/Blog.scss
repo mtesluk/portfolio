@@ -9,13 +9,17 @@
     @include background-gradient(#353232, #5293a7);
 
     &__nav {
-        margin: auto;
-        width: 80%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
         font-size: $font-size-navbar;
+        background-color: #353232;
+
+        &-inside {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
 
         &--left {
             width: 80%;

@@ -34,10 +34,10 @@ export const Users = (props: Props) => {
   // const classes = useStyles();
   const getUser = (id: number, index: number) => {
     axios.get(config.endpoints.blog.users + id).then(response => {
-      console.log(1)
+      // console.log(1)
       setLoading({is: false, index: index})
     }).catch(error => {
-      console.log(1)
+      // console.log(1)
     })
     return {id: 1, username: 'mati', blogs: []}
   }
@@ -45,9 +45,9 @@ export const Users = (props: Props) => {
 
   const getUsers = () => {
     axios.get(config.endpoints.blog.users).then(response => {
-      console.log(1)
+      // console.log(1)
     }).catch(error => {
-      console.log(1)
+      // console.log(1)
     })
     return [{id: 1, username: 'mati'}, {id: 2, username: 'kuba'}]
   }

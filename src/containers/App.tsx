@@ -5,6 +5,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import { connect } from "react-redux";
 
 import { Blog } from './Blog/Blog';
 import { Forum } from './Forum/Forum';
@@ -12,12 +13,40 @@ import { Dashboard } from './Dashboard/Dashboard';
 import { Photos } from '../components/Photos';
 import { Movies } from '../components/Movies';
 import { NotFound } from '../components/NotFound';
-import { NotificationContainer } from 'react-notifications';
+import NotificationSystem from 'react-notification-system';
 
+interface Notify {
+  type: string;
+  msg: string;
+}
 
-class App extends React.Component {
+interface State {
+  notify: Notify;
+}
+
+interface Prop {
+  notify: Notify;
+}
+
+class App extends React.Component <Prop, State> {
+  notificationSystem = React.createRef();
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const notification = this.props.notify;
+    if (prevProps.notify !== notification) {
+      this.addNotification(notification.msg, notification.type);
+    }
+  }
+
+  addNotification = (msg: string, level: string) => {
+    const notification: any = this.notificationSystem.current;
+    notification.addNotification({
+      message: msg,
+      level: level
+    });
+  };
+
   render() {
-
     return (
       <div className="container">
         <Router>
@@ -30,10 +59,16 @@ class App extends React.Component {
             <Route path="*" component={NotFound} />
           </Switch>
         </Router>
-        <NotificationContainer/>
+        <NotificationSystem ref={this.notificationSystem} />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state: State) => {
+  return {
+      notify: state.notify,
+  };
+};
+
+export default connect(mapStateToProps)(App);
