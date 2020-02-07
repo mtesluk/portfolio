@@ -60,7 +60,7 @@ export class Blog extends React.Component <Props, State> {
 
   renderNav() {
     return (
-      <div className="blog__nav" style={this.state.scrollDown && this.state.currTop < -300 ? this.navFixedStyle() : {}}>
+      <div className="blog__nav" style={this.state.currTop < -50 && this.state.scrollDown ? this.navFixedStyle() : {}}>
         <div className="blog__nav-inside">
           <div className="blog__nav--left">
             <p className="blog__nav--logo blog__nav--elem">
