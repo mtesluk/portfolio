@@ -1,6 +1,14 @@
-FROM python3.8.1-alpine3.11
-RUN apk --update
+FROM python:3.8-alpine
+
+
+
+RUN apk update
 WORKDIR /app
 
-COPY ./requirements.txt ./app
-RUN pip install -r requirements.txt
+COPY ./ ./app
+
+RUN pip install -r app/requirements.txt
+
+ENTRYPOINT [ "flask" ]
+
+CMD [ "run" ]
