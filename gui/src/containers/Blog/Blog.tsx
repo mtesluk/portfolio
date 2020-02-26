@@ -8,6 +8,9 @@ import { Dashboard } from '../../components/Blog/Dashboard';
 import Sites from '../../components/Blog/Sites';
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import { CSSProperties } from '@material-ui/styles';
+import {LoginDialog} from '../../components/LoginDialog';
+
+
 
 interface Props {
 
@@ -58,6 +61,10 @@ export class Blog extends React.Component <Props, State> {
     }
   }
 
+  handleClickOpen() {
+    // setOpen(true);
+  };
+
   renderNav() {
     return (
       <div className="blog__nav" style={this.state.currTop < -50 && this.state.scrollDown ? this.navFixedStyle() : {}}>
@@ -75,6 +82,9 @@ export class Blog extends React.Component <Props, State> {
             <p className="blog__nav--elem"><Link to="/blog/sites" className="blog__nav--link link">Sites</Link></p>
           </div>
           <div className="blog__nav--right">
+            <button onClick={this.handleClickOpen}>
+              Open simple dialog
+            </button>
             <Link to="/blog/add" className="blog__nav--link link"><div className="nav-button">Add new entry</div></Link>
           </div>
         </div>

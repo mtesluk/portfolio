@@ -14,6 +14,7 @@ import { Photos } from '../components/Photos';
 import { Movies } from '../components/Movies';
 import { NotFound } from '../components/NotFound';
 import NotificationSystem from 'react-notification-system';
+import {LoginDialog} from '../components/LoginDialog';
 
 interface Notify {
   type: string;
@@ -46,6 +47,11 @@ class App extends React.Component <Prop, State> {
     });
   };
 
+  handleClose(value) {
+    // setOpen(false);
+    // setSelectedValue(value);
+  };
+
   render() {
     return (
       <div className="container">
@@ -60,6 +66,7 @@ class App extends React.Component <Prop, State> {
           </Switch>
         </Router>
         <NotificationSystem ref={this.notificationSystem} />
+        {/* <LoginDialog selectedValue={null} open={open} onClose={this.handleClose} /> */}
       </div>
     );
   }
