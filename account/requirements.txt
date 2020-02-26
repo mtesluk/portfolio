@@ -1,1 +1,4 @@
-flask
+django==3.0.3
+djangorestframework-jwt
+djangorestframework
+psycopg2
