@@ -1,19 +1,21 @@
 import React from 'react';
-import './Blog.scss';
 import { Link, Switch, Route } from 'react-router-dom';
-import AddForm  from './Add';
-import { Entry } from '../../components/Blog/Entry';
-import { Users } from '../../components/Blog/Users';
-import { Dashboard } from '../../components/Blog/Dashboard';
-import Sites from '../../components/Blog/Sites';
+import { connect } from 'react-redux';
+
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import { CSSProperties } from '@material-ui/styles';
-import {LoginDialog} from '../../components/LoginDialog';
+import './Blog.scss';
 
+import AddForm  from './Add';
+import Sites from './Sites';
+import { Entry } from './Entry';
+import { Users } from './Users';
+import { Dashboard } from './Dashboard';
+import { setOpenLoginDialog } from '../../actions/login-dialog';
 
 
 interface Props {
-
+  setOpenLoginDialog: (open: boolean) => void;
 }
 
 interface State {
@@ -21,8 +23,8 @@ interface State {
   currTop: number,
 }
 
-export class Blog extends React.Component <Props, State> {
-  constructor(props) {
+export class BlogComponent extends React.Component <Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       scrollDown: true,
@@ -32,18 +34,15 @@ export class Blog extends React.Component <Props, State> {
   }
 
   componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll);
-    console.log(this.state)
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
-  handleScroll(e) {
+  handleScroll() {
     const rect = document.body.getBoundingClientRect();
-    console.log(this.state)
-    console.log(rect)
     if (this.state) {
       this.setState({
         ...this.state,
@@ -62,7 +61,7 @@ export class Blog extends React.Component <Props, State> {
   }
 
   handleClickOpen() {
-    // setOpen(true);
+    this.props.setOpenLoginDialog(true);
   };
 
   renderNav() {
@@ -82,9 +81,7 @@ export class Blog extends React.Component <Props, State> {
             <p className="blog__nav--elem"><Link to="/blog/sites" className="blog__nav--link link">Sites</Link></p>
           </div>
           <div className="blog__nav--right">
-            <button onClick={this.handleClickOpen}>
-              Open simple dialog
-            </button>
+            <button onClick={() => this.handleClickOpen()} className="blog__nav--link link nav-button">Login</button>
             <Link to="/blog/add" className="blog__nav--link link"><div className="nav-button">Add new entry</div></Link>
           </div>
         </div>
@@ -113,7 +110,15 @@ export class Blog extends React.Component <Props, State> {
       <div className="blog">
         {this.state.scrollDown ? this.renderNav() : <div></div>}
         {this.renderContainer()}
-    </div>
+      </div>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setOpenLoginDialog: (open: boolean) => dispatch(setOpenLoginDialog(open))
+  };
+};
+
+export const Blog = connect(null, mapDispatchToProps)(BlogComponent);

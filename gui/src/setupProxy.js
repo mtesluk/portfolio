@@ -3,9 +3,9 @@ var HttpsProxyAgent = require('https-proxy-agent');
 var proxyServer = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.http_proxy;
 
 const config = {
-    blog: 'http://127.0.0.1:5000/',
-    site: 'http://127.0.0.1:5010/',
-    account: 'http://127.0.0.1:5020/api/v1',
+    account: 'http://127.0.0.1:8000',
+    // blog: 'http://127.0.0.1:5000',
+    // site: 'http://127.0.0.1:5010',
 }
 
 module.exports = function (app) {
@@ -20,7 +20,7 @@ module.exports = function (app) {
         //     // },
         //     // agent: new HttpsProxyAgent(proxyServer)
         // }),
-        proxy('/account',{
+        proxy('/api/v1',{
             target: config.account,
             secure: false,
             changeOrigin: true,

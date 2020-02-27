@@ -1,5 +1,5 @@
-@import '../../mixins.scss';
-@import '../../common.scss';
+@import '../../styles/mixins.scss';
+@import '../../styles/common.scss';
 
 .container__dashboard {
   width:100vw;
@@ -36,15 +36,15 @@
     }
 
     &--1 {
-      @include background-img-gradient(#3b98e4, #fff, "assets/blog-dashboard.png");
+      @include background-img-gradient(#3b98e4, #fff, "../assets/blog-dashboard.png");
     }
 
     &--2 {
-      @include background-img-gradient(#ddb810, #fff, "assets/travel-dashboard.jpg");
+      @include background-img-gradient(#ddb810, #fff, "../assets/travel-dashboard.jpg");
     }
 
     &--3 {
-      @include background-img-gradient(#3ab461, #fff, "assets/forum-dashboard.png");
+      @include background-img-gradient(#3ab461, #fff, "../assets/forum-dashboard.png");
     }
 
     &--4 {

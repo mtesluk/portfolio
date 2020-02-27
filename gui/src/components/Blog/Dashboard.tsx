@@ -1,6 +1,9 @@
-import React from "react";
+import React from 'react';
 
-export const Dashboard = (props: any) => {
+interface Props {
+
+}
+export const Dashboard = (props: Props) => {
   return (
     <div>
       Latest ones

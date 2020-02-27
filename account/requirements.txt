@@ -1,4 +1,5 @@
 django==3.0.3
 djangorestframework-jwt
 djangorestframework
+django-filter
 psycopg2

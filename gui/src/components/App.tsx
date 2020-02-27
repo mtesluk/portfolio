@@ -1,38 +1,32 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import NotificationSystem from 'react-notification-system';
+
 import './App.scss';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from 'react-router-dom';
-import { connect } from "react-redux";
+import { Notification } from '../interfaces/notification.interface';
 
 import { Blog } from './Blog/Blog';
 import { Forum } from './Forum/Forum';
 import { Dashboard } from './Dashboard/Dashboard';
-import { Photos } from '../components/Photos';
-import { Movies } from '../components/Movies';
-import { NotFound } from '../components/NotFound';
-import NotificationSystem from 'react-notification-system';
-import {LoginDialog} from '../components/LoginDialog';
+import { Photos } from './Photos/Photos';
+import { Movies } from './Movies/Movies';
+import { NotFound } from './Common/NotFound';
+import { LoginDialog } from './Login/LoginDialog';
 
-interface Notify {
-  type: string;
-  msg: string;
-}
 
 interface State {
-  notify: Notify;
+  notify: Notification;
 }
 
-interface Prop {
-  notify: Notify;
+interface Props {
+  notify: Notification;
 }
 
-class App extends React.Component <Prop, State> {
+class App extends React.Component <Props, State> {
   notificationSystem = React.createRef();
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
     const notification = this.props.notify;
     if (prevProps.notify !== notification) {
       this.addNotification(notification.msg, notification.type);
@@ -45,11 +39,6 @@ class App extends React.Component <Prop, State> {
       message: msg,
       level: level
     });
-  };
-
-  handleClose(value) {
-    // setOpen(false);
-    // setSelectedValue(value);
   };
 
   render() {
@@ -66,7 +55,7 @@ class App extends React.Component <Prop, State> {
           </Switch>
         </Router>
         <NotificationSystem ref={this.notificationSystem} />
-        {/* <LoginDialog selectedValue={null} open={open} onClose={this.handleClose} /> */}
+        <LoginDialog />
       </div>
     );
   }

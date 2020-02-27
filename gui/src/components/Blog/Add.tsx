@@ -1,25 +1,26 @@
-import React from "react";
+import React from 'react';
+import { connect } from 'react-redux';
 
 import './Add.scss';
-import { notifySuccess } from "../../actions/notify";
-import { connect } from "react-redux";
 
+import { notifySuccess } from '../../actions/notify';
 
-interface State {
-  elements: Element[];
-}
 
 interface Element {
   value: string,
   type: 'paragraph' | 'image'
 }
 
-interface Prop {
+interface State {
+  elements: Element[];
+}
+
+interface Props {
   notifySuccess: any;
 }
 
-class AddForm extends React.Component <Prop, State> {
-  constructor(props: Prop) {
+class AddForm extends React.Component <Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       elements: [{value: '', type: 'paragraph'}]
@@ -123,13 +124,6 @@ class AddForm extends React.Component <Prop, State> {
   onSubmit(event: any) {
     event.preventDefault();
     this.props.notifySuccess('asd');
-    // const notification: NotificationService = new NotificationService();
-    // notification.createNotification('ad', 'info')
-    // axios.post(config.endpoints.postNewBLog, this.state.elements).then(response => {
-    //   this.props.notifySuccess('New blog add');
-    // }).catch(error => {
-    //   console.log(error)
-    // })
   }
 
   render() {
@@ -145,9 +139,9 @@ class AddForm extends React.Component <Prop, State> {
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    notifySuccess: (msg) => dispatch(notifySuccess(msg))
+    notifySuccess: (msg: string) => dispatch(notifySuccess(msg))
   };
 };
 

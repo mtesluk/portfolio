@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, LinearProgress } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { config  } from "../../config";
-import axios from "axios";
+import axios from 'axios';
 
 
 interface User {
@@ -10,11 +10,11 @@ interface User {
   username: string,
   first_name?: string,
   last_name?: string,
-}
+};
 
 interface Props {
 
-}
+};
 
 // const useStyles = makeStyles((theme: Theme) =>
 //   createStyles({

@@ -1,27 +1,27 @@
-export function notifyInfo(msg: string) {
+export const notifyInfo = (msg: string) => {
   return {
-      type: "info",
+      type: 'info',
       msg: msg
   };
 }
 
-export function notifySuccess(msg: string) {
+export const notifySuccess = (msg: string) =>  {
   return {
-      type: "success",
+      type: 'success',
       msg: msg
   };
 }
 
-export function notifyWarning(msg: string) {
+export const notifyWarning = (msg: string) => {
   return {
-      type: "warning",
+      type: 'warning',
       msg: msg
   };
 }
 
-export function notifyError(msg: string) {
+export const notifyError = (msg: string) => {
   return {
-      type: "error",
+      type: 'error',
       msg: msg
   };
 }

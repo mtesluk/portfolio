@@ -1,20 +1,26 @@
-import React from "react";
-import axios from "axios";
-import { config  } from "../../config";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+
+import { config  } from '../../config';
+
 
 interface Country {
   name: string;
   sites: Site[];
-}
+};
 
 interface Site {
   name: string,
   x: string,
   y: string,
-}
+};
 
-const Sites = (props) => {
+interface Props {
+
+};
+
+const Sites = (props: Props) => {
   const getSites = () => {
     axios.get(config.endpoints.blog.countries).then(response => {
       // console.log(1)
