@@ -28,7 +28,7 @@ interface FacebookResponse {
 }
 
 interface Props {
-  onAuthenticated: (fb_id: string) => void;
+  onAuthenticated: (fb_id: string, token: string) => void;
 }
 
 export const Facebook = (props: Props) => {
@@ -39,7 +39,8 @@ export const Facebook = (props: Props) => {
   // };
 
   const responseFacebook = (response: FacebookResponse) => {
-    props.onAuthenticated(response.userID);
+    props.onAuthenticated(response.userID, response.accessToken);
+    console.log(response)
     // if(response.status !== 'unknown')
     // IF ACCOUNT IN DATABASE -> AUTH
       // this.setState({

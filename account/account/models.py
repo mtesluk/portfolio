@@ -1,10 +1,12 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-from django.conf import settings
-
+import os
+import binascii
 from rest_framework.authtoken.models import Token
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
+
 
 
 class Profile(models.Model):
@@ -17,8 +19,28 @@ class Profile(models.Model):
         return self.user.username
 
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+class WebToken(models.Model):
+    key = models.TextField(_("Key"), max_length=240, primary_key=True)
+    user = models.OneToOneField(
+        User, related_name='auth_token',
+        on_delete=models.CASCADE, verbose_name=_("User")
+    )
+    created = models.DateTimeField(_("Created"), auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = self.generate_key()
+        return super().save(*args, **kwargs)
+
+    def generate_key(self):
+        return binascii.hexlify(os.urandom(237)).decode()
+
+    def __str__(self):
+        return self.key
+
+
+@receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
-        Token.objects.create(user=instance)
+        WebToken.objects.create(user=instance)
         Profile.objects.create(user=instance)

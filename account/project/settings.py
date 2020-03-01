@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,6 +26,8 @@ DEBUG = True
 host_ip = os.environ.get('HOST_IP', None)
 ALLOWED_HOSTS = [host_ip] if host_ip else []
 
+FACEBOOK_DEV_ACCESS_TOKEN = os.environ.get('FACEBOOK_ACCESS_TOKEN', 'NOT_VALID')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
     'account',
 ]
 
@@ -100,14 +100,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        'account.authentication.CustomTokenAuthentication',
     ),
-}
-
-JWT_AUTH = {
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(seconds=5),
 }
 
 
