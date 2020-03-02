@@ -12,15 +12,22 @@ import { Entry } from './Entry';
 import { Users } from './Users';
 import { Dashboard } from './Dashboard';
 import { setOpenLoginDialog } from '../../actions/login-dialog';
+import { User } from '../../interfaces/user';
+import { resetToken } from '../../actions/token';
+import { notifySuccess } from '../../actions/notify';
 
 
 interface Props {
   setOpenLoginDialog: (open: boolean) => void;
+  resetToken: () => void;
+  notifySuccess: (msg: string) => void;
+  user: User;
 }
 
 interface State {
-  scrollDown: boolean,
-  currTop: number,
+  scrollDown: boolean;
+  currTop: number;
+  user?: User;
 }
 
 export class BlogComponent extends React.Component <Props, State> {
@@ -60,8 +67,25 @@ export class BlogComponent extends React.Component <Props, State> {
     }
   }
 
-  handleClickOpen() {
+  handleLogin() {
     this.props.setOpenLoginDialog(true);
+  };
+
+  handleLogout() {
+    this.props.resetToken();
+    this.props.notifySuccess('Logout confirmed');
+  };
+
+  getLoginButton() {
+    return (
+      <button onClick={() => this.handleLogin()} className="blog__nav--link link nav-button">Login</button>
+    )
+  };
+
+  getLogoutButton() {
+    return (
+      <button onClick={() => this.handleLogout()} className="blog__nav--link link nav-button">Logout</button>
+    )
   };
 
   renderNav() {
@@ -81,7 +105,7 @@ export class BlogComponent extends React.Component <Props, State> {
             <p className="blog__nav--elem"><Link to="/blog/sites" className="blog__nav--link link">Sites</Link></p>
           </div>
           <div className="blog__nav--right">
-            <button onClick={() => this.handleClickOpen()} className="blog__nav--link link nav-button">Login</button>
+            {this.props.user.token ? this.getLogoutButton() : this.getLoginButton()}
             <Link to="/blog/add" className="blog__nav--link link"><div className="nav-button">Add new entry</div></Link>
           </div>
         </div>
@@ -115,10 +139,18 @@ export class BlogComponent extends React.Component <Props, State> {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state: State) => {
   return {
-    setOpenLoginDialog: (open: boolean) => dispatch(setOpenLoginDialog(open))
+    user: state.user
   };
 };
 
-export const Blog = connect(null, mapDispatchToProps)(BlogComponent);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setOpenLoginDialog: (open: boolean) => dispatch(setOpenLoginDialog(open)),
+    notifySuccess: (msg: string) => dispatch(notifySuccess(msg)),
+    resetToken: () => dispatch(resetToken())
+  };
+};
+
+export const Blog = connect(mapStateToProps, mapDispatchToProps)(BlogComponent);

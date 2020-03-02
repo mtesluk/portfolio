@@ -1,7 +1,7 @@
 import { User } from "../interfaces/user";
 
 const initialState: User = {
-    token: '',
+    token: localStorage['token'],
     username: ''
 };
 
@@ -14,6 +14,7 @@ interface Action {
 const user = (state: User = initialState, action: Action) => {
   switch (action.type) {
     case 'SET_TOKEN' :
+      localStorage['token'] = action.value;
       state = {
           ...state,
           token: action.value
