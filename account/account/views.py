@@ -8,59 +8,62 @@ from django.contrib.auth.models import User
 from .models import Profile, WebToken
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('location', 'facebook_name', 'facebook_id')
+
+
 class UserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'is_superuser')
+        fields = ('username', 'first_name', 'last_name', 'email', 'is_superuser', 'profile')
         write_only = ('password')
         read_only = ('is_superuser')
 
     def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-
-        Profile.objects.create(user=user)
-
+        print(validated_data)
+        profile_data = validated_data.pop('profile')
+        user = super().create(validated_data)
+        profile_data['user'] = user.id
+        profile = ProfileSerializer(data=profile_data)
+        profile.is_valid()
+        profile.save()
         return user
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (AllowAny, )
 
-    @decorators.action(detail=False,  methods=['get'])
-    def is_authenticated(self, request):
-        data = {
-            'status': True,
-            'type': 'default'
-        }
-        return response.Response(data)
+    # @decorators.action(detail=False,  methods=['get'])
+    # def is_authenticated(self, request):
+    #     data = {
+    #         'status': True,
+    #         'type': 'default'
+    #     }
+    #     return response.Response(data)
 
     @decorators.action(detail=False,  methods=['get'], permission_classes=[AllowAny])
     def exist_fb_token(self, request):
         fb_id = request.GET.get('fb_id', None)
+        print(11111111111)
+        print(fb_id)
         user_exist = Profile.objects.filter(facebook_id=fb_id).exists()
 
         return response.Response({'exists': user_exist})
 
-    # def get(self, request):
-    #     print(request.user)
-    #     # serializer = self.serializer_class(request.user)
-    #     # return response.Response(serializer.data)
-    #     return response.Response('heh')
+    @decorators.action(detail=False,  methods=['get'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        serializer = self.serializer_class(request.user)
+        return response.Response(serializer.data)
 
-    # def post(self, request):
-    #     serializer = self.serializer_class(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #     return response.Response(serializer.data)
+    # @decorators.permission_classes([AllowAny])
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
 
 
 class CustomObtainAuthTokenView(ObtainAuthToken):

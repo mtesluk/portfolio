@@ -13,7 +13,7 @@ import { Users } from './Users';
 import { Dashboard } from './Dashboard';
 import { setOpenLoginDialog } from '../../actions/login-dialog';
 import { User } from '../../interfaces/user';
-import { resetToken } from '../../actions/token';
+import { resetToken } from '../../actions/user';
 import { notifySuccess } from '../../actions/notify';
 
 

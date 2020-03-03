@@ -3,5 +3,10 @@ export function setToken(value: string) {
 }
 
 export function resetToken() {
+  localStorage['token'] = '';
   return {type: 'SET_TOKEN', value: ''};
+}
+
+export function setFacebookId(value: string) {
+  return {type: 'SET_FACEBOOK_ID', value};
 }

@@ -57,7 +57,7 @@ export const Facebook = (props: Props) => {
   const facebookData = (<FacebookLogin
     appId="3136029376407498"
     autoLoad={false}
-    fields="name,picture"
+    fields="name,picture,email"
     onClick={componentClicked}
     callback={responseFacebook} />
   );

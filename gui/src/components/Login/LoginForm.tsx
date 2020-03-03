@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Facebook } from './Facebook';
 import axios from 'axios';
 
-import { setToken } from '../../actions/token';
+import { setToken, setFacebookId } from '../../actions/user';
 import { notifySuccess, notifyError } from '../../actions/notify';
 
 
@@ -13,6 +13,7 @@ interface Props {
   createAccount: () => void;
   notifySuccess: (msg: string) => void;
   notifyError: (msg: string) => void;
+  setFacebookId: (id: string) => void;
 }
 
 interface State {
@@ -31,13 +32,14 @@ export const LoginFormComponent = (props: Props) => {
   }
 
   const handleAuthFacebook = (fb_id: string, token: string) => {
+    props.setFacebookId(fb_id);
     axios.get(`api/v1/users/exist_fb_token/?fb_id=${fb_id}`).then(response => {
       const exists = response.data.exists;
       exists ? props.handleClose() : props.createAccount();
     }).catch(err => {
       notifyError(err.response.data)
       console.log(err.response)
-    });
+    })
     setAuth(token);
   };
 
@@ -85,6 +87,7 @@ const mapDispatchToProps = (dispatch: any) => {
     setToken: (token: string) => dispatch(setToken(token)),
     notifySuccess: (msg: string) => dispatch(notifySuccess(msg)),
     notifyError: (msg: string) => dispatch(notifyError(msg)),
+    setFacebookId: (msg: string) => dispatch(setFacebookId(msg)),
   };
 };
 

@@ -1,5 +1,5 @@
 import requests
-
+import json
 
 
 class FacebookService:
@@ -13,5 +13,5 @@ class FacebookService:
         }
         response = requests.get(FacebookService.URL_DEVELOP + 'debug_token', params=params)
         is_valid = response.status_code == 200
-        data = response.content
+        data = json.loads(response.content.decode('utf-8'))['data']
         return is_valid, data

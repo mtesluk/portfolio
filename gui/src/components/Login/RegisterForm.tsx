@@ -1,10 +1,29 @@
 import React from 'react';
 import { useForm, ErrorMessage } from "react-hook-form";
 import axios from 'axios';
+import { connect } from 'react-redux';
+
+import { notifySuccess } from '../../actions/notify';
+import { setOpenLoginDialog } from '../../actions/login-dialog';
+import { Profiler } from 'inspector';
+import { User } from '../../interfaces/user';
 
 
 interface Props {
+  user: User;
   registerType: null | 'full' | 'partial';
+  initialData: Profile;
+  setOpenLoginDialog: (open: boolean) => void;
+  handleClose: (back?: boolean) => void;
+  notifySuccess: (msg: string) => void;
+}
+
+interface State {
+  user: User;
+}
+
+interface Profile {
+  facebook_id: string;
 }
 
 interface Account {
@@ -12,17 +31,22 @@ interface Account {
   password?: string;
   passwordConfirmation?: string;
   email?: string;
+  profile?: Profile;
 }
 
-export const RegisterForm = (props: Props) => {
+export const RegisterFormComponent = (props: Props) => {
   const {register, setValue, handleSubmit, errors} = useForm<Account>();
 
   const onSubmit = handleSubmit((data: Account) => {
+    data.profile = {
+      facebook_id: props.user.facebook_id
+    };
     if (data.password !== data.passwordConfirmation) {
       errors.passwordConfirmation = {type: '', message: 'Passwords must be the same!'};
     } else {
-      axios.post('/api/v1/users', data).then(reponse => {
-
+      axios.post('/api/v1/users/', data).then(reponse => {
+        // props.registerType === 'full' ? props.handleClose(true) : props.setOpenLoginDialog(false); props.handleClose();
+        props.notifySuccess('Register successfully!')
       }).catch(err => {
 
       })
@@ -53,3 +77,18 @@ export const RegisterForm = (props: Props) => {
     </form>
   );
 };
+
+const mapStateToProps = (state: State) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    notifySuccess: (msg: string) => dispatch(notifySuccess(msg)),
+    setOpenLoginDialog: (open: boolean) => dispatch(setOpenLoginDialog(open)),
+  };
+};
+
+export const RegisterForm = connect(mapStateToProps, mapDispatchToProps)(RegisterFormComponent);
