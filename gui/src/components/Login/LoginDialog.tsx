@@ -23,7 +23,7 @@ interface State {
 }
 
 const LoginComponent = (props: Props) => {
-  const [isRegister, setRegister] = useState<null | 'partial' | 'full'>(null);
+  const [isRegister, setRegister] = useState<null | 'partial' | 'full'>('full');
 
   const handleClose = () => {
     props.setOpenLoginDialog(false);
