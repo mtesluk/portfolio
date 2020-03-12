@@ -19,17 +19,21 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'is_superuser', 'profile')
+        fields = ('username', 'first_name', 'last_name', 'email', 'is_superuser', 'password', 'profile')
         write_only = ('password')
         read_only = ('is_superuser')
 
     def create(self, validated_data):
         print(validated_data)
         profile_data = validated_data.pop('profile')
+        password = validated_data.pop('password')
         user = super().create(validated_data)
-        profile_data['user'] = user.id
-        profile = ProfileSerializer(data=profile_data)
-        profile.is_valid()
+        profile = user.profile
+        user.set_password(password)
+        user.save()
+        profile.location = profile_data.get('location', '')
+        profile.facebook_name = profile_data.get('facebook_name', '')
+        profile.facebook_id = profile_data.get('facebook_id', '')
         profile.save()
         return user
 
@@ -50,7 +54,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @decorators.action(detail=False,  methods=['get'], permission_classes=[AllowAny])
     def exist_fb_token(self, request):
         fb_id = request.GET.get('fb_id', None)
-        print(11111111111)
+        print(22222222222222)
         print(fb_id)
         user_exist = Profile.objects.filter(facebook_id=fb_id).exists()
 
