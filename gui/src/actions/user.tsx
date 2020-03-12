@@ -1,12 +1,5 @@
-export function setToken(value: string) {
-  return {type: 'SET_TOKEN', value};
-}
+import { User } from "../interfaces/user";
 
-export function resetToken() {
-  localStorage['token'] = '';
-  return {type: 'SET_TOKEN', value: ''};
-}
-
-export function setFacebookId(value: string) {
-  return {type: 'SET_FACEBOOK_ID', value};
+export function setUserData(user: User) {
+  return {type: 'SET_USER_DATA', data: user};
 }

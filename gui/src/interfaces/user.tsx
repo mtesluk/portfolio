@@ -1,5 +1,10 @@
+export interface Profile {
+    location?: string;
+    facebook_id?: string;
+    facebook_name?: string;
+}
+
 export interface User {
-    token: string;
-    username: string;
-    facebook_id: string;
+    username?: string;
+    profile?: Profile;
 }

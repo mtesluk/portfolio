@@ -13,7 +13,7 @@ import { Users } from './Users';
 import { Dashboard } from './Dashboard';
 import { setOpenLoginDialog } from '../../actions/login-dialog';
 import { User } from '../../interfaces/user';
-import { resetToken } from '../../actions/user';
+import { resetToken } from '../../actions/token';
 import { notifySuccess } from '../../actions/notify';
 
 
@@ -22,12 +22,14 @@ interface Props {
   resetToken: () => void;
   notifySuccess: (msg: string) => void;
   user: User;
+  token: string;
 }
 
 interface State {
   scrollDown: boolean;
   currTop: number;
   user?: User;
+  token?: string;
 }
 
 export class BlogComponent extends React.Component <Props, State> {
@@ -105,7 +107,7 @@ export class BlogComponent extends React.Component <Props, State> {
             <p className="blog__nav--elem"><Link to="/blog/sites" className="blog__nav--link link">Sites</Link></p>
           </div>
           <div className="blog__nav--right">
-            {this.props.user.token ? this.getLogoutButton() : this.getLoginButton()}
+            {this.props.token ? this.getLogoutButton() : this.getLoginButton()}
             <Link to="/blog/add" className="blog__nav--link link"><div className="nav-button">Add new entry</div></Link>
           </div>
         </div>
@@ -141,7 +143,8 @@ export class BlogComponent extends React.Component <Props, State> {
 
 const mapStateToProps = (state: State) => {
   return {
-    user: state.user
+    user: state.user,
+    token: state.token,
   };
 };
 

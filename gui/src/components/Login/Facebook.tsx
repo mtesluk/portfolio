@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './Facebook.scss';
+
 import FacebookLogin from 'react-facebook-login';
 
 
@@ -32,29 +34,16 @@ interface Props {
 }
 
 export const Facebook = (props: Props) => {
-  // state = {
-  //     auth: false,
-  //     name: '',
-  //     picture: ''
-  // };
 
   const responseFacebook = (response: FacebookResponse) => {
     props.onAuthenticated(response.userID, response.accessToken);
-    console.log(response)
-    // if(response.status !== 'unknown')
-    // IF ACCOUNT IN DATABASE -> AUTH
-      // this.setState({
-      //     auth: true,
-      //     name: response.name,
-      //     picture: response.picture.data.url
-      // });
-    //IF NOT REDIRECT TO FORM WITH MORE DETAIL REGISTER
   }
 
   const componentClicked = () => {
   }
 
   const facebookData = (<FacebookLogin
+    cssClass="fb-btn"
     appId="3136029376407498"
     autoLoad={false}
     fields="name,picture,email"
@@ -63,16 +52,6 @@ export const Facebook = (props: Props) => {
   );
 
   return (
-      //   <div style={{
-      //     width: '400px',
-      //     margin: 'auto',
-      //     background: '#f4f4f4',
-      //     padding: '20px',
-      //     color: '#000'
-      // }}>
-      //     <img src={this.state.picture} alt={this.state.name} />
-      //     <h2>Welcome {this.state.name}!</h2>
-      // </div>
       <div>{facebookData}</ div>
   )
 };
