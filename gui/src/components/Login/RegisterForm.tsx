@@ -59,20 +59,28 @@ export const RegisterFormComponent = (props: Props) => {
 
   const getAdditionalFields = () => {
     return (
-      <div>
-        <input className="register-form__password" type="password" placeholder="Password" name="password" ref={register({required: true})} />
+      <div className="register-form__additional-fields">
+        <div className="form-field">
+          <input className="register-form__password" type="password" placeholder="Password" name="password" ref={register({required: true})} />
+        </div>
         <ErrorMessage errors={errors} name="password" message='Password is required!' />
-        <input className="register-form__password" type="password" placeholder="Password Confirmation" name="passwordConfirmation" ref={register({required: true})} />
+        <div className="form-field">
+          <input className="register-form__password" type="password" placeholder="Password Confirmation" name="passwordConfirmation" ref={register({required: true})} />
+        </div>
         <ErrorMessage errors={errors} name="passwordConfirmation" message='Password confirmation is required!' />
         {errors.passwordConfirmation && 'dsa'}
-        <input className="register-form__email" type="email" placeholder="Email" name="email" ref={register({required: true})} />
+        <div className="form-field">
+          <input className="register-form__email" type="email" placeholder="Email" name="email" ref={register({required: true})} />
+        </div>
         <ErrorMessage errors={errors} name="email" message='Email confirmation is required!' />
       </div>
     )
   }
   return (
     <form className="register-form" onSubmit={onSubmit}>
-      <input className="register-form__username" placeholder="Username" name="username" ref={register({required: true})} />
+      <div className="form-field">
+        <input className="register-form__username" placeholder="Username" name="username" ref={register({required: true})} />
+      </div>
       <ErrorMessage errors={errors} name="username" message='Username is required!' />
 
       {props.registerType === 'full' ? getAdditionalFields() : <></>}

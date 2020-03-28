@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './Facebook.scss';
-
 import FacebookLogin from 'react-facebook-login';
 
 
@@ -31,6 +29,7 @@ interface FacebookResponse {
 
 interface Props {
   onAuthenticated: (fb_id: string, token: string) => void;
+  fbCssClass: string;
 }
 
 export const Facebook = (props: Props) => {
@@ -43,7 +42,7 @@ export const Facebook = (props: Props) => {
   }
 
   const facebookData = (<FacebookLogin
-    cssClass="fb-btn"
+    cssClass={props.fbCssClass}
     appId="3136029376407498"
     autoLoad={false}
     fields="name,picture,email"

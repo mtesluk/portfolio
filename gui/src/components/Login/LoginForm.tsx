@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Facebook } from './Facebook';
 import axios from 'axios';
 
+import './LoginForm.scss';
+
 import { notifySuccess, notifyError } from '../../actions/notify';
 import { setToken } from '../../actions/token';
 import { User } from '../../interfaces/user';
@@ -76,14 +78,20 @@ export const LoginFormComponent = (props: Props) => {
   }
 
   return (
-    <div>
-      <Facebook onAuthenticated={handleAuthFacebook} />
-      <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
-        <input placeholder="Username" className="login-form__username" onChange={(e) => onUsernameChange(e)}></input>
-        <input type="password" placeholder="Password" className="login-form__password" onChange={(e) => onPasswordChange(e)}></input>
-        <button type="submit">Login</button>
+    <div className="login">
+      <Facebook onAuthenticated={handleAuthFacebook} fbCssClass="login__fb-btn" />
+      <form className="login__form" onSubmit={(e) => handleSubmit(e)}>
+        <div className="form-field">
+          <input placeholder="Username" className="login__username" onChange={(e) => onUsernameChange(e)}></input>
+        </div>
+        <div className="form-field">
+          <input type="password" placeholder="Password" className="login__password" onChange={(e) => onPasswordChange(e)}></input>
+        </div>
+        <div className="login__actions">
+          <button className="login__signup-btn" type="button" onClick={(e) => props.setRegister('full')}>Sign up</button>
+          <button className="login__signin-btn" type="submit">Login</button>
+        </div>
       </form>
-      <button className="signup" onClick={(e) => props.setRegister('full')}>Sign up</button>
     </div>
     )
 };

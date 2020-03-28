@@ -1,0 +1,43 @@
+.login {
+    width: 15vw;
+
+    @media screen and (max-width: 1500px) {
+        width: 20vw;
+    }
+
+    @media screen and (max-width: 1000px) {
+        width: 30vw;
+    }
+
+    @media screen and (max-width: 700px) {
+        width: 40vw;
+    }
+
+    &__actions {
+        width: 100%;
+        margin-top: 2rem;
+        justify-content: space-around;
+        display: flex;
+
+        & > * {
+            font-size: inherit;
+        }
+    }
+
+    &__form {
+
+    }
+
+    &__fb-btn {
+        background-color: #29487d;
+        color: white;
+        width: 100%;
+        font-size: inherit;
+        height: 6rem;
+        margin-bottom: 1rem;
+    }
+
+    & > .form-field {
+
+    }
+}
