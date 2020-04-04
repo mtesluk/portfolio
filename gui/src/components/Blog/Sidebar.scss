@@ -1,0 +1,74 @@
+.blog-container {
+    display: flex;
+    height: 100%;
+
+    &__sidebar {
+        position: sticky;
+        height: 100%;
+        width: 10%;
+        background-color: rgb(88, 76, 76);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 2.5rem;
+        border-right: 1px black solid;
+        -webkit-box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.75);
+        transition: width .2s ease-in;
+        // -webkit-transition: all .5s;
+
+        &--hide {
+            width: 5%;
+        }
+
+        & > * {
+            width: 100%;
+            text-transform: uppercase;
+        }
+    }
+
+    &__logo {
+        display: flex;
+        font-size: 4rem;
+    }
+
+    &__logo-pic {
+        display: block;
+        width: 40%;
+        background-color: orangered;
+    }
+
+    &__navs {
+        padding: 1rem 0.5rem 1rem 3rem;
+        transition: all .5s ease-in;
+    }
+
+    &__bottom {
+        border-top: 1px black solid;
+    }
+
+    &__login {
+        font-size: 4rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    &__toggle {
+        font-size: 4rem;
+        display: flex;
+        justify-content: center;
+        border-top: 1px black solid;
+
+        &--rtl {
+            transform: rotate(-180deg);
+        }
+    }
+
+    &__content {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+    }
+}
