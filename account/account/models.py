@@ -8,7 +8,6 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     location = models.CharField(max_length=30, blank=True)
@@ -40,7 +39,7 @@ class WebToken(models.Model):
 
 
 @receiver(post_save, sender=User)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
+def create_auth_token_and_profile(sender, instance=None, created=False, **kwargs):
     if created:
         WebToken.objects.create(user=instance)
         Profile.objects.create(user=instance)

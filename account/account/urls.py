@@ -7,6 +7,6 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
-    path(r'api-token-auth/', CustomObtainAuthTokenView.as_view()),
+    path(r'api_token_auth/', CustomObtainAuthTokenView.as_view()),
     *router.urls
 ]

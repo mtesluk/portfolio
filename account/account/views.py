@@ -16,6 +16,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
+    password = serializers.CharField(default='')
 
     class Meta:
         model = User
@@ -52,10 +53,8 @@ class UserViewSet(viewsets.ModelViewSet):
     #     return response.Response(data)
 
     @decorators.action(detail=False,  methods=['get'], permission_classes=[AllowAny])
-    def exist_fb_token(self, request):
+    def exist_fb_account(self, request):
         fb_id = request.GET.get('fb_id', None)
-        print(22222222222222)
-        print(fb_id)
         user_exist = Profile.objects.filter(facebook_id=fb_id).exists()
 
         return response.Response({'exists': user_exist})

@@ -11,7 +11,6 @@ class CustomTokenAuthentication(TokenAuthentication):
     model = WebToken
 
     def authenticate_credentials(self, key):
-        print('AUTH')
         model = self.get_model()
         token = model.objects.select_related('user').filter(key=key)
         if token.exists():
@@ -23,12 +22,8 @@ class CustomTokenAuthentication(TokenAuthentication):
         else:
             fb_access_token = settings.FACEBOOK_DEV_ACCESS_TOKEN
             is_valid, data = FacebookService.debug_token(fb_access_token, key)
-            print(is_valid)
             if is_valid:
                 user_token = model.objects.select_related('user').filter(user__profile__facebook_id=data['user_id']).first()
-                print(11111111111)
-                print(data['user_id'])
-                print(user_token)
                 if user_token:
                     user_token.key = key
                     user_token.save()
