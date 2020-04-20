@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from rest_framework.serializers import ValidationError
 
 from account.serializers.user import UserSerializer
-from account.serializers.profile import ProfileSerializer
 from account.models import Profile, WebToken
 
 

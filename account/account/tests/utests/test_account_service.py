@@ -2,9 +2,8 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django.contrib.auth.models import User
-from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.serializers import ValidationError
-from django.core.exceptions import ObjectDoesNotExist, FieldError
+from django.core.exceptions import ObjectDoesNotExist
 
 from account.services.user import UserService
 
