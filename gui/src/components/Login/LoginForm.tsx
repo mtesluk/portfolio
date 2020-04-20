@@ -38,7 +38,7 @@ export const LoginFormComponent = (props: Props) => {
 
   const handleAuthFacebook = (fb_id: string, token: string) => {
     props.setUserData({profile: {facebook_id: fb_id}});
-    axios.get(`/api/v1/users/exist_fb_token/?fb_id=${fb_id}`).then(response => {
+    axios.get(`/api/v1/users/exist_fb_account/?fb_id=${fb_id}`).then(response => {
       const exists = response.data.exists;
       exists ? props.handleClose() : props.setRegister('partial');
     }).catch(err => {
@@ -50,7 +50,7 @@ export const LoginFormComponent = (props: Props) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    axios.post('/api/v1/api-token-auth/', credentials).then(response => {
+    axios.post('/api/v1/api_token_auth/', credentials).then(response => {
       if (response.status === 200) {
         props.setToken(response.data.token);
         props.handleClose();
