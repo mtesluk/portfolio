@@ -2,9 +2,9 @@
 
 My project to learn react and microservices on backend. It is still in progress.
 
-# Backend
+## Backend
 Python 3.8.3
 
-# Frontend
+## Frontend
 
 React with Typescript
