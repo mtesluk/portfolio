@@ -69,3 +69,29 @@ class UserApiTestCase(APITestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['is_auth'], True)
+
+    def test_get_users_filred_by_id(self):
+        user_2 = User.objects.create(username='test_user_2')
+        user_3 = User.objects.create(username='test_user_3')
+
+        response = self.client.get('/api/v1/users/', {'ids': f'{self.user.id},{user_2.id}'})
+        users = response.json()
+
+        usernames = [user['username'] for user in users]
+        self.assertEqual(len(usernames), 2)
+        self.assertIn('test_user', usernames)
+        self.assertIn('test_user_2', usernames)
+        self.assertNotIn('test_user_3', usernames)
+        self.assertEqual(users[0]['id'], self.user.id)
+        self.assertEqual(users[1]['id'], user_2.id)
+
+    def test_get_user(self):
+        user_2 = User.objects.create(username='test_user_2')
+
+        response = self.client.get('/api/v1/users/')
+        users = response.json()
+
+        usernames = [user['username'] for user in users]
+        self.assertEqual(len(usernames), 2)
+        self.assertIn('test_user', usernames)
+        self.assertIn('test_user_2', usernames)

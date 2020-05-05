@@ -11,6 +11,16 @@ from account.services.token import TokenService
 class UserViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny, )
 
+    def list(self, request, *args, **kwargs):
+        filters = {}
+        filters_ids = request.GET.get('ids', None)
+        if filters_ids:
+            filters_ids = filters_ids.split(',')
+            filters['id'] = {'type': 'in', 'value': filters_ids}
+        service = UserService()
+        users = service.get_users(filters)
+        return response.Response(users)
+
     @decorators.action(detail=False,  methods=['get'], permission_classes=[IsAuthenticated])
     def is_authenticated(self, request):
         return response.Response({'is_auth': True})

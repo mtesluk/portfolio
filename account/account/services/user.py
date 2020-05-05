@@ -69,7 +69,7 @@ class UserService:
         user_exist = Profile.objects.filter(facebook_id=fb_id).exists()
         return user_exist
 
-    def get_users(self, filters, profile_filters=None):
+    def get_users(self, filters=None, profile_filters=None):
         filters = self._format_model_filters(filters) if filters else {}
         profile_filters = self._format_model_filters(profile_filters, 'profile') if profile_filters else {}
         user = User.objects.filter(**filters, **profile_filters)
@@ -79,12 +79,15 @@ class UserService:
     def _format_model_filters(self, filters: dict, prefix: str = None):
         base_key = '{}__'.format(prefix) if prefix else ''
         formatted_dict = {}
-        for key, val in filters.items():
+        for key, options in filters.items():
             key = base_key + key
-            type = val['type']
+            type = options['type']
             if type == 'contains':
                 key += '__icontains'
+            elif type == 'in':
+                key += '__in'
             elif type == 'equal':
                 pass
-            formatted_dict[key] = val['value']
+
+            formatted_dict[key] = options['value']
         return formatted_dict
