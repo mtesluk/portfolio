@@ -1,20 +1,65 @@
 import os
 
-from flask import request, flash, redirect, url_for, send_file, Blueprint
-from werkzeug.utils import secure_filename
+from flask import request, flash, redirect, url_for, send_file, Blueprint, views, Response, jsonify
+# from werkzeug.utils import secure_filename
 # from .config import ALLOWED_EXTENSIONS
+
+from .services import BlogService
 
 
 blueprint = Blueprint('blog', __name__)
 
 
-# @app.route('set_blog')
-# def set_blog():
-#    return "hello world!"
+class BlogViewSet(views.MethodView):
+    def get(self, id):
+        if not id:
+            return self._list()
+        return self._retrieve(id)
 
-# @app.route('get_blog')
-# def get_blog():
-#    return "hello world!"
+    def _list(self):
+        service = BlogService()
+        blogs = service.get_blogs()
+        return jsonify(blogs)
+
+    def _retrieve(self, id):
+        service = BlogService()
+        blog = service.get_blog(id)
+        return jsonify(blog)
+
+    def post(self):
+        data = request.get_json()
+        service = BlogService()
+        blog = service.create_blog(data)
+        return jsonify(blog)
+
+    def delete(self, id):
+        service = BlogService()
+        service.remove_blog(id)
+        return jsonify({})
+
+    def put(self, id):
+        data = request.get_json()
+        service = BlogService()
+        blog = service.update_blog(id, data)
+        return jsonify(blog)
+
+def authors():
+    service = BlogService()
+    authors = service.get_authors()
+    return jsonify(authors)
+
+def countries():
+    service = BlogService()
+    countries = service.get_countries()
+    return jsonify(countries)
+
+view = BlogViewSet.as_view('blog_view')
+blueprint.add_url_rule('/', defaults={'id': None}, view_func=view, methods=['GET',])
+blueprint.add_url_rule('/', view_func=view, methods=['POST',])
+blueprint.add_url_rule('/<int:id>', view_func=view, methods=['GET', 'PUT', 'DELETE'])
+blueprint.add_url_rule('/authors', view_func=authors, methods=['GET'])
+blueprint.add_url_rule('/countries', view_func=countries, methods=['GET'])
+
 
 # @app.route('get_blogs')
 # def get_blogs():
@@ -24,9 +69,9 @@ blueprint = Blueprint('blog', __name__)
 # def update_blog():
 #    return "hello world!"
 
-@blueprint.route('/', methods=['GET'])
-def dsa():
-   return 'a'
+# @blueprint.route('/', methods=['GET'])
+# def dsa():
+#    return 'a'
 
 # @app.route('/s')
 # def logo():
