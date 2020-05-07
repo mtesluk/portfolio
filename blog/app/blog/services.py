@@ -21,23 +21,12 @@ class BlogService:
         blog_data = serializer.dump(blog)
         return blog_data
 
-    def get_authors(self):
-        authors_id = [user_id for user_id,  in db.session.query(Blog.user_id).distinct()]
-        user_service = AccountService()
-        authors = user_service.get_users(authors_id)
-        return authors
-
     def get_blogs(self, filters: dict = None, ordering: str = None):
         filters = filters if filters else {}
         queryset = self._filter_order_query(Blog.query, filters, ordering)
         serializer = BlogSerializer(many=True)
         blogs = serializer.dump(queryset)
         return blogs
-
-    def get_countries(self):
-        countries = db.session.query(Blog.country).distinct()
-        countries = [country for country, in countries]
-        return countries
 
     def create_blog(self, data: dict):
         blog = Blog(**data)
@@ -47,17 +36,9 @@ class BlogService:
         blog_data = serializer.dump(blog)
         return blog_data
 
-    def set_blog_verified(self, id):
+    def update_blog(self, id: int, data: dict = None):
         blog = Blog.query.get(id)
-        self.update_blog(blog.id, {'is_active': True})
-
-    def remove_blog(self, id: int):
-        blog = Blog.query.get(id)
-        db.session.delete(blog)
-        db.session.commit()
-
-    def update_blog(self, id: int, data: dict):
-        blog = Blog.query.get(id)
+        data = data if data else {}
         for key, value in data.items():
             setattr(blog, key, value)
         db.session.commit()
@@ -65,11 +46,33 @@ class BlogService:
         blog_data = serializer.dump(blog)
         return blog_data
 
+    def remove_blog(self, id: int):
+        blog = Blog.query.get(id)
+        if blog:
+            db.session.delete(blog)
+            db.session.commit()
+
+    def get_authors(self):
+        authors_id = [user_id for user_id, in db.session.query(Blog.user_id).distinct()]
+        user_service = AccountService()
+        authors = user_service.get_users(authors_id)
+        return authors
+
+    def get_countries(self):
+        countries = db.session.query(Blog.country).distinct()
+        countries = [country for country, in countries]
+        return countries
+
+    def set_blog_verified(self, id: int):
+        blog = Blog.query.get(id)
+        self.update_blog(blog.id, {'is_active': True})
+
     def get_photo_names(self, blog_id):
         pass
 
     def increase_blog_view(self, id: int, num: int = 1):
         blog = Blog.query.get(id)
+        num = num if isinstance(num, int) else int(num)
         data = {'views': blog.views + num}
         self.update_blog(blog.id, data)
 

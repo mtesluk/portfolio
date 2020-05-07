@@ -4,11 +4,11 @@ from flask import request, flash, redirect, url_for, send_file, Blueprint, views
 # from werkzeug.utils import secure_filename
 # from .config import ALLOWED_EXTENSIONS
 
-from .services import BlogService
-
+from app.blog.services import BlogService
+from app.exceptions import BadRequest
+from sqlalchemy.exc import OperationalError
 
 blueprint = Blueprint('blog', __name__)
-
 
 class BlogViewSet(views.MethodView):
     def get(self, id):
@@ -24,18 +24,24 @@ class BlogViewSet(views.MethodView):
     def _retrieve(self, id):
         service = BlogService()
         blog = service.get_blog(id)
+        if not blog:
+            error_msg = 'Blog with provided id was not found'
+            raise BadRequest(error_msg)
         return jsonify(blog)
 
     def post(self):
-        data = request.get_json()
-        service = BlogService()
-        blog = service.create_blog(data)
-        return jsonify(blog)
+        try:
+            data = request.get_json()
+            service = BlogService()
+            blog = service.create_blog(data)
+            return jsonify(blog), 201
+        except (TypeError, OperationalError) as err:
+            raise BadRequest(err.args)
 
     def delete(self, id):
         service = BlogService()
         service.remove_blog(id)
-        return jsonify({})
+        return jsonify({}), 204
 
     def put(self, id):
         data = request.get_json()

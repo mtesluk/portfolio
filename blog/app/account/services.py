@@ -1,11 +1,19 @@
 import requests
 
+from flask import current_app
+
 
 class AccountService:
     def get_users(self, ids):
         if ids:
-            ids = [str(id) for id in ids] if isinstance(ids[0], int) else ids
+            ids = [str(id) for id in ids if isinstance(id, int)]
             id_str = ','.join(ids)
-            url = f'http://127.0.0.1:8000/api/v1/users?ids={id_str}'
-            response = requests.get(url)
-            return response.json()
+
+            base_url = current_app.config['AUTH_SERVER']
+            url = f'{base_url}/api/v1/users/'
+            params = {'ids': id_str}
+            response = requests.get(url, params=params)
+            data = response.json()
+
+            return data
+        return []

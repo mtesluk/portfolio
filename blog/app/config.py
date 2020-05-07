@@ -4,6 +4,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 class Config(object):
     DEBUG = False
     TESTING = False
+    AUTH_SERVER = 'http://127.0.0.1:8000'
 
 
 class ProductionConfig(Config):

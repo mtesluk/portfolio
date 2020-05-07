@@ -2,22 +2,19 @@ from unittest.mock import patch
 
 from flask import Flask
 from flask_testing import TestCase
+from sqlalchemy.exc import OperationalError
 
 from app.config import TestingConfig
 from app.blog.services import BlogService
 from app.blog.models import Blog
 from app.extensions import db
+from app.init import create_app
 
 
 class BlogServiceTestCase(TestCase):
     def create_app(self):
-
-        app = Flask(__name__)
-        app.config.from_object(TestingConfig())
-
-        db.init_app(app)
+        app  = create_app(TestingConfig)
         self.session = db.session
-
         return app
 
     def setUp(self):
@@ -43,17 +40,66 @@ class BlogServiceTestCase(TestCase):
         self.assertEqual(2, blog_data['user_id'])
         self.assertEqual('1,3', blog_data['cooperators'])
 
-    def test_increase_blog_views(self):
-        blog_1 = Blog(user_id=0, content='123', views=0)
-        blog_2 = Blog(user_id=0, content='123', views=0)
-        self.session.add_all([blog_1, blog_2])
+    def test_update_blog_with_null_as_data(self):
+        blog = Blog(user_id=0, content='123')
+        self.session.add(blog)
         self.session.commit()
 
-        self.service.increase_blog_view(blog_1.id)
-        self.service.increase_blog_view(blog_2.id, 3)
+        blog_data = self.service.update_blog(blog.id, None)
 
-        self.assertEqual(1, blog_1.views)
-        self.assertEqual(3, blog_2.views)
+        self.assertEqual(0, blog.views)
+        self.assertEqual(0, blog.user_id)
+        self.assertEqual(0, blog_data['views'])
+        self.assertEqual(0, blog_data['user_id'])
+
+    def test_update_blog_with_none_blog(self):
+        blog = Blog(user_id=0, content='123')
+        self.session.add(blog)
+        self.session.commit()
+
+        blog_data = self.service.update_blog(4)
+
+        self.assertEqual({}, blog_data)
+
+    def test_update_blog_with_wrong_key(self):
+        blog = Blog(user_id=0, content='123')
+        self.session.add(blog)
+        self.session.commit()
+
+        data = {'user_idd': 2}
+        blog_data = self.service.update_blog(blog.id, data)
+
+        self.assertEqual(0, blog.views)
+        self.assertEqual(0, blog.user_id)
+        self.assertEqual(0, blog_data['views'])
+        self.assertEqual(0, blog_data['user_id'])
+
+    def test_increase_blog_views_by_1(self):
+        blog = Blog(user_id=0, content='123', views=0)
+        self.session.add(blog)
+        self.session.commit()
+
+        self.service.increase_blog_view(blog.id)
+
+        self.assertEqual(1, blog.views)
+
+    def test_increase_blog_views_by_3(self):
+        blog = Blog(user_id=0, content='123', views=0)
+        self.session.add(blog)
+        self.session.commit()
+
+        self.service.increase_blog_view(blog.id, 3)
+
+        self.assertEqual(3, blog.views)
+
+    def test_increase_blog_views_by_3_str_passed(self):
+        blog = Blog(user_id=0, content='123', views=0)
+        self.session.add(blog)
+        self.session.commit()
+
+        self.service.increase_blog_view(blog.id, '3')
+
+        self.assertEqual(3, blog.views)
 
     def test_get_blog(self):
         blog = Blog(user_id=0, content='123')
@@ -75,7 +121,7 @@ class BlogServiceTestCase(TestCase):
         blog_data = self.service.get_blog(1)
         self.assertEqual(blog_data, {})
 
-    def test_get_blogs(self):
+    def test_get_blogs_containing_content(self):
         blog_1 = Blog(user_id=0, content='123', views=2)
         blog_2 = Blog(user_id=1, content='456', views=3)
         blog_3 = Blog(user_id=1, content='678', views=7)
@@ -84,27 +130,84 @@ class BlogServiceTestCase(TestCase):
 
         filters = {'content': {'type': 'contains', 'value': '4'}}
         blogs_data = self.service.get_blogs(filters)
+
         self.assertEqual(len(blogs_data), 1)
         self.assertEqual(blogs_data[0]['content'], '456')
 
+    def test_get_blogs_having_equal_content(self):
+        blog_1 = Blog(user_id=0, content='123', views=2)
+        blog_2 = Blog(user_id=1, content='456', views=3)
+        blog_3 = Blog(user_id=1, content='678', views=7)
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
+
         filters = {'content': {'type': 'equal', 'value': '123'}}
         blogs_data = self.service.get_blogs(filters)
+
         self.assertEqual(blogs_data[0]['content'], '123')
         self.assertEqual(len(blogs_data), 1)
+
+    def test_get_blogs_containing_content_with_ordering_desc(self):
+        blog_1 = Blog(user_id=0, content='123', views=2)
+        blog_2 = Blog(user_id=1, content='456', views=3)
+        blog_3 = Blog(user_id=1, content='678', views=7)
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
 
         filters = {'content': {'type': 'contains', 'value': '6'}}
         ordering = '-views'
         blogs_data = self.service.get_blogs(filters, ordering)
+
         self.assertEqual(blogs_data[0]['content'], '678')
         self.assertEqual(blogs_data[1]['content'], '456')
         self.assertEqual(len(blogs_data), 2)
 
+    def test_get_blogs_with_asc_ordering(self):
+        blog_1 = Blog(user_id=0, content='123', views=2)
+        blog_2 = Blog(user_id=1, content='456', views=3)
+        blog_3 = Blog(user_id=1, content='678', views=7)
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
+
         filters = {}
         ordering = 'views'
         blogs_data = self.service.get_blogs(filters, ordering)
+
         self.assertEqual(blogs_data[0]['content'], '123')
         self.assertEqual(blogs_data[1]['content'], '456')
         self.assertEqual(blogs_data[2]['content'], '678')
+
+    def test_get_blogs_with_null_as_filter(self):
+        blog_1 = Blog(user_id=0, content='123', views=2)
+        blog_2 = Blog(user_id=1, content='456', views=3)
+        blog_3 = Blog(user_id=1, content='678', views=7)
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
+
+        blogs_data = self.service.get_blogs(None)
+
+        self.assertEqual(len(blogs_data), 3)
+
+    def test_get_blogs_with_null_as_ordering(self):
+        blog_1 = Blog(user_id=0, content='123', views=2)
+        blog_2 = Blog(user_id=1, content='456', views=3)
+        blog_3 = Blog(user_id=1, content='678', views=7)
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
+
+        blogs_data = self.service.get_blogs({}, None)
+
+        self.assertEqual(len(blogs_data), 3)
+
+    def test_get_blogs_with_wrong_filter(self):
+        blog_1 = Blog(user_id=0, content='123', views=2)
+        blog_2 = Blog(user_id=1, content='456', views=3)
+        blog_3 = Blog(user_id=1, content='678', views=7)
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
+
+        filters = {'contentt': {'type': 'contains', 'value': '6'}}
+        self.assertRaises(AttributeError, self.service.get_blogs, filters)
 
     def test_get_countries(self):
         blog_1 = Blog(user_id=0, content='123', country='Poland')
@@ -129,6 +232,7 @@ class BlogServiceTestCase(TestCase):
         self.session.commit()
 
         authors = self.service.get_authors()
+
         self.assertEqual(len(authors), 2)
         self.assertEqual(authors[0]['id'], 0)
         self.assertEqual(authors[0]['username'], 'mtesluk')
@@ -143,6 +247,14 @@ class BlogServiceTestCase(TestCase):
         self.assertEqual(blog_data['user_id'], data['user_id'])
         self.assertEqual(blog_data['content'], data['content'])
         self.assertEqual(blog_data['views'], 0)
+
+    def test_create_blog_no_user_input(self):
+        data = {'content': '123'}
+        self.assertRaises(OperationalError, self.service.create_blog, data)
+
+    def test_create_blog_no_content(self):
+        data = {'user_id': 1}
+        self.assertRaises(OperationalError, self.service.create_blog, data)
 
     def test_set_blog_verified(self):
         blog = Blog(user_id=0, content='123')
@@ -161,6 +273,17 @@ class BlogServiceTestCase(TestCase):
         self.session.commit()
         blog_id = blog.id
 
-        blog_data = self.service.remove_blog(blog_id)
+        self.service.remove_blog(blog_id)
 
         self.assertEqual(Blog.query.get(blog_id), None)
+
+    def test_remove_blog_fail(self):
+        blog = Blog(user_id=0, content='123')
+        self.session.add(blog)
+        self.session.commit()
+        blog_id = blog.id
+
+        self.assertEqual(Blog.query.get(2), None)
+        self.service.remove_blog(2)
+
+        self.assertTrue(Blog.query.get(blog_id))

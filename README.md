@@ -10,7 +10,9 @@ Python 3.8.3
 To install libs in virtualenv exec 'pip install -r requirements.txt'
 
 #Server
-To run server exec 'python run.py'
+To enable to run app first exec 'export FLASK_APP=run.py'
+To load dev config exec 'export FLASK_DEBUG=1'
+To run server exec 'flask run'
 
 #Tests
 To run test exec 'python -m unittest discover'

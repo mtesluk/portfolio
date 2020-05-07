@@ -1,5 +1,8 @@
-from app import app
+from flask.helpers import get_debug_flag
 
+from app.init import create_app
+from app.config import DevelopmentConfig, ProductionConfig
 
-if __name__ == '__main__':
-    app.run(debug=True)
+CONFIG = DevelopmentConfig if get_debug_flag() else ProductionConfig
+
+app = create_app(CONFIG)
