@@ -222,6 +222,18 @@ class BlogServiceTestCase(TestCase):
         self.assertIn('Poland', countries)
         self.assertIn('Germany', countries)
 
+    def test_get_countries_with_null(self):
+        blog_1 = Blog(user_id=0, content='123', country='Poland')
+        blog_2 = Blog(user_id=1, content='456', country='Poland')
+        blog_3 = Blog(user_id=1, content='678')
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
+
+        countries = self.service.get_countries()
+
+        self.assertEqual(len(countries), 1)
+        self.assertIn('Poland', countries)
+
     @patch('app.account.services.AccountService.get_users')
     def test_get_authors(self, patch):
         patch.return_value = [{'username': 'mtesluk', 'id': 0}, {'username': 'kdziubek', 'id': 1}]

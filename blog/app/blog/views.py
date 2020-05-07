@@ -62,9 +62,9 @@ def countries():
 view = BlogViewSet.as_view('blog_view')
 blueprint.add_url_rule('/', defaults={'id': None}, view_func=view, methods=['GET',])
 blueprint.add_url_rule('/', view_func=view, methods=['POST',])
-blueprint.add_url_rule('/<int:id>', view_func=view, methods=['GET', 'PUT', 'DELETE'])
-blueprint.add_url_rule('/authors', view_func=authors, methods=['GET'])
-blueprint.add_url_rule('/countries', view_func=countries, methods=['GET'])
+blueprint.add_url_rule('/<int:id>/', view_func=view, methods=['GET', 'PUT', 'DELETE'])
+blueprint.add_url_rule('/authors/', view_func=authors, methods=['GET'])
+blueprint.add_url_rule('/countries/', view_func=countries, methods=['GET'])
 
 
 # @app.route('get_blogs')

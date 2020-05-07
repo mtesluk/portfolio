@@ -60,7 +60,7 @@ class BlogService:
 
     def get_countries(self):
         countries = db.session.query(Blog.country).distinct()
-        countries = [country for country, in countries]
+        countries = [country for country, in countries if country]
         return countries
 
     def set_blog_verified(self, id: int):

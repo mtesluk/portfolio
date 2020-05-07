@@ -44,7 +44,7 @@ class BlogApiTestCase(TestCase):
         self.session.add(blog)
         self.session.commit()
 
-        response = self.client.get(f'/api/v1/blogs/{blog.id}')
+        response = self.client.get(f'/api/v1/blogs/{blog.id}/')
         data = response.json
         status = response.status_code
 
@@ -60,7 +60,7 @@ class BlogApiTestCase(TestCase):
         self.session.add(blog)
         self.session.commit()
 
-        response = self.client.get('/api/v1/blogs/2')
+        response = self.client.get('/api/v1/blogs/2/')
         data = response.json
         status = response.status_code
 
@@ -103,7 +103,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         payload = {'content': '456'}
-        response = self.client.put(f'/api/v1/blogs/{blog.id}', json=payload)
+        response = self.client.put(f'/api/v1/blogs/{blog.id}/', json=payload)
         updated_blog = response.json
         status = response.status_code
 
@@ -117,7 +117,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         payload = {'conttent': '456', 'cooperators': '1,5'}
-        response = self.client.put(f'/api/v1/blogs/{blog.id}', json=payload)
+        response = self.client.put(f'/api/v1/blogs/{blog.id}/', json=payload)
         updated_blog = response.json
         status = response.status_code
 
@@ -131,7 +131,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
         blog_id = blog.id
 
-        response = self.client.delete(f'/api/v1/blogs/{blog_id}')
+        response = self.client.delete(f'/api/v1/blogs/{blog_id}/')
         status = response.status_code
 
         self.assertEqual(status, 204)
@@ -145,7 +145,7 @@ class BlogApiTestCase(TestCase):
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
-        response = self.client.get('/api/v1/blogs/authors')
+        response = self.client.get('/api/v1/blogs/authors/')
         data = response.json
         status = response.status_code
 
@@ -162,7 +162,7 @@ class BlogApiTestCase(TestCase):
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
-        response = self.client.get('/api/v1/blogs/countries')
+        response = self.client.get('/api/v1/blogs/countries/')
         data = response.json
         status = response.status_code
 
