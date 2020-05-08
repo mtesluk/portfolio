@@ -9,7 +9,7 @@ import './Blog.scss';
 import AddForm  from './Add';
 import Sites from './Sites';
 import { Entry } from './Entry';
-import { Users } from './Users';
+import { Authors } from './Authors';
 import { Dashboard } from './Dashboard';
 import { setOpenLoginDialog } from '../../actions/login-dialog';
 import { User } from '../../interfaces/user';
@@ -28,7 +28,7 @@ const BlogComponent = (props: Props) => {
       <div className="blog__content">
         <Switch>
             <Route path="/blog" exact component={Dashboard} />
-            <Route path="/blog/users" component={Users} />
+            <Route path="/blog/users" component={Authors} />
             <Route path="/blog/add" component={AddForm} />
             <Route path="/blog/sites" component={Sites} />
             <Route path="/blog/:id" component={Entry} />

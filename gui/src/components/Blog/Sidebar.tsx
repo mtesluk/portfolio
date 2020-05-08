@@ -13,6 +13,7 @@ import { notifySuccess } from '../../actions/notify';
 import { Link } from 'react-router-dom';
 
 
+
 interface Props {
   setOpenLoginDialog: (open: boolean) => void;
   resetToken: () => void;
@@ -47,10 +48,6 @@ const BlogSidebarComponent = (props: Props) =>  {
     return props.token ? <LockIcon fontSize="inherit" /> : <LockOpenIcon fontSize="inherit" />;
   };
 
-  const handleResizing = () => {
-    setNavHide(!isNavHide);
-  }
-
   const renderDashboadNavLink = () => {
     return isNavHide ? "D" : "Dashboard";
   };
@@ -72,8 +69,8 @@ const BlogSidebarComponent = (props: Props) =>  {
       <div className={`blog-container__sidebar ${isNavHide ? "blog-container__sidebar--hide" : ""}`}>
         <div className="blog-container__top">
           <Link to="/" className="blog-container__logo">
-            <div className="blog-container__logo-pic">dd</div>
-            {!isNavHide ? <div className="blog-container__logo-name">BFPM</div> : <div></div>}
+            <div className="blog-container__logo-pic"></div>
+            {!isNavHide ? <div className="blog-container__logo-name">Portfolio</div> : <div></div>}
           </Link>
           <div className="blog-container__navs">
             <div className=""><Link to="/blog" className="">{renderDashboadNavLink()}</Link></div>
@@ -86,28 +83,7 @@ const BlogSidebarComponent = (props: Props) =>  {
           <div className="blog-container__login" onClick={() => handleLogin()}>
             {isNavHide ? renderLoginSVG() : renderLoginButton()}
           </div>
-          <div className="blog-container__toggle" onClick={() => handleResizing()}>
-            <DoubleArrowIcon fontSize="inherit" className={!isNavHide ? "blog-container__toggle--rtl" : ""} />
-          </div>
         </div>
-        {/* <div className="blog__nav-inside">
-          <div className="blog__nav--left">
-            <p className="blog__nav--logo blog__nav--elem">
-              <DehazeIcon />
-            </p>
-            <p className="blog__nav--logo blog__nav--elem">
-              <Link to="/blog" className="blog__nav--link link">
-                Blog
-              </Link>
-            </p>
-            <p className="blog__nav--elem"><Link to="/blog/users" className="blog__nav--link link">Users</Link></p>
-            <p className="blog__nav--elem"><Link to="/blog/sites" className="blog__nav--link link">Sites</Link></p>
-          </div>
-          <div className="blog__nav--right">
-            {this.props.token ? this.getLogoutButton() : this.getLoginButton()}
-            <Link to="/blog/add" className="blog__nav--link link"><div className="nav-button">Add new entry</div></Link>
-          </div>
-        </div> */}
       </div>
     )
   }

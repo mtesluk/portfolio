@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, LinearProgress } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { config  } from "../../config";
+
+import { config  } from '../../config';
 import axios from 'axios';
 
 
@@ -28,12 +30,12 @@ interface Props {
 //   }),
 // );
 
-export const Users = (props: Props) => {
+export const Authors = (props: Props) => {
   const [blogs, setBlogs] = useState<string[]>([]);
   const [isLoading, setLoading] = useState<{is: boolean, index: number}>({is: false, index: -1});
 
-  const getUser = (id: number, index: number) => {
-    axios.get(config.endpoints.blog.users + id).then(response => {
+  const getAuthor = (id: number, index: number) => {
+    axios.get(config.endpoints.blog.authors).then(response => {
       setLoading({is: false, index: index})
     }).catch(error => {
       // setLoading({is: false, index: index})
@@ -42,8 +44,8 @@ export const Users = (props: Props) => {
   }
 
 
-  const getUsers = () => {
-    axios.get(config.endpoints.blog.users).then(response => {
+  const getAuthors = () => {
+    axios.get(config.endpoints.blog.authors).then(response => {
       // console.log(1)
     }).catch(error => {
       // console.log(1)
@@ -53,7 +55,7 @@ export const Users = (props: Props) => {
 
   const onExpand = (e: any, id: number, index: number) => {
     setLoading({is: true, index: index})
-    const blogs: string[] = getUser(id, index).blogs;
+    const blogs: string[] = getAuthor(id, index).blogs;
     setBlogs(blogs);
   }
 
@@ -79,7 +81,7 @@ export const Users = (props: Props) => {
 
   return (
     <div className="list">
-      {getUsers().map((user: User, id: number) => getExpansion(user, id))}
+      {getAuthors().map((user: User, id: number) => getExpansion(user, id))}
     </div>
   );
 };

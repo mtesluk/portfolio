@@ -1,15 +1,14 @@
-
-const BASE_URL = '/api/v1/'
-
 export const config = {
     endpoints: {
-        blog: {
-            users: BASE_URL + 'users/',
-            countries: BASE_URL + 'countries/'
-
+        auth: {
+            login: '/account/api_token_auth/',
+            exists_fb: '/account/users/exist_fb_account/',
+            register: '/account/users/'
         },
-        forum: {
-
+        blog: {
+            authors: '/blogs/authors/',
+            countries: '/blogs/countries/',
+            base: '/blogs/',
         }
     }
 }

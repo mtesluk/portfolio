@@ -9,6 +9,7 @@ import { notifySuccess } from '../../actions/notify';
 import { setOpenLoginDialog } from '../../actions/login-dialog';
 import { User, Profile } from '../../interfaces/user';
 import { setUserData } from '../../actions/user';
+import { config  } from "../../config";
 
 
 interface Props {
@@ -40,7 +41,7 @@ export const RegisterFormComponent = (props: Props) => {
       errors.passwordConfirmation = {type: '', message: 'Passwords must be the same!'};
     } else {
       data = {...data, profile: {facebook_id: props.user.profile?.facebook_id}};
-      axios.post('/api/v1/users/', data).then(reponse => {
+      axios.post(config.endpoints.auth.register, data).then(reponse => {
         handleRegistered(reponse);
         props.notifySuccess('Register successfully!')
       }).catch(err => {
