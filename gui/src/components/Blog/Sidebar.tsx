@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import LockIcon from '@material-ui/icons/Lock';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
 import './Sidebar.scss';
 
+import { config } from '../../config';
 import { setOpenLoginDialog } from '../../actions/login-dialog';
 import { User } from '../../interfaces/user';
 import { resetToken } from '../../actions/token';
 import { notifySuccess } from '../../actions/notify';
-import { Link } from 'react-router-dom';
 
 
 
@@ -29,8 +27,6 @@ interface State {
 }
 
 const BlogSidebarComponent = (props: Props) =>  {
-  const [isNavHide, setNavHide] = useState(false);
-
   const handleLogin = () => {
     if (props.token) {
       props.resetToken();
@@ -44,44 +40,21 @@ const BlogSidebarComponent = (props: Props) =>  {
     return props.token ? "Logout" : "Login";
   };
 
-  const renderLoginSVG = () => {
-    return props.token ? <LockIcon fontSize="inherit" /> : <LockOpenIcon fontSize="inherit" />;
-  };
-
-  const renderDashboadNavLink = () => {
-    return isNavHide ? "D" : "Dashboard";
-  };
-
-  const renderUsersNavLink = () => {
-    return isNavHide ? "U" : "Users";
-  };
-
-  const renderSitesNavLink = () => {
-    return isNavHide ? "S" : "Sites";
-  };
-
-  const renderAddNavLink = () => {
-    return isNavHide ? "A" : "Add new entry";
-  };
-
   const renderNav = () => {
     return (
-      <div className={`blog-container__sidebar ${isNavHide ? "blog-container__sidebar--hide" : ""}`}>
-        <div className="blog-container__top">
-          <Link to="/" className="blog-container__logo">
-            <div className="blog-container__logo-pic"></div>
-            {!isNavHide ? <div className="blog-container__logo-name">Portfolio</div> : <div></div>}
-          </Link>
-          <div className="blog-container__navs">
-            <div className=""><Link to="/blog" className="">{renderDashboadNavLink()}</Link></div>
-            <div className=""><Link to="/blog/users" className="">{renderUsersNavLink()}</Link></div>
-            <div className=""><Link to="/blog/sites" className="">{renderSitesNavLink()}</Link></div>
-            <div className=""><Link to="/blog/add" className="">{renderAddNavLink()}</Link></div>
+      <div className="blog__sidebar">
+        <div className="blog__top">
+          <Link to="/" className="blog__name">Blog</Link>
+          <div className="blog__navs">
+            <Link to={config.routes.blog.dashboard} className="">Dashboard</Link>
+            <Link to={config.routes.blog.authors} className="">Authors</Link>
+            <Link to={config.routes.blog.sites} className="">Sites</Link>
+            <Link to={config.routes.blog.addNew} className="">Add blog</Link>
           </div>
         </div>
-        <div className="blog-container__bottom">
-          <div className="blog-container__login" onClick={() => handleLogin()}>
-            {isNavHide ? renderLoginSVG() : renderLoginButton()}
+        <div className="blog__bottom">
+          <div className="blog__login" onClick={() => handleLogin()}>
+            {renderLoginButton()}
           </div>
         </div>
       </div>
@@ -89,10 +62,12 @@ const BlogSidebarComponent = (props: Props) =>  {
   }
 
   return (
-    <div className="blog-container">
+    <div className="blog">
       {renderNav()}
-      <div className="blog-container__content">
-        {props.children}
+      <div className="blog__main">
+        <div className="blog__content">
+          {props.children}
+        </div>
       </div>
     </div>
   );

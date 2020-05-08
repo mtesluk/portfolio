@@ -1,3 +1,5 @@
+const detailRoute = (routeName: string) => (id: number | null = null) => (id ? `${routeName}${id}` : `${routeName}:id`)
+
 export const config = {
     endpoints: {
         auth: {
@@ -9,6 +11,16 @@ export const config = {
             authors: '/blogs/authors/',
             countries: '/blogs/countries/',
             base: '/blogs/',
+        }
+    },
+    routes: {
+        root: '/',
+        blog: {
+            dashboard: '/blog',
+            authors: '/blog/authors',
+            sites: '/blog/sites',
+            addNew: '/blog/add',
+            detail: detailRoute('/blog/'),
         }
     }
 }

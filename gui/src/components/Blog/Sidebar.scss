@@ -1,26 +1,29 @@
-.blog-container {
+$border-color: rgb(109, 106, 106);
+
+.blog {
     display: flex;
-    height: 100%;
-    font-size: 6rem;
+    height: 100vh;
 
     &__sidebar {
         position: sticky;
+        width: 15%;
         height: 100%;
-        width: 10%;
-        background-color: rgb(88, 76, 76);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
+        background-color: rgb(255, 255, 255);
+        color: rgb(73, 70, 70);
         font-size: 2.5rem;
-        border-right: 1px black solid;
+        border-right: 1px $border-color solid;
         -webkit-box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.75);
         -moz-box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.75);
-        box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.75);
-        transition: width .2s ease-in;
+        box-shadow: 2px 0px 2px 0px rgba(0,0,0,0.75);
 
-        &--hide {
-            width: 5%;
+        & a {
+            display: block;
+            color: inherit;
+            text-decoration: none;
         }
 
         & > * {
@@ -29,54 +32,48 @@
         }
     }
 
-    &__logo {
-        display: flex;
-        align-items: stretch;
-        font-size: 4rem;
-    }
-
-    &__logo-pic {
-        display: block;
-        flex-grow: 1;
-        background-image: url("../../assets/mt.svg");
-        background-blend-mode: overlay;
-        background-repeat: no-repeat;
-        background-size: contain;
-    }
-
-    &__logo-name {
-        font-size: 3rem;
+    &__name {
+        font-size: 4.5rem;
+        letter-spacing: 1rem;
+        text-align: center;
+        border-bottom: 1px solid $border-color;
     }
 
     &__navs {
-        padding: 1rem 0.5rem 1rem 3rem;
-        transition: all .5s ease-in;
+
+        & > * {
+            padding-left: 1rem;
+
+            &:hover {
+                background-color: rgb(228, 217, 217);
+                border-left: 3px solid rgb(48, 47, 47);
+            }
+        }
     }
 
     &__bottom {
-        border-top: 1px black solid;
+        border-top: 1px $border-color solid;
     }
 
     &__login {
         font-size: 4rem;
-        display: flex;
-        justify-content: center;
-    }
+        text-align: center;
 
-    &__toggle {
-        font-size: 4rem;
-        display: flex;
-        justify-content: center;
-        border-top: 1px black solid;
-
-        &--rtl {
-            transform: rotate(-180deg);
+        &:hover {
+            cursor: pointer;
         }
     }
 
-    &__content {
+    &__main {
+        overflow: auto;
         height: 100%;
         width: 100%;
-        overflow: auto;
+        font-size: 2rem;
+        padding-top: 2rem;
+    }
+
+    &__content {
+        width: 60%;
+        margin: auto;
     }
 }
