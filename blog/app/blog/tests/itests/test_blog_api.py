@@ -39,6 +39,35 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data[0]['content'], blog_1.content)
         self.assertEqual(data[1]['content'], blog_2.content)
 
+    def test_get_blogs_with_filters_user_id(self):
+        blog_1 = Blog(user_id=0, content='123')
+        blog_2 = Blog(user_id=1, content='456')
+        self.session.add_all([blog_1, blog_2])
+        self.session.commit()
+
+        params = {'user_id': blog_2.user_id}
+        response = self.client.get('/api/v1/blogs/', query_string=params)
+        data = response.json
+        status = response.status_code
+
+        self.assertEqual(status, 200)
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]['content'], blog_2.content)
+
+    def test_get_blogs_with_wrong_filters(self):
+        blog_1 = Blog(user_id=0, content='123')
+        blog_2 = Blog(user_id=1, content='456')
+        self.session.add_all([blog_1, blog_2])
+        self.session.commit()
+
+        params = {'user_idddddd': 'asd'}
+        response = self.client.get('/api/v1/blogs/', query_string=params)
+        data = response.json
+        status = response.status_code
+
+        self.assertEqual(status, 200)
+        self.assertEqual(len(data), 2)
+
     def test_get_blog(self):
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland')
         self.session.add(blog)

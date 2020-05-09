@@ -162,6 +162,20 @@ class BlogServiceTestCase(TestCase):
         self.assertEqual(blogs_data[1]['content'], '456')
         self.assertEqual(len(blogs_data), 2)
 
+    def test_get_blogs_equal_user_id(self):
+        blog_1 = Blog(user_id=0, content='123', views=2)
+        blog_2 = Blog(user_id=1, content='456', views=3)
+        blog_3 = Blog(user_id=1, content='678', views=7)
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
+
+        filters = {'user_id': {'type': 'equal', 'value': '1'}}
+        blogs_data = self.service.get_blogs(filters)
+
+        self.assertEqual(len(blogs_data), 2)
+        self.assertEqual(blogs_data[0]['content'], '456')
+        self.assertEqual(blogs_data[1]['content'], '678')
+
     def test_get_blogs_with_asc_ordering(self):
         blog_1 = Blog(user_id=0, content='123', views=2)
         blog_2 = Blog(user_id=1, content='456', views=3)

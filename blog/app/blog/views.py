@@ -6,9 +6,15 @@ from flask import request, flash, redirect, url_for, send_file, Blueprint, views
 
 from app.blog.services import BlogService
 from app.exceptions import BadRequest
+from app.filter import Filter, Equal
 from sqlalchemy.exc import OperationalError
 
+
 blueprint = Blueprint('blog', __name__)
+
+class BlogFilter(Filter):
+    user_id = Equal
+
 
 class BlogViewSet(views.MethodView):
     def get(self, id):
@@ -17,8 +23,10 @@ class BlogViewSet(views.MethodView):
         return self._retrieve(id)
 
     def _list(self):
+        params = request.args
+        filters = BlogFilter(params).to_dict()
         service = BlogService()
-        blogs = service.get_blogs()
+        blogs = service.get_blogs(filters)
         return jsonify(blogs)
 
     def _retrieve(self, id):
