@@ -25,8 +25,8 @@ class BlogApiTestCase(TestCase):
         db.drop_all()
 
     def test_get_blogs(self):
-        blog_1 = Blog(user_id=0, content='123')
-        blog_2 = Blog(user_id=0, content='456')
+        blog_1 = Blog(user_id=0, content='123', title="title")
+        blog_2 = Blog(user_id=0, content='456', title="title")
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
@@ -40,8 +40,8 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data[1]['content'], blog_2.content)
 
     def test_get_blogs_with_filters_user_id(self):
-        blog_1 = Blog(user_id=0, content='123')
-        blog_2 = Blog(user_id=1, content='456')
+        blog_1 = Blog(user_id=0, content='123', title="title")
+        blog_2 = Blog(user_id=1, content='456', title="title")
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
@@ -55,8 +55,8 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data[0]['content'], blog_2.content)
 
     def test_get_blogs_with_wrong_filters(self):
-        blog_1 = Blog(user_id=0, content='123')
-        blog_2 = Blog(user_id=1, content='456')
+        blog_1 = Blog(user_id=0, content='123', title="title")
+        blog_2 = Blog(user_id=1, content='456', title="title")
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
@@ -69,7 +69,7 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(len(data), 2)
 
     def test_get_blog(self):
-        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland')
+        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title="title")
         self.session.add(blog)
         self.session.commit()
 
@@ -83,9 +83,10 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data['cooperators'], blog.cooperators)
         self.assertEqual(data['user_id'], blog.user_id)
         self.assertEqual(data['country'], blog.country)
+        self.assertEqual(data['title'], blog.title)
 
     def test_get_blog_with_wrong_id(self):
-        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland')
+        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title="title")
         self.session.add(blog)
         self.session.commit()
 
@@ -97,7 +98,7 @@ class BlogApiTestCase(TestCase):
         self.assertTrue(data['message'])
 
     def test_post_blog(self):
-        payload = {'content': '123', 'country': 'Poland', 'user_id': 1}
+        payload = {'content': '123', 'country': 'Poland', 'user_id': 1, 'title': 'title'}
         response = self.client.post('/api/v1/blogs/', json=payload)
         data = response.json
         status = response.status_code
@@ -107,9 +108,10 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data['views'], 0)
         self.assertEqual(data['user_id'], payload['user_id'])
         self.assertEqual(data['country'], payload['country'])
+        self.assertEqual(data['title'], payload['title'])
 
     def test_post_blog_with_wrong_data(self):
-        payload = {'content': '123', 'countryya': 'Poland', 'user_id': 1}
+        payload = {'content': '123', 'countryya': 'Poland', 'user_id': 1, 'title': 'title'}
         response = self.client.post('/api/v1/blogs/', json=payload)
         data = response.json
         status = response.status_code
@@ -127,11 +129,11 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(status, 400)
 
     def test_put_blog(self):
-        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland')
+        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
         self.session.commit()
 
-        payload = {'content': '456'}
+        payload = {'content': '456', 'title': 'new_title'}
         response = self.client.put(f'/api/v1/blogs/{blog.id}/', json=payload)
         updated_blog = response.json
         status = response.status_code
@@ -139,9 +141,11 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(updated_blog['content'], payload['content'])
         self.assertEqual(blog.content, payload['content'])
+        self.assertEqual(updated_blog['title'], payload['title'])
+        self.assertEqual(blog.title, payload['title'])
 
     def test_put_blog_with_wrong_data(self):
-        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland')
+        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
         self.session.commit()
 
@@ -155,7 +159,7 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(updated_blog['cooperators'], payload['cooperators'])
 
     def test_remove_blog(self):
-        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland')
+        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
         self.session.commit()
         blog_id = blog.id
@@ -169,8 +173,8 @@ class BlogApiTestCase(TestCase):
     @patch('app.account.services.requests.get')
     def test_get_authors(self, patch):
         patch.return_value.json = lambda: [{'username': 'mtesluk', 'id': 0}, {'username': 'kdziubek', 'id': 1}]
-        blog_1 = Blog(user_id=0, content='123')
-        blog_2 = Blog(user_id=1, content='456')
+        blog_1 = Blog(user_id=0, content='123', title='title')
+        blog_2 = Blog(user_id=1, content='456', title='title')
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
@@ -186,8 +190,8 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data[1]['username'], 'kdziubek')
 
     def test_get_countries(self):
-        blog_1 = Blog(user_id=0, content='123', country='Poland')
-        blog_2 = Blog(user_id=0, content='456', country='Germany')
+        blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
+        blog_2 = Blog(user_id=0, content='456', country='Germany', title='title')
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 

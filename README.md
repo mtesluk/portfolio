@@ -17,6 +17,11 @@ To run server exec 'flask run'
 #Tests
 To run test exec 'python -m unittest discover'
 
+#Migrations
+To init migrations dir exec 'flask db init'
+To add new migraton exec 'flask db migrate -m "Initial migration."'
+To upgrade db with migrations exec 'flask db upgrade'
+
 
 ##ACCOUNT
 Python 3.8.3
