@@ -1,4 +1,4 @@
-import { User, Profile } from "../interfaces/user";
+import { User, Profile } from "../shared/interfaces/user";
 
 
 const profile: Profile = {

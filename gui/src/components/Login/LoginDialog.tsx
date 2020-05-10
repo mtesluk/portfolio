@@ -7,8 +7,8 @@ import { setOpenLoginDialog } from '../../actions/login-dialog';
 import { setToken } from '../../actions/token';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
-import { User } from '../../interfaces/user';
-import { Dialog } from '../shared/Dialog';
+import { User } from '../../shared/interfaces/user';
+import { Dialog } from '../../shared/components/Dialog';
 
 
 interface Props {

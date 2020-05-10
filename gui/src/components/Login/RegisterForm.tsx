@@ -1,15 +1,15 @@
 import React from 'react';
 import { useForm, ErrorMessage } from "react-hook-form";
-import axios from 'axios';
 import { connect } from 'react-redux';
 
 import './RegisterForm.scss';
 
 import { notifySuccess } from '../../actions/notify';
 import { setOpenLoginDialog } from '../../actions/login-dialog';
-import { User, Profile } from '../../interfaces/user';
+import { User, Profile } from '../../shared/interfaces/user';
 import { setUserData } from '../../actions/user';
 import { config  } from "../../config";
+import HttpService from '../../shared/services/HttpService'
 
 
 interface Props {
@@ -34,14 +34,17 @@ interface Account {
 }
 
 export const RegisterFormComponent = (props: Props) => {
+  const _httpService: HttpService = new HttpService();
   const {register, setValue, handleSubmit, errors} = useForm<Account>();
 
   const onSubmit = handleSubmit((data: Account) => {
     if (data.password !== data.passwordConfirmation) {
       errors.passwordConfirmation = {type: '', message: 'Passwords must be the same!'};
     } else {
+      delete data.passwordConfirmation;
       data = {...data, profile: {facebook_id: props.user.profile?.facebook_id}};
-      axios.post(config.endpoints.auth.register, data).then(reponse => {
+      const url = config.endpoints.auth.register
+      _httpService.post(url, data).then(reponse => {
         handleRegistered(reponse);
         props.notifySuccess('Register successfully!')
       }).catch(err => {
@@ -53,7 +56,7 @@ export const RegisterFormComponent = (props: Props) => {
   const handleRegistered = (response: any) => {
     if (props.registerType === 'partial') {
       props.setOpenLoginDialog(false);
-      props.setUserData(response.data);
+      props.setUserData(response);
     }
     props.setRegister(null);
   }

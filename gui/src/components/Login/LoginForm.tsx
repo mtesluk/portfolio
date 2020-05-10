@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import { Facebook } from './Facebook';
-import axios from 'axios';
 
 import './LoginForm.scss';
 
 import { notifySuccess, notifyError } from '../../actions/notify';
 import { setToken } from '../../actions/token';
-import { User } from '../../interfaces/user';
+import { User } from '../../shared/interfaces/user';
 import { setUserData } from '../../actions/user';
 import { config  } from "../../config";
+import HttpService from '../../shared/services/HttpService'
 
 
 interface Props {
@@ -31,6 +31,7 @@ interface Credentials {
 }
 
 export const LoginFormComponent = (props: Props) => {
+  const _httpService: HttpService = new HttpService();
   const [credentials, setCredentials] = useState<Credentials>({username: '', password: ''})
 
   const setAuth = (token: string) => {
@@ -39,11 +40,12 @@ export const LoginFormComponent = (props: Props) => {
 
   const handleAuthFacebook = (fb_id: string, token: string) => {
     props.setUserData({profile: {facebook_id: fb_id}});
-    axios.get(`${config.endpoints.auth.exists_fb}?fb_id=${fb_id}`).then(response => {
-      const exists = response.data.exists;
+    const url = config.endpoints.auth.exists_fb;
+    _httpService.get(`${url}?fb_id=${fb_id}`).then(response => {
+      const exists = response.exists;
       exists ? props.handleClose() : props.setRegister('partial');
     }).catch(err => {
-      notifyError(err.response.data)
+      notifyError(err.response)
       console.log(err.response)
     })
     setAuth(token);
@@ -51,15 +53,11 @@ export const LoginFormComponent = (props: Props) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log(config.endpoints.auth.login)
-    axios.post(config.endpoints.auth.login, credentials).then(response => {
-      if (response.status === 200) {
-        props.setToken(response.data.token);
-        props.handleClose();
-        props.notifySuccess('Now you are logged in');
-      } else {
-        props.notifyError(response.data);
-      }
+    const url = config.endpoints.auth.login;
+    _httpService.post(url, credentials).then(response => {
+      props.setToken(response.token);
+      props.handleClose();
+      props.notifySuccess('Now you are logged in');
     }).catch(err => {
       props.notifyError(err.response.data.non_field_errors);
     });

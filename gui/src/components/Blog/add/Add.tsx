@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './Add.scss';
 
-import { notifySuccess } from '../../actions/notify';
+import { notifySuccess } from '../../../actions/notify';
 
 
 interface Element {
@@ -114,9 +114,8 @@ class AddForm extends React.Component <Props, State> {
   setSettings() {
     return (
       <div className="form__settings">
-        <input placeholder="Name" />
-        <input placeholder="Latitude" />
-        <input placeholder="Length" />
+        <input placeholder="Title" />
+        <input placeholder="Region" />
       </div>
     )
   }

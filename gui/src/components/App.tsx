@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import NotificationSystem from 'react-notification-system';
 
 import './App.scss';
-import { Notification } from '../interfaces/notification.interface';
+import { Notification } from '../shared/interfaces/notification.interface';
 
 import { Blog } from './Blog/Blog';
 import { Forum } from './Forum/Forum';

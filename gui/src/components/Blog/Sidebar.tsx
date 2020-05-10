@@ -6,7 +6,7 @@ import './Sidebar.scss';
 
 import { config } from '../../config';
 import { setOpenLoginDialog } from '../../actions/login-dialog';
-import { User } from '../../interfaces/user';
+import { User } from '../../shared/interfaces/user';
 import { resetToken } from '../../actions/token';
 import { notifySuccess } from '../../actions/notify';
 
@@ -65,9 +65,7 @@ const BlogSidebarComponent = (props: Props) =>  {
     <div className="blog">
       {renderNav()}
       <div className="blog__main">
-        <div className="blog__content">
-          {props.children}
-        </div>
+        {props.children}
       </div>
     </div>
   );
