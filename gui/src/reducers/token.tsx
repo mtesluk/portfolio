@@ -8,7 +8,8 @@ interface Action {
 const token = (state: string = initialState, action: Action) => {
   switch (action.type) {
     case 'SET_TOKEN' :
-      state = action.value
+      localStorage.setItem('token', action.value ? action.value : '');
+      state = action.value;
     break;
   }
   return state;

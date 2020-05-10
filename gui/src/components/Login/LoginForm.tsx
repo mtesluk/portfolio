@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { Facebook } from './Facebook';
 
@@ -6,7 +6,7 @@ import './LoginForm.scss';
 
 import { notifySuccess, notifyError } from '../../actions/notify';
 import { setToken } from '../../actions/token';
-import { User } from '../../shared/interfaces/user';
+import { User, RegisterFormType } from '../../shared/interfaces/user';
 import { setUserData } from '../../actions/user';
 import { config  } from "../../config";
 import HttpService from '../../shared/services/HttpService'
@@ -19,7 +19,7 @@ interface Props {
   createAccount: () => void;
   notifySuccess: (msg: string) => void;
   notifyError: (msg: string) => void;
-  setRegister: (type: string) => void;
+  setRegistration: (type: number) => void;
 }
 
 interface State {
@@ -32,35 +32,32 @@ interface Credentials {
 
 export const LoginFormComponent = (props: Props) => {
   const _httpService: HttpService = new HttpService();
-  const [credentials, setCredentials] = useState<Credentials>({username: '', password: ''})
-
-  const setAuth = (token: string) => {
-    props.setToken(token);
-  }
-
-  const handleAuthFacebook = (fb_id: string, token: string) => {
-    props.setUserData({profile: {facebook_id: fb_id}});
-    const url = config.endpoints.auth.exists_fb;
-    _httpService.get(`${url}?fb_id=${fb_id}`).then(response => {
-      const exists = response.exists;
-      exists ? props.handleClose() : props.setRegister('partial');
-    }).catch(err => {
-      notifyError(err.response)
-      console.log(err.response)
-    })
-    setAuth(token);
-  };
+  const [credentials, setCredentials] = useState<Credentials>({username: '', password: ''});
+  const [validationError, setValidationError] = useState<{valid: boolean, msg: string}>({valid: true, msg: "Username and password must be filled"});
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const url = config.endpoints.auth.login;
-    _httpService.post(url, credentials).then(response => {
-      props.setToken(response.token);
-      props.handleClose();
-      props.notifySuccess('Now you are logged in');
-    }).catch(err => {
-      props.notifyError(err.response.data.non_field_errors);
+    if (credentials.username && credentials.password) {
+      const url = config.endpoints.auth.login;
+      _httpService.post(url, credentials).then(response => {
+        props.setToken(response.token);
+        props.handleClose();
+        props.notifySuccess('Now you are logged in!');
+      }).catch(err => {});
+    } else {
+      setNonValid();
+    }
+  }
+
+  const setNonValid = () => {
+    setValidationError({
+      ...validationError,
+      valid: false,
     });
+    setTimeout(() => setValidationError({
+      ...validationError,
+      valid: true,
+    }), 4000)
   }
 
   const onUsernameChange = (event: any) => {
@@ -79,7 +76,7 @@ export const LoginFormComponent = (props: Props) => {
 
   return (
     <div className="login">
-      <Facebook onAuthenticated={handleAuthFacebook} fbCssClass="login__fb-btn" />
+      <Facebook fbCssClass="login__fb-btn" handleClose={props.handleClose} setRegistration={props.setRegistration}/>
       <form className="login__form" onSubmit={(e) => handleSubmit(e)}>
         <div className="form-field">
           <input placeholder="Username" className="login__username" onChange={(e) => onUsernameChange(e)}></input>
@@ -87,8 +84,11 @@ export const LoginFormComponent = (props: Props) => {
         <div className="form-field">
           <input type="password" placeholder="Password" className="login__password" onChange={(e) => onPasswordChange(e)}></input>
         </div>
+        <div className="login__error">
+          {validationError.valid ? "" : validationError.msg}
+        </div>
         <div className="login__actions">
-          <button className="login__signup-btn" type="button" onClick={(e) => props.setRegister('full')}>Sign up</button>
+          <button className="login__signup-btn" type="button" onClick={(e) => props.setRegistration(RegisterFormType.FULL)}>Sign up</button>
           <button className="login__signin-btn" type="submit">Login</button>
         </div>
       </form>

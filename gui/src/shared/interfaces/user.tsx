@@ -11,3 +11,9 @@ export interface User {
     last_name?: string;
     profile?: Profile;
 }
+
+export enum RegisterFormType {
+    NONE,
+    FRAGMENTARY,
+    FULL,
+}

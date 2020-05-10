@@ -28,6 +28,12 @@
 
     }
 
+    &__error {
+        color: red;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
     &__fb-btn {
         background-color: #29487d;
         color: white;

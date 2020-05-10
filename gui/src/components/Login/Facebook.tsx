@@ -1,6 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import FacebookLogin from 'react-facebook-login';
+import { config } from '../../config';
+import { setToken } from '../../actions/token';
+import { User, RegisterFormType } from '../../shared/interfaces/user';
+import { setUserData } from '../../actions/user';
+import HttpService from '../../shared/services/HttpService';
 
 
 interface FacebookDataPicture {
@@ -28,14 +34,29 @@ interface FacebookResponse {
 }
 
 interface Props {
-  onAuthenticated: (fb_id: string, token: string) => void;
+  setToken: (token: string) => void;
+  handleClose: () => void;
+  setRegistration: (type: number) => void;
+  setUserData: (data: User) => void;
   fbCssClass: string;
 }
 
-export const Facebook = (props: Props) => {
+export const FacebookComponent = (props: Props) => {
+  const _httpService: HttpService = new HttpService();
 
-  const responseFacebook = (response: FacebookResponse) => {
-    props.onAuthenticated(response.userID, response.accessToken);
+  const responseFacebook = (responseFb: FacebookResponse) => {
+    const url = config.endpoints.auth.exists_fb;
+    _httpService.get(`${url}?fb_id=${responseFb.userID}`).then(response => {
+      const exists = response.exists;
+      console.log(exists)
+      if (exists) {
+        console.log(1111111111111)
+        props.setToken(responseFb.accessToken);
+        props.handleClose();
+      } else {
+        props.setRegistration(RegisterFormType.FRAGMENTARY);
+      }
+    }).catch(err => {});
   }
 
   const componentClicked = () => {
@@ -54,3 +75,12 @@ export const Facebook = (props: Props) => {
       <div>{facebookData}</ div>
   )
 };
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setToken: (token: string) => dispatch(setToken(token)),
+    setUserData: (data: User) => dispatch(setUserData(data)),
+  };
+};
+
+export const Facebook = connect(null, mapDispatchToProps)(FacebookComponent);

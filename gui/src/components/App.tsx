@@ -15,6 +15,7 @@ import { NotFound } from './Common/NotFound';
 import { LoginDialog } from './Login/LoginDialog';
 import { notifyError } from '../actions/notify';
 import Interceptor from '../shared/interceptors/interceptor';
+import { setToken } from '../actions/token';
 
 
 interface State {
@@ -24,6 +25,7 @@ interface State {
 interface Props {
   notify: Notification;
   notifyError: (msg: string) => void;
+  setToken: (token: string) => void;
 }
 
 class App extends React.Component <Props, State> {
@@ -40,6 +42,7 @@ class App extends React.Component <Props, State> {
   constructor(props: Props) {
     super(props);
     this._interceptor.initInterceptors(props.notifyError);
+    props.setToken(localStorage.getItem('token') || '');
   }
 
   componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
@@ -86,6 +89,7 @@ const mapStateToProps = (state: State) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     notifyError: (msg: string) => dispatch(notifyError(msg)),
+    setToken: (token: string) => dispatch(setToken(token)),
   };
 };
 

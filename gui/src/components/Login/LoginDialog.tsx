@@ -7,7 +7,7 @@ import { setOpenLoginDialog } from '../../actions/login-dialog';
 import { setToken } from '../../actions/token';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
-import { User } from '../../shared/interfaces/user';
+import { User, RegisterFormType } from '../../shared/interfaces/user';
 import { Dialog } from '../../shared/components/Dialog';
 
 
@@ -26,23 +26,28 @@ interface State {
 }
 
 const LoginComponent = (props: Props) => {
-  const [isRegister, setRegister] = useState<null | 'partial' | 'full'>(null);
+  const [isRegistration, setRegistration] = useState<number>(RegisterFormType.NONE);
 
   const handleClose = () => {
-    localStorage['token'] = props.token;
-    // axios.get('api/v1/users/me/').then(resposne => {
-    //   console.log(resposne)
-    // }).catch(error => {
-    //   console.log(error)
-    // })
-    setRegister(null);
-    console.log(1111111111)
+    setRegistration(RegisterFormType.NONE);
     props.setOpenLoginDialog(false);
   };
 
+  const renderRegisterForm = () => {
+    return (
+      <RegisterForm setRegistration={setRegistration} registerType={isRegistration}></RegisterForm>
+    )
+  }
+
+  const renderLoginForm = () => {
+    return (
+      <LoginForm handleClose={handleClose} setRegistration={setRegistration}></LoginForm>
+    )
+  }
+
   return (
-    <Dialog onClose={() => handleClose()} open={props.isOpenLoginDialog} title={isRegister ? 'Sign up' : 'Login'}>
-      {isRegister ? <RegisterForm setRegister={setRegister} registerType={isRegister}></RegisterForm> : <LoginForm handleClose={handleClose} setRegister={setRegister}></LoginForm>}
+    <Dialog onClose={() => handleClose()} open={props.isOpenLoginDialog} title={isRegistration ? 'Sign up' : 'Login'}>
+      {isRegistration ? renderRegisterForm() : renderLoginForm()}
     </Dialog>
   );
 };

@@ -2,9 +2,8 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 
 
 class ErrorResponseInterceptor {
-  messages = {
+  staticMessages = {
     504: 'Problem with server connection',
-    500: 'Error occured on server side',
     0: 'Unrecognized error',
   }
 
@@ -13,7 +12,14 @@ class ErrorResponseInterceptor {
       return config;
     }, (error: AxiosError) => {
       const status = error.response?.status || 0;
-      notifyError(this.messages[status]);
+      let msg = this.staticMessages[status];
+      const data = error.response?.data;
+      console.log(data)
+      msg = msg || data.message || data.non_field_errors[0];
+      if (msg) {
+        notifyError(msg);
+        throw new Error(msg);
+      }
     })
   }
 }

@@ -3,6 +3,5 @@ export function setToken(value: string) {
 }
 
 export function resetToken() {
-  localStorage['token'] = '';
   return {type: 'SET_TOKEN', value: ''};
 }

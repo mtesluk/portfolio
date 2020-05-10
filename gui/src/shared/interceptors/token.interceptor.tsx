@@ -4,7 +4,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 class TokenInterceptor {
   initInterceptor() {
     axios.interceptors.request.use((config: AxiosRequestConfig) => {
-      const token = localStorage['token'];
+      const token = localStorage.getItem('token');
       let headers = {...config.headers};
       if (token) {
         headers = {
