@@ -39,7 +39,7 @@ interface State {
 
 
 class SelectCardList extends React.Component<Props, State> {
-  _httpService: HttpService = new HttpService();
+  private _httpService: HttpService = new HttpService();
   state = {
     subjects: [],
     selectedEntity: [],

@@ -13,6 +13,8 @@ import { Photos } from './Photos/Photos';
 import { Movies } from './Movies/Movies';
 import { NotFound } from './Common/NotFound';
 import { LoginDialog } from './Login/LoginDialog';
+import { notifyError } from '../actions/notify';
+import Interceptor from '../shared/interceptors/interceptor';
 
 
 interface State {
@@ -21,10 +23,24 @@ interface State {
 
 interface Props {
   notify: Notification;
+  notifyError: (msg: string) => void;
 }
 
 class App extends React.Component <Props, State> {
-  notificationSystem = React.createRef();
+  private _interceptor: Interceptor = new Interceptor();
+  private _notificationSystem = React.createRef();
+  private _notificationStyle = {
+    NotificationItem: {
+      DefaultStyle: {
+        fontSize: '2rem',
+      },
+    }
+  }
+
+  constructor(props: Props) {
+    super(props);
+    this._interceptor.initInterceptors(props.notifyError);
+  }
 
   componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
     const notification = this.props.notify;
@@ -34,7 +50,7 @@ class App extends React.Component <Props, State> {
   }
 
   addNotification = (msg: string, level: string) => {
-    const notification: any = this.notificationSystem.current;
+    const notification: any = this._notificationSystem.current;
     notification.addNotification({
       message: msg,
       level: level
@@ -54,7 +70,7 @@ class App extends React.Component <Props, State> {
             <Route path="*" component={NotFound} />
           </Switch>
         </Router>
-        <NotificationSystem ref={this.notificationSystem} />
+        <NotificationSystem ref={this._notificationSystem} style={this._notificationStyle}/>
         <LoginDialog />
       </div>
     );
@@ -67,4 +83,10 @@ const mapStateToProps = (state: State) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    notifyError: (msg: string) => dispatch(notifyError(msg)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
