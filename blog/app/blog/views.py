@@ -14,6 +14,7 @@ blueprint = Blueprint('blog', __name__)
 
 class BlogFilter(Filter):
     user_id = Equal
+    country = Equal
 
 
 class BlogViewSet(views.MethodView):

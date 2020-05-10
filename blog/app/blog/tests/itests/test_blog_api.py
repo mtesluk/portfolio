@@ -54,6 +54,21 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(len(data), 1)
         self.assertEqual(data[0]['content'], blog_2.content)
 
+    def test_get_blogs_with_filters_country(self):
+        blog_1 = Blog(user_id=0, content='123', title="title", country='Poland')
+        blog_2 = Blog(user_id=1, content='456', title="title", country='Poland')
+        blog_3 = Blog(user_id=1, content='456', title="title", country='Germany')
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
+
+        params = {'country': 'Poland'}
+        response = self.client.get('/api/v1/blogs/', query_string=params)
+        data = response.json
+        status = response.status_code
+
+        self.assertEqual(status, 200)
+        self.assertEqual(len(data), 2)
+
     def test_get_blogs_with_wrong_filters(self):
         blog_1 = Blog(user_id=0, content='123', title="title")
         blog_2 = Blog(user_id=1, content='456', title="title")
