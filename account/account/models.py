@@ -19,7 +19,7 @@ class Profile(models.Model):
 
 
 class WebToken(models.Model):
-    key = models.TextField(_("Key"), max_length=240, primary_key=True)
+    key = models.TextField(_("Key"), max_length=240)
     user = models.OneToOneField(
         User, related_name='auth_token',
         on_delete=models.CASCADE, verbose_name=_("User")

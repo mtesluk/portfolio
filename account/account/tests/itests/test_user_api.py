@@ -48,6 +48,14 @@ class UserApiTestCase(APITestCase):
         user = User.objects.get(username='user_123')
         self.assertTrue(user)
 
+    def test_create_new_user_with_no_password(self):
+        data = {'username': 'user_123', 'profile': {'facebook_id': '2747371888677359'}}
+        response = self.client.post('/api/v1/users/', data)
+
+        self.assertEqual(response.status_code, 201)
+        user = User.objects.get(username='user_123')
+        self.assertTrue(user)
+
     def test_create_new_user_fail(self):
         data = {'username': self.user.username, 'password': '123'}
         response = self.client.post('/api/v1/users/', data)

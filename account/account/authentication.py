@@ -20,8 +20,7 @@ class CustomTokenAuthentication(TokenAuthentication):
 
             return (token.user, token)
         else:
-            fb_access_token = settings.FACEBOOK_DEV_ACCESS_TOKEN
-            is_valid, data = FacebookService.debug_token(fb_access_token, key)
+            is_valid, data = FacebookService.debug_token(key)
             if is_valid:
                 user_token = model.objects.select_related('user').filter(user__profile__facebook_id=data['user_id']).first()
                 if user_token:

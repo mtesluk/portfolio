@@ -45,7 +45,7 @@ class UserViewSet(viewsets.ViewSet):
         try:
             data = service.create_user(request.data)
         except IntegrityError:
-            return response.Response({'error': 'Object already exists'}, 500)
+            return response.Response({'message': 'User with provided data already exists'}, 500)
         return response.Response(data, 201)
 
 

@@ -12,10 +12,7 @@ class UserService:
 
     def create_user(self, user_data):
         profile_data = user_data.pop('profile', None)
-        password = user_data.pop('password', None)
-
-        if not password:
-            raise ValidationError('Password is needed')
+        password = user_data.pop('password', '')
 
         user = User.objects.create(**user_data)
         user.set_password(password)

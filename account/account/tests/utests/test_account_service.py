@@ -21,11 +21,14 @@ class UserServiceTestCase(TestCase):
         self.assertEqual(user.username, 'test_user_1')
         self.assertFalse(user.is_superuser)
 
-    def test_create_user_wrong_data(self):
-        data = {'user_name': 'test_name'}
-        service = UserService()
-        self.assertRaises(ValidationError, service.create_user, data)
+    def test_create_user_without_password(self):
+        data = {'username': 'test_user_1', 'profile': {'facebook_id': '2747371888677359'}}
+        user = UserService().create_user(data)
+        user = User.objects.get(username='test_user_1')
+        self.assertEqual(user.username, 'test_user_1')
+        self.assertFalse(user.is_superuser)
 
+    def test_create_user_wrong_data(self):
         data = {'user_name': 'test_name_2', 'password': '123', 'profile': {}}
         service = UserService()
         self.assertRaises(TypeError, service.create_user, data)
