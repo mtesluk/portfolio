@@ -13,6 +13,7 @@ import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
 import { config  } from '../../../config';
 import HttpService from '../../../shared/services/HttpService'
 import { Blog } from '../../../shared/interfaces/blog';
+import { SelectWidget } from 'widgets';
 
 
 interface Props {
@@ -90,11 +91,10 @@ class SelectCardList extends React.Component<Props, State> {
     });
   }
 
-  handleSubjectSelectChange(event) {
+  handleSubjectSelectChange(id: number) {
     this.setState({
       loading: true,
     });
-    const id: number = Number(event.target.value);
     const subject: Subject = this.state.subjects.find((subject: Subject) => id === subject.id) || {id};
     this.getBlogs(subject);
   }
@@ -133,10 +133,7 @@ class SelectCardList extends React.Component<Props, State> {
       <Card className="blog-card-list__card">
         <CardContent>
           {this.state.loading && <LinearProgress />}
-          <select className="blog-card-list__select-subject" onChange={(e) => this.handleSubjectSelectChange(e)} value="-1">
-            <option value="-1" disabled>Pick</option>
-            {this.state.subjects.map((subject: Subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}
-          </select>
+          <SelectWidget data={this.state.subjects} onChange={(id: number) => this.handleSubjectSelectChange(id)}/>
           <div className="blog-card-list__subjects-list">
             {this.state.selectedEntity.map((entity: Entity, index: number) => {
               return (

@@ -8,7 +8,7 @@ import { notifySuccess } from '../../actions/notify';
 import { User, Profile, RegisterFormType } from '../../shared/interfaces/user';
 import { config  } from "../../config";
 import HttpService from '../../shared/services/HttpService'
-
+import { InputWidget, ErrorWidget } from 'widgets';
 
 interface Props {
   user: User;
@@ -61,26 +61,18 @@ export const RegisterFormComponent = (props: Props) => {
     return (
       <div className="register-form__additional-fields">
         <div className="form-field">
-          <input className="register-form__password" type="password" placeholder="Password" name="password" ref={register({required: true})} />
+          <InputWidget type="password" placeholder="Password" name="password" refe={register({required: true})}/>
         </div>
-        <div className="register-form__error">
-          {errors.password ? "Password is required!" : ""}
-        </div>
+        <ErrorWidget text={errors.password ? "Password is required!" : ""}/>
         <div className="form-field">
-          <input className="register-form__password" type="password" placeholder="Password Confirmation" name="passwordConfirmation" ref={register({required: true})} />
+          <InputWidget type="password" placeholder="Password Confirmation" name="passwordConfirmation" refe={register({required: true})}/>
         </div>
-        <div className="register-form__error">
-          {errors.passwordConfirmation ? "Password confirmation is required!" : ""}
-        </div>
-        <div className="register-form__error">
-          {validationError.valid ? "" : validationError.msg}
-        </div>
+        <ErrorWidget text={errors.passwordConfirmation ? "Password confirmation is required!" : ""}/>
+        <ErrorWidget text={validationError.valid ? "" : validationError.msg}/>
         <div className="form-field">
-          <input className="register-form__email" type="email" placeholder="Email" name="email" ref={register({required: true})} />
+          <InputWidget type="email" placeholder="Email" name="email" refe={register({required: true})}/>
         </div>
-        <div className="register-form__error">
-          {errors.email ? "Email is required!" : ""}
-        </div>
+        <ErrorWidget text={errors.email ? "Email is required!" : ""}/>
       </div>
     )
   }
@@ -89,11 +81,9 @@ export const RegisterFormComponent = (props: Props) => {
     return (
       <div className="register-form__basic-fields">
         <div className="form-field">
-          <input className="register-form__username" placeholder="Username" name="username" ref={register({required: true})} />
+          <InputWidget placeholder="Username" name="username" refe={register({required: true})}/>
         </div>
-        <div className="register-form__error">
-          {errors.username ? "Username is required!" : ""}
-        </div>
+        <ErrorWidget text={errors.username ? "Username is required!" : ""}/>
       </div>
     )
   }

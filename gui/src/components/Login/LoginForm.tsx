@@ -10,6 +10,7 @@ import { User, RegisterFormType } from '../../shared/interfaces/user';
 import { setUserData } from '../../actions/user';
 import { config  } from "../../config";
 import HttpService from '../../shared/services/HttpService'
+import { InputWidget, ErrorWidget } from 'widgets';
 
 
 interface Props {
@@ -60,17 +61,17 @@ export const LoginFormComponent = (props: Props) => {
     }), 4000)
   }
 
-  const onUsernameChange = (event: any) => {
+  const onUsernameChange = (value: string) => {
     setCredentials({
       ...credentials,
-      username: event.target.value
+      username: value
     });
   }
 
-  const onPasswordChange = (event: any) => {
+  const onPasswordChange = (value: string) => {
     setCredentials({
       ...credentials,
-      password: event.target.value
+      password: value
     });
   }
 
@@ -79,14 +80,12 @@ export const LoginFormComponent = (props: Props) => {
       <Facebook fbCssClass="login__fb-btn" handleClose={props.handleClose} setRegistration={props.setRegistration}/>
       <form className="login__form" onSubmit={(e) => handleSubmit(e)}>
         <div className="form-field">
-          <input placeholder="Username" className="login__username" onChange={(e) => onUsernameChange(e)}></input>
+          <InputWidget placeholder="Username" onChange={(value: string) => onUsernameChange(value)}/>
         </div>
         <div className="form-field">
-          <input type="password" placeholder="Password" className="login__password" onChange={(e) => onPasswordChange(e)}></input>
+          <InputWidget type="password" placeholder="Password" onChange={(value: string) => onPasswordChange(value)}/>
         </div>
-        <div className="login__error">
-          {validationError.valid ? "" : validationError.msg}
-        </div>
+        <ErrorWidget text={validationError.valid ? "" : validationError.msg}/>
         <div className="login__actions">
           <button className="login__signup-btn" type="button" onClick={(e) => props.setRegistration(RegisterFormType.FULL)}>Sign up</button>
           <button className="login__signin-btn" type="submit">Login</button>

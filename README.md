@@ -3,7 +3,7 @@
 My project to learn react and microservices on backend. It is still in progress.
 
 
-##BLOG
+##BLOG BACKEND
 Python 3.8.3
 
 #Requirements
@@ -23,7 +23,7 @@ To add new migraton exec 'flask db migrate -m "Initial migration."'
 To upgrade db with migrations exec 'flask db upgrade'
 
 
-##ACCOUNT
+##ACCOUNT BACKEND TO AUTH
 Python 3.8.3
 
 #Requirements
@@ -37,7 +37,11 @@ To run test exec 'python manage.py test'
 
 
 ##GUI
-React with Typescript
+App built in React with Typescript
 
 #Server
 To run server exec 'npm run start'
+
+
+##WIDGET
+Lib built in React with Typescipt

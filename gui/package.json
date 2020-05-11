@@ -29,7 +29,8 @@
     "react-scripts": "3.3.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "widgets": "file:../widgets/"
   },
   "scripts": {
     "start": "react-scripts start",
