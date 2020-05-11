@@ -1,7 +1,7 @@
 from flask import Flask
 
 from app.config import ProductionConfig
-from app.extensions import db, ma, migrate
+from app.extensions import db, ma, migrate, cache
 from app.blog import views as blog_views
 from app.blog import models
 from app.errors import errors
@@ -16,5 +16,6 @@ def create_app(config):
     db.init_app(app)
     ma.init_app(app)
     migrate.init_app(app, db)
+    cache.init_app(app)
 
     return app

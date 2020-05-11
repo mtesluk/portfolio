@@ -112,7 +112,13 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(status, 400)
         self.assertTrue(data['message'])
 
-    def test_post_blog(self):
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_post_blog_with_correct_token(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 200
+
         payload = {'content': '123', 'country': 'Poland', 'user_id': 1, 'title': 'title'}
         response = self.client.post('/api/v1/blogs/', json=payload)
         data = response.json
@@ -125,7 +131,39 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data['country'], payload['country'])
         self.assertEqual(data['title'], payload['title'])
 
-    def test_post_blog_with_wrong_data(self):
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=True)
+    def test_post_blog_without_token(self, patch_1, patch_2):
+        patch_2.headers.get.return_value = None
+
+        payload = {'content': '123', 'country': 'Poland', 'user_id': 1, 'title': 'title'}
+        response = self.client.post('/api/v1/blogs/', json=payload)
+        data = response.json
+        status = response.status_code
+
+        self.assertEqual(status, 401)
+
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_post_blog_with_wrong_token(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 401
+
+        payload = {'content': '123', 'country': 'Poland', 'user_id': 1, 'title': 'title'}
+        response = self.client.post('/api/v1/blogs/', json=payload)
+        data = response.json
+        status = response.status_code
+
+        self.assertEqual(status, 401)
+
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_post_blog_with_wrong_data(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 200
+
         payload = {'content': '123', 'countryya': 'Poland', 'user_id': 1, 'title': 'title'}
         response = self.client.post('/api/v1/blogs/', json=payload)
         data = response.json
@@ -134,7 +172,13 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(status, 400)
         self.assertTrue(data['message'])
 
-    def test_post_blog_with_no_data(self):
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_post_blog_with_no_data(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 200
+
         payload = {}
         response = self.client.post('/api/v1/blogs/', json=payload)
         data = response.json
@@ -143,7 +187,13 @@ class BlogApiTestCase(TestCase):
         self.assertTrue(data['message'])
         self.assertEqual(status, 400)
 
-    def test_put_blog(self):
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_put_blog(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 200
+
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
         self.session.commit()
@@ -159,7 +209,13 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(updated_blog['title'], payload['title'])
         self.assertEqual(blog.title, payload['title'])
 
-    def test_put_blog_with_wrong_data(self):
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_put_blog_with_wrong_data(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 200
+
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
         self.session.commit()
@@ -173,7 +229,13 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(updated_blog['content'], blog.content)
         self.assertEqual(updated_blog['cooperators'], payload['cooperators'])
 
-    def test_remove_blog(self):
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_remove_blog(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 200
+
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
         self.session.commit()
