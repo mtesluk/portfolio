@@ -89,7 +89,17 @@ var HttpService = /*#__PURE__*/function () {
 var InlineStyles$1 = {
   select: {
     width: '100%',
-    fontSize: '2rem'
+    fontSize: '2rem',
+    border: '0',
+    borderBottom: '1px black solid',
+    backgroundColor: 'transparent',
+    borderRadiusTop: '5px',
+    outline: 'none',
+    fontFamily: 'serif',
+    paddingLeft: '3px',
+    '&:hover': {
+      backgroundColor: 'black'
+    }
   }
 };
 

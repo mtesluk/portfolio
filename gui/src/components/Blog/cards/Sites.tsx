@@ -10,16 +10,28 @@ interface State {
 }
 
 interface Props {
-
+  location: any;
 };
 
-const Sites = (props: Props) => {
-  const endpoint: string = config.endpoints.blog.countries;
-  const filters = {country: null};
+class Sites extends React.Component<Props, State> {
+  endpoint: string = config.endpoints.blog.countries;
+  filters = {country: null};
+  state = {
+    sites: []
+  }
 
-  return (
-    <SelectCardList endpoint={endpoint} filters={filters}></SelectCardList>
-  );
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      sites: this.props.location.state?.countries || null,
+    }
+  }
+
+  render() {
+    return (
+      <SelectCardList endpoint={this.endpoint} filters={this.filters}  initData={this.state.sites}></SelectCardList>
+    );
+  }
 };
 
 export default connect()(Sites);

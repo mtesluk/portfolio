@@ -20,6 +20,7 @@ interface Props {
     endpoint: string;
     filters: {[filterName: string]: string | null};
     selector?: string;
+    initData?: any[];
 };
 
 interface Subject {
@@ -51,22 +52,31 @@ class SelectCardList extends React.Component<Props, State> {
     this.setState({
       loading: true,
     });
-    this.getSubjects();
+    const initData = this.props.initData;
+    if (initData) {
+      const subjects: Subject[] = this.mapSubjects(initData, this.props.selector)
+      subjects.forEach((subject: Subject) => this.getBlogs(subject));
+    }
+    this.getSubjects()
   }
 
   getSubjects() {
     const url = this.props.endpoint;
     const selector = this.props.selector;
     this._httpService.get(url).then(response => {
-      const subjects: Subject[] = response.map(
-        (subject: Subject | string, index: number) => ({id: (subject as Subject).id || index, name: selector ? subject[selector] : subject})
-      );
+      const subjects: Subject[] = this.mapSubjects(response, selector)
       this.setState({
         subjects: subjects,
         loading: false,
       });
     }).catch(error => {
     })
+  }
+
+  mapSubjects(subjects: any, selector: string | undefined) {
+    return subjects.map(
+      (subject: Subject | string, index: number) => ({id: (subject as Subject).id || index, name: selector ? subject[selector] : subject})
+    );
   }
 
   getBlogs(subject: Subject) {
@@ -83,6 +93,7 @@ class SelectCardList extends React.Component<Props, State> {
         this.setState({
           selectedEntity,
         });
+        console.log(this.state)
       }).catch(error => {
       })
     }

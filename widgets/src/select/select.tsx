@@ -7,6 +7,16 @@ const InlineStyles = {
   select: {
     width: '100%',
     fontSize: '2rem',
+    border: '0',
+    borderBottom: '1px black solid',
+    backgroundColor: 'transparent',
+    borderRadiusTop: '5px',
+    outline: 'none',
+    fontFamily: 'serif',
+    paddingLeft: '3px',
+    '&:hover': {
+      backgroundColor: 'black',
+    }
   }
 };
 

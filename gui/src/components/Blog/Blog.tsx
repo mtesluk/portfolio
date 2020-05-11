@@ -9,7 +9,7 @@ import AddForm  from './add/Add';
 import Sites from './cards/Sites';
 import Entry from './detail/Entry';
 import Authors from './cards/Authors';
-import { Dashboard } from './Dashboard';
+import Dashboard from './Dashboard';
 import { BlogSidebar } from './Sidebar';
 
 

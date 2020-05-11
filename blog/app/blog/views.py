@@ -26,9 +26,11 @@ class BlogViewSet(views.MethodView):
 
     def _list(self):
         params = request.args
+        ordering = params.get('ordering', None)
+        limit = params.get('limit', None)
         filters = BlogFilter(params).to_dict()
         service = BlogService()
-        blogs = service.get_blogs(filters)
+        blogs = service.get_blogs(filters, ordering, limit)
         return jsonify(blogs)
 
     def _retrieve(self, id):
@@ -37,6 +39,7 @@ class BlogViewSet(views.MethodView):
         if not blog:
             error_msg = 'Blog with provided id was not found'
             raise BadRequest(error_msg)
+        service.increase_blog_view(id)
         return jsonify(blog)
 
     @AccountService.is_allowed

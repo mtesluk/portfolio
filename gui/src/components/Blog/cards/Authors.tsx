@@ -4,25 +4,38 @@ import './Authors.scss';
 
 import { config  } from '../../../config';
 import SelectCardList from '../common/SelectCardList';
+import { User } from '../../../shared/interfaces/user';
 
 
 interface Props {
-
+  location: any;
 };
 
 interface State {
-
+  authors: User[];
 }
 
 
-const  Authors = (props: Props) => {
-  const endpoint: string = config.endpoints.blog.authors;
-  const filters = {user_id: 'id'};
-  const selector: string = 'username';
+class Authors extends React.Component<Props, State> {
+  endpoint: string = config.endpoints.blog.authors;
+  filters = {user_id: 'id'};
+  selector: string = 'username';
+  state = {
+    authors: []
+  }
 
-  return (
-    <SelectCardList endpoint={endpoint} selector={selector} filters={filters}></SelectCardList>
-  );
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      authors: this.props.location.state?.authors || null,
+    }
+  }
+
+  render() {
+    return (
+      <SelectCardList endpoint={this.endpoint} selector={this.selector} filters={this.filters} initData={this.state.authors}></SelectCardList>
+    );
+  }
 };
 
 export default Authors;

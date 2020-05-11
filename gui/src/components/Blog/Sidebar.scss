@@ -3,6 +3,8 @@ $border-color: rgb(109, 106, 106);
 .blog {
     display: flex;
     height: 100vh;
+    // background-color: rgb(235, 240, 231);
+    background: radial-gradient(rgb(235, 240, 231), rgb(132, 157, 158));
 
     &__sidebar {
         position: sticky;
@@ -12,7 +14,7 @@ $border-color: rgb(109, 106, 106);
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        background-color: rgb(255, 255, 255);
+        background-color: rgb(235, 240, 231);
         color: rgb(73, 70, 70);
         font-size: 2.5rem;
         border-right: 1px $border-color solid;

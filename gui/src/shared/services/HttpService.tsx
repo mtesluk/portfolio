@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 
-interface Filters {
+interface Params {
   [name: string]: string | number;
 }
 
 
 class HttpService {
-  get(url: string, filters: Filters = {}): Promise<any> {
-    return axios.get(url, {params: filters}).then(response => response.data);
+  get(url: string, params: Params = {}): Promise<any> {
+    return axios.get(url, {params: params}).then(response => response.data);
   }
 
   post(url: string, data: {}): Promise<any> {

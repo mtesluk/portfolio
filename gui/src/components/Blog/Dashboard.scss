@@ -1,0 +1,14 @@
+.blog-dashboard {
+    width: 90%;
+    margin: auto;
+
+    &__table {
+        width: 30%;
+        margin-bottom: 3rem;
+    }
+
+    &__header-action {
+        display: flex;
+        justify-content: space-between;
+    }
+}

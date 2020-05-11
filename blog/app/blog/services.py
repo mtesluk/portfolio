@@ -21,9 +21,10 @@ class BlogService:
         blog_data = serializer.dump(blog)
         return blog_data
 
-    def get_blogs(self, filters: dict = None, ordering: str = None):
+    def get_blogs(self, filters: dict = None, ordering: str = None, size = None):
         filters = filters if filters else {}
         queryset = self._filter_order_query(Blog.query, filters, ordering)
+        queryset = queryset.limit(int(size)) if size else queryset
         serializer = BlogSerializer(many=True)
         blogs = serializer.dump(queryset)
         return blogs
