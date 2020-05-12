@@ -73,9 +73,10 @@ class BlogService:
 
     def increase_blog_view(self, id: int, num: int = 1):
         blog = Blog.query.get(id)
-        num = num if isinstance(num, int) else int(num)
-        data = {'views': blog.views + num}
-        self.update_blog(blog.id, data)
+        if blog:
+            num = num if isinstance(num, int) else int(num)
+            data = {'views': blog.views + num}
+            self.update_blog(blog.id, data)
 
     def _filter_order_query(self, queryset, filters: dict, ordering: str):
         for key, options in filters.items():
