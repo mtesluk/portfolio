@@ -53,15 +53,21 @@ class BlogService:
             db.session.delete(blog)
             db.session.commit()
 
-    def get_authors(self):
-        authors_id = [user_id for user_id, in db.session.query(Blog.user_id).distinct()]
+    def get_authors(self, filters: dict = None, ordering: str = None, limit: str = None):
+        queryset = db.session.query(Blog.user_id).distinct()
+        queryset = self._filter_order_query(queryset, filters if filters else {}, ordering)
+        queryset = queryset.limit(limit) if limit else queryset
+
+        authors_id = [user_id for user_id, in queryset]
         user_service = AccountService()
         authors = user_service.get_users(authors_id)
         return authors
 
-    def get_countries(self):
-        countries = db.session.query(Blog.country).distinct()
-        countries = [country for country, in countries if country]
+    def get_countries(self, filters: dict = None, ordering: str = None, limit: str = None):
+        queryset = db.session.query(Blog.country).distinct()
+        queryset = self._filter_order_query(queryset, filters if filters else {}, ordering)
+        queryset = queryset.limit(limit) if limit else queryset
+        countries = [country for country, in queryset if country]
         return countries
 
     def set_blog_verified(self, id: int):

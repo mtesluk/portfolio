@@ -303,27 +303,25 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data[1]['id'], 1)
         self.assertEqual(data[1]['username'], 'kdziubek')
 
-    # @patch('app.account.services.requests.get')
-    # def test_get_authors_ordered_by_blogs_views_and_limit(self, patch):
-    #     patch.return_value.json = lambda: [{'username': 'mtesluk', 'id': 0}, {'username': 'kdziubek', 'id': 1}]
-    #     blog_1 = Blog(user_id=0, content='123', title='title1', views=1)
-    #     blog_2 = Blog(user_id=1, content='456', title='title2', views=2)
-    #     blog_3 = Blog(user_id=2, content='456', title='title3', views=3)
-    #     blog_4 = Blog(user_id=3, content='456', title='title4', views=4)
-    #     self.session.add_all([blog_1, blog_2, blog_3, blog_4])
-    #     self.session.commit()
+    @patch('app.account.services.AccountService.get_users')
+    def test_get_authors_ordered_by_blogs_views_and_limit(self, patch):
+        patch.return_value = [{'username': 'mtesluk', 'id': 2}, {'username': 'kdziubek', 'id': 3}, {'username': 'kdziubek', 'id': 1}]
+        blog_1 = Blog(user_id=0, content='123', title='title1', views=1)
+        blog_2 = Blog(user_id=1, content='456', title='title2', views=2)
+        blog_3 = Blog(user_id=2, content='456', title='title3', views=4)
+        blog_4 = Blog(user_id=3, content='456', title='title4', views=3)
+        self.session.add_all([blog_1, blog_2, blog_3, blog_4])
+        self.session.commit()
 
-    #     params = {'limit': '3', 'ordering': '-views'}
-    #     response = self.client.get('/api/v1/blogs/authors/', query_string=params)
-    #     data = response.json
-    #     status = response.status_code
+        params = {'limit': '3', 'ordering': '-views'}
+        response = self.client.get('/api/v1/blogs/authors/', query_string=params)
+        data = response.json
+        status = response.status_code
 
-    #     self.assertEqual(status, 200)
-    #     self.assertEqual(len(data), 2)
-    #     self.assertEqual(data[0]['id'], 0)
-    #     self.assertEqual(data[0]['username'], 'mtesluk')
-    #     self.assertEqual(data[1]['id'], 1)
-    #     self.assertEqual(data[1]['username'], 'kdziubek')
+        self.assertEqual(status, 200)
+        self.assertEqual(len(data), 3)
+        self.assertEqual(data[0]['id'], blog_3.user_id)
+        patch.assert_called_with([2, 3, 1])
 
     def test_get_countries(self):
         blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
@@ -340,17 +338,19 @@ class BlogApiTestCase(TestCase):
         self.assertIn('Poland', data)
         self.assertIn('Germany', data)
 
-    # def test_get_countries_ordered_by_blogs_views_and_limit(self):
-    #     blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
-    #     blog_2 = Blog(user_id=0, content='456', country='Germany', title='title')
-    #     self.session.add_all([blog_1, blog_2])
-    #     self.session.commit()
+    def test_get_countries_ordered_by_blogs_views_and_limit(self):
+        blog_1 = Blog(user_id=0, content='123', country='Poland', title='title', views=1)
+        blog_2 = Blog(user_id=0, content='456', country='Germany', title='title', views=5)
+        blog_3 = Blog(user_id=0, content='456', country='Italy', title='title', views=2)
+        self.session.add_all([blog_1, blog_2, blog_3])
+        self.session.commit()
 
-    #     response = self.client.get('/api/v1/blogs/countries/')
-    #     data = response.json
-    #     status = response.status_code
+        params = {'limit': '2', 'ordering': '-views'}
+        response = self.client.get('/api/v1/blogs/countries/', query_string=params)
+        data = response.json
+        status = response.status_code
 
-    #     self.assertEqual(status, 200)
-    #     self.assertEqual(len(data), 2)
-    #     self.assertIn('Poland', data)
-    #     self.assertIn('Germany', data)
+        self.assertEqual(status, 200)
+        self.assertEqual(len(data), 2)
+        self.assertEqual('Germany', data[0])
+        self.assertEqual('Italy', data[1])

@@ -66,13 +66,21 @@ class BlogViewSet(views.MethodView):
         return jsonify(blog)
 
 def authors():
+    params = request.args
+    ordering = params.get('ordering', None)
+    limit = params.get('limit', None)
+
     service = BlogService()
-    authors = service.get_authors()
+    authors = service.get_authors(None, ordering, limit)
     return jsonify(authors)
 
 def countries():
+    params = request.args
+    ordering = params.get('ordering', None)
+    limit = params.get('limit', None)
+
     service = BlogService()
-    countries = service.get_countries()
+    countries = service.get_countries(None, ordering, limit)
     return jsonify(countries)
 
 view = BlogViewSet.as_view('blog_view')

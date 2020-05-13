@@ -5,7 +5,7 @@ from app.extensions import cache
 
 
 class AccountService:
-    def get_users(self, ids):
+    def get_users(self, ids, ordering = None):
         if ids:
             ids = [str(id) for id in ids if isinstance(id, int)]
             id_str = ','.join(ids)
@@ -13,6 +13,8 @@ class AccountService:
             base_url = current_app.config['AUTH_SERVER']
             url = f'{base_url}/api/v1/users/'
             params = {'ids': id_str}
+            if ordering:
+                params['ordering'] = ordering
             response = requests.get(url, params=params)
             data = response.json()
 
