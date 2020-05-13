@@ -104,3 +104,11 @@ class UserServiceTestCase(TestCase):
         users = UserService().get_users(filters, profile_filters)
         for user in users:
             self.assertIn(user['profile']['location'], 'England')
+
+        filters = {}
+        profile_filters = {}
+        ordering = '-id'
+        users = UserService().get_users(filters, profile_filters, ordering)
+        self.assertEqual(users[0]['id'], user_3.id)
+        self.assertEqual(users[1]['id'], user_2.id)
+        self.assertEqual(users[2]['id'], self.user.id)

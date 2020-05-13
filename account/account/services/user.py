@@ -66,11 +66,12 @@ class UserService:
         user_exist = Profile.objects.filter(facebook_id=fb_id).exists()
         return user_exist
 
-    def get_users(self, filters=None, profile_filters=None):
+    def get_users(self, filters=None, profile_filters=None, ordering=None):
         filters = self._format_model_filters(filters) if filters else {}
         profile_filters = self._format_model_filters(profile_filters, 'profile') if profile_filters else {}
-        user = User.objects.filter(**filters, **profile_filters)
-        serializer = UserSerializer(user, many=True)
+        queryset = User.objects.filter(**filters, **profile_filters)
+        queryset = queryset.order_by(ordering) if ordering else queryset
+        serializer = UserSerializer(queryset, many=True)
         return serializer.data
 
     def _format_model_filters(self, filters: dict, prefix: str = None):

@@ -14,11 +14,12 @@ class UserViewSet(viewsets.ViewSet):
     def list(self, request, *args, **kwargs):
         filters = {}
         filters_ids = request.GET.get('ids', None)
+        ordering = request.GET.get('ordering', None)
         if filters_ids:
             filters_ids = filters_ids.split(',')
             filters['id'] = {'type': 'in', 'value': filters_ids}
         service = UserService()
-        users = service.get_users(filters)
+        users = service.get_users(filters, None, ordering)
         return response.Response(users)
 
     @decorators.action(detail=False,  methods=['get'], permission_classes=[IsAuthenticated])

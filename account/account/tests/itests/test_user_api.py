@@ -62,7 +62,7 @@ class UserApiTestCase(APITestCase):
         data = response.json()
 
         self.assertEqual(response.status_code, 500)
-        self.assertEqual(data['error'], 'Object already exists')
+        self.assertEqual(data['message'], 'User with provided data already exists')
 
     def test_is_auth_fail(self):
         response = self.client.get('/api/v1/users/is_authenticated/')
@@ -78,11 +78,12 @@ class UserApiTestCase(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['is_auth'], True)
 
-    def test_get_users_filred_by_id(self):
+    def test_get_users_filred_by_id_with_ordering(self):
         user_2 = User.objects.create(username='test_user_2')
         user_3 = User.objects.create(username='test_user_3')
 
-        response = self.client.get('/api/v1/users/', {'ids': f'{self.user.id},{user_2.id}'})
+        params = {'ids': f'{self.user.id},{user_2.id}', 'ordering': '-id'}
+        response = self.client.get('/api/v1/users/', params)
         users = response.json()
 
         usernames = [user['username'] for user in users]
@@ -90,8 +91,8 @@ class UserApiTestCase(APITestCase):
         self.assertIn('test_user', usernames)
         self.assertIn('test_user_2', usernames)
         self.assertNotIn('test_user_3', usernames)
-        self.assertEqual(users[0]['id'], self.user.id)
-        self.assertEqual(users[1]['id'], user_2.id)
+        self.assertEqual(users[1]['id'], self.user.id)
+        self.assertEqual(users[0]['id'], user_2.id)
 
     def test_get_user(self):
         user_2 = User.objects.create(username='test_user_2')
