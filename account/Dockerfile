@@ -8,4 +8,3 @@ RUN apk add --no-cache gcc musl-dev linux-headers libpq python3-dev postgresql-d
 
 COPY . .
 RUN pip install -r requirements.txt
-CMD ["gunicorn", "project.wsgi"]

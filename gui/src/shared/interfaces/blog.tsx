@@ -7,4 +7,6 @@ export interface Blog {
     cooperators: string | null;
     views: number;
     photo_names: string | null;
+    add_data?: string;
+    update_date?: string;
 }

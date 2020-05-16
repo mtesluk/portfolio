@@ -1,28 +1,29 @@
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+import os
+# ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 class Config(object):
     DEBUG = False
     TESTING = False
-    AUTH_SERVER = 'http://127.0.0.1:8000'
+    AUTH_SERVER = os.environ.get('AUTH_SERVER', '')
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/blog_prod"
+    SECRET_KEY = os.environ.get('BLOG_SECRET_KEY', '')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BLOG_SQL_URI', '')
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevelopmentConfig(Config):
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/blog"
+    SECRET_KEY = os.environ.get('BLOG_SECRET_KEY', '')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BLOG_SQL_URI', '')
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOAD_FOLDER = '/home/mtesluk/portfolio/blog'
+    # UPLOAD_FOLDER = '/home/mtesluk/portfolio/blog'
 
 
 class TestingConfig(Config):
-    TESTING = False
-    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/blog_test"
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BLOG_SQL_URI_TESTING', '')
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -9,12 +9,14 @@ import { setOpenLoginDialog } from '../../actions/login-dialog';
 import { User } from '../../shared/interfaces/user';
 import { resetToken } from '../../actions/token';
 import { notifySuccess } from '../../actions/notify';
+import { setUserData } from '../../actions/user';
 
 
 
 interface Props {
   setOpenLoginDialog: (open: boolean) => void;
   resetToken: () => void;
+  setUserData: (data: User) => void;
   notifySuccess: (msg: string) => void;
   user: User;
   token: string;
@@ -30,6 +32,7 @@ const BlogSidebarComponent = (props: Props) =>  {
   const handleLogin = () => {
     if (props.token) {
       props.resetToken();
+      props.setUserData({});
       props.notifySuccess('Logout confirmed');
     } else {
       props.setOpenLoginDialog(true);
@@ -82,7 +85,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setOpenLoginDialog: (open: boolean) => dispatch(setOpenLoginDialog(open)),
     notifySuccess: (msg: string) => dispatch(notifySuccess(msg)),
-    resetToken: () => dispatch(resetToken())
+    resetToken: () => dispatch(resetToken()),
+    setUserData: (data: User) => dispatch(setUserData(data)),
   };
 };
 

@@ -8,7 +8,7 @@ export class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className="container__dashboard">
+      <div className="dashboard">
           <div className="part part--1">
             <Link to="/blog" className="part__link link">
               <div className="part__quarter part__quarter--1">

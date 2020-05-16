@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  blog:
+    build: .
+    command: gunicorn --bind 0.0.0.0:5000 app.wsgi:app
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+  db:
+    image: "mysql:latest"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}

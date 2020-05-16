@@ -7,7 +7,6 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import CheckIcon from '@material-ui/icons/Check';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
 
 import { config  } from '../../../config';
@@ -120,14 +119,14 @@ class SelectCardList extends React.Component<Props, State> {
 
   renderBlogsCard(keyId: number, subject: Subject, blogs: Blog[]) {
     return (
-      <Card className="blog-card-list__card" key={keyId}>
+      <Card className="blog-cards__card" key={keyId}>
         <CardContent>
-          <header className="blog-card-list__blogs-header">{subject.name || subject.id}</header>
+          <header className="blog-cards__blogs-header">{subject.name || subject.id}</header>
           {blogs.map(blog => {
             return (
-              <Link to={config.routes.blog.detail(blog.id)} className="blog-card-list__blogs-list-element" key={blog.id}>
+              <Link to={config.routes.blog.detail(blog.id)} className="blog-cards__blogs-list-element" key={blog.id}>
                 <ViewHeadlineIcon fontSize="inherit" />
-                <div className="blog-card-list__blogs-list-element-text">{blog.title}</div>
+                <div className="blog-cards__blogs-list-element-text">{blog.title}</div>
               </Link>
             )
           })}
@@ -141,20 +140,10 @@ class SelectCardList extends React.Component<Props, State> {
 
   renderMainCard() {
     return (
-      <Card className="blog-card-list__card">
+      <Card className="blog-cards__card--header">
         <CardContent>
           {this.state.loading && <LinearProgress />}
           <SelectWidget data={this.state.subjects} onChange={(id: number) => this.handleSubjectSelectChange(id)}/>
-          <div className="blog-card-list__subjects-list">
-            {this.state.selectedEntity.map((entity: Entity, index: number) => {
-              return (
-                <div key={index} className="blog-card-list__subjects-list-element">
-                  <CheckIcon fontSize="inherit"/>
-                  <div className="blog-card-list__subjects-list-element-text">{entity.subject.name}</div>
-                </div>
-              )
-            })}
-          </div>
         </CardContent>
       </Card>
     )
@@ -162,9 +151,13 @@ class SelectCardList extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="blog-card-list">
-        {this.renderMainCard()}
-        {this.state.selectedEntity.map((entity: Entity, index: number) => this.renderBlogsCard(index, entity.subject, entity.blogs))}
+      <div className="blog-cards">
+        <div className="blog-cards__header">
+          {this.renderMainCard()}
+        </div>
+        <div className="blog-cards__list">
+          {this.state.selectedEntity.map((entity: Entity, index: number) => this.renderBlogsCard(index, entity.subject, entity.blogs))}
+        </div>
 
       </div>
     );

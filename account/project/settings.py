@@ -18,13 +18,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(japgg*(s3x0n)4g9s=t@m8so7j(_++@3vraam00lf%^#fkx42'
+SECRET_KEY = os.environ.get('ACCOUNT_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('ACCOUNT_DEBUG', default=0))
 
-host_ip = os.environ.get('HOST_IP', None)
-ALLOWED_HOSTS = [host_ip] if host_ip else []
+ALLOWED_HOSTS = os.environ.get('ACCOUNT_ALLOWED_HOSTS', '').split(' ')
 
 FACEBOOK_DEV_ACCESS_TOKEN = os.environ.get('FACEBOOK_ACCESS_TOKEN', 'NOT_VALID')
 
@@ -77,12 +76,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'account',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': os.environ.get('ACCOUNT_SQL_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('ACCOUNT_SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': os.environ.get('ACCOUNT_SQL_USER', 'user'),
+        'PASSWORD': os.environ.get('ACCOUNT_SQL_PASSWORD', 'password'),
+        'HOST': os.environ.get('ACCOUNT_SQL_HOST', 'localhost'),
+        'PORT': os.environ.get('ACCOUNT_SQL_PORT', '5432'),
     }
 }
 

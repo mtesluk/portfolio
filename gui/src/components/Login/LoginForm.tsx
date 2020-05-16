@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import { Facebook } from './Facebook';
 
 import './LoginForm.scss';
 
-import { notifySuccess, notifyError } from '../../actions/notify';
+import { notifySuccess } from '../../actions/notify';
 import { setToken } from '../../actions/token';
-import { User, RegisterFormType } from '../../shared/interfaces/user';
-import { setUserData } from '../../actions/user';
+import { RegisterFormType } from '../../shared/interfaces/user';
 import { config  } from "../../config";
 import HttpService from '../../shared/services/HttpService'
 import { InputWidget, ErrorWidget } from 'widgets';
@@ -15,11 +14,8 @@ import { InputWidget, ErrorWidget } from 'widgets';
 
 interface Props {
   setToken: (token: string) => void;
-  setUserData: (data: User) => void;
-  handleClose: () => void;
-  createAccount: () => void;
+  handleClose: (logged: boolean) => void;
   notifySuccess: (msg: string) => void;
-  notifyError: (msg: string) => void;
   setRegistration: (type: number) => void;
 }
 
@@ -42,7 +38,7 @@ export const LoginFormComponent = (props: Props) => {
       const url = config.endpoints.auth.login;
       _httpService.post(url, credentials).then(response => {
         props.setToken(response.token);
-        props.handleClose();
+        props.handleClose(true);
         props.notifySuccess('Now you are logged in!');
       }).catch(err => {});
     } else {
@@ -87,6 +83,8 @@ export const LoginFormComponent = (props: Props) => {
         </div>
         <ErrorWidget text={validationError.valid ? "" : validationError.msg}/>
         <div className="login__actions">
+          {/* <ButtonWidget type={"button"} onClick={(e) => props.setRegistration(RegisterFormType.FULL)} text={"Sign up"}/>
+          <ButtonWidget type={"submit"} text={"Login"}/> */}
           <button className="login__signup-btn" type="button" onClick={(e) => props.setRegistration(RegisterFormType.FULL)}>Sign up</button>
           <button className="login__signin-btn" type="submit">Login</button>
         </div>
@@ -99,8 +97,6 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     setToken: (token: string) => dispatch(setToken(token)),
     notifySuccess: (msg: string) => dispatch(notifySuccess(msg)),
-    notifyError: (msg: string) => dispatch(notifyError(msg)),
-    setUserData: (data: User) => dispatch(setUserData(data)),
   };
 };
 

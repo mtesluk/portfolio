@@ -4,16 +4,18 @@ import { connect } from 'react-redux';
 import './LoginDialog.scss';
 
 import { setOpenLoginDialog } from '../../actions/login-dialog';
-import { setToken } from '../../actions/token';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
 import { User, RegisterFormType } from '../../shared/interfaces/user';
 import { Dialog } from '../../shared/components/Dialog';
+import { config  } from "../../config";
+import HttpService from '../../shared/services/HttpService';
+import { setUserData } from '../../actions/user';
 
 
 interface Props {
   setOpenLoginDialog: (open: boolean) => void;
-  setToken: (token: string) => void;
+  setUserData: (data: User) => void;
   isOpenLoginDialog: boolean;
   user: User;
   token: string;
@@ -26,11 +28,19 @@ interface State {
 }
 
 const LoginComponent = (props: Props) => {
+  const _httpService: HttpService = new HttpService();
   const [isRegistration, setRegistration] = useState<number>(RegisterFormType.NONE);
 
-  const handleClose = () => {
+  const getUserData = () => {
+    _httpService.get(config.endpoints.auth.me).then((response: User) => {
+      props.setUserData(response);
+    })
+  }
+
+  const handleClose = (logged: boolean = false) => {
     setRegistration(RegisterFormType.NONE);
     props.setOpenLoginDialog(false);
+    if (logged) getUserData();
   };
 
   const renderRegisterForm = () => {
@@ -63,7 +73,7 @@ const mapStateToProps = (state: State) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setOpenLoginDialog: (open: boolean) => dispatch(setOpenLoginDialog(open)),
-    setToken: (token: string) => dispatch(setToken(token))
+    setUserData: (data: User) => dispatch(setUserData(data)),
   };
 };
 

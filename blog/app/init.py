@@ -9,7 +9,7 @@ from app.errors import errors
 
 def create_app(config):
     app = Flask(__name__)
-    app.register_blueprint(blog_views.blueprint, url_prefix='/api/v1/blogs')
+    app.register_blueprint(blog_views.blueprint, url_prefix='/api/v3/blogs')
     app.register_blueprint(errors)
     app.config.from_object(config)
 

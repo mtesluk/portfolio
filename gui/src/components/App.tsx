@@ -11,11 +11,15 @@ import { Forum } from './Forum/Forum';
 import { Dashboard } from './Dashboard/Dashboard';
 import { Photos } from './Photos/Photos';
 import { Movies } from './Movies/Movies';
-import { NotFound } from './Common/NotFound';
+import { NotFound } from '../shared/components/NotFound';
 import { LoginDialog } from './Login/LoginDialog';
 import { notifyError } from '../actions/notify';
 import Interceptor from '../shared/interceptors/interceptor';
 import { setToken } from '../actions/token';
+import { setUserData } from '../actions/user';
+import { User } from '../shared/interfaces/user';
+import HttpService from '../shared/services/HttpService';
+import { config } from '../config';
 
 
 interface State {
@@ -26,9 +30,11 @@ interface Props {
   notify: Notification;
   notifyError: (msg: string) => void;
   setToken: (token: string) => void;
+  setUserData: (data: User) => void;
 }
 
 class App extends React.Component <Props, State> {
+  private _httpService: HttpService = new HttpService();
   private _interceptor: Interceptor = new Interceptor();
   private _notificationSystem = React.createRef();
   private _notificationStyle = {
@@ -42,7 +48,9 @@ class App extends React.Component <Props, State> {
   constructor(props: Props) {
     super(props);
     this._interceptor.initInterceptors(props.notifyError);
-    props.setToken(localStorage.getItem('token') || '');
+    const token = localStorage.getItem(config.tokenKey);
+    props.setToken(token || '');
+    if (token) this.getUserData();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
@@ -50,6 +58,12 @@ class App extends React.Component <Props, State> {
     if (prevProps.notify !== notification) {
       this.addNotification(notification.msg, notification.type);
     }
+  }
+
+  getUserData() {
+    this._httpService.get(config.endpoints.auth.me).then((response: User) => {
+      this.props.setUserData(response);
+    }).catch(err => {});
   }
 
   addNotification = (msg: string, level: string) => {
@@ -60,22 +74,28 @@ class App extends React.Component <Props, State> {
     });
   };
 
+  renderRouter() {
+    return (
+      <Router basename={process.env.PUBLIC_URL}>
+        <Switch>
+          <Route path="/" exact component={Dashboard} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/photos" component={Photos} />
+          <Route path="/forum" component={Forum} />
+          <Route path="/movies" component={Movies} />
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </Router>
+    );
+  }
+
   render() {
     return (
-      <div className="container">
-        <Router>
-          <Switch>
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/blog" component={Blog} />
-            <Route path="/photos" component={Photos} />
-            <Route path="/forum" component={Forum} />
-            <Route path="/movies" component={Movies} />
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </Router>
+      <>
+        {this.renderRouter()}
         <NotificationSystem ref={this._notificationSystem} style={this._notificationStyle}/>
         <LoginDialog />
-      </div>
+      </>
     );
   }
 }
@@ -90,6 +110,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     notifyError: (msg: string) => dispatch(notifyError(msg)),
     setToken: (token: string) => dispatch(setToken(token)),
+    setUserData: (data: User) => dispatch(setUserData(data)),
   };
 };
 

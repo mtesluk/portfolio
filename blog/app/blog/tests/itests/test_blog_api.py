@@ -30,7 +30,7 @@ class BlogApiTestCase(TestCase):
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
-        response = self.client.get('/api/v1/blogs/')
+        response = self.client.get('/api/v3/blogs/')
         data = response.json
         status = response.status_code
 
@@ -46,7 +46,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         params = {'user_id': blog_2.user_id}
-        response = self.client.get('/api/v1/blogs/', query_string=params)
+        response = self.client.get('/api/v3/blogs/', query_string=params)
         data = response.json
         status = response.status_code
 
@@ -62,7 +62,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         params = {'country': 'Poland'}
-        response = self.client.get('/api/v1/blogs/', query_string=params)
+        response = self.client.get('/api/v3/blogs/', query_string=params)
         data = response.json
         status = response.status_code
 
@@ -78,7 +78,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         params = {'ordering': '-views', 'limit': '2'}
-        response = self.client.get('/api/v1/blogs/', query_string=params)
+        response = self.client.get('/api/v3/blogs/', query_string=params)
         data = response.json
         status = response.status_code
 
@@ -96,7 +96,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         params = {'ordering': 'views', 'limit': '3'}
-        response = self.client.get('/api/v1/blogs/', query_string=params)
+        response = self.client.get('/api/v3/blogs/', query_string=params)
         data = response.json
         status = response.status_code
 
@@ -113,7 +113,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         params = {'user_idddddd': 'asd'}
-        response = self.client.get('/api/v1/blogs/', query_string=params)
+        response = self.client.get('/api/v3/blogs/', query_string=params)
         data = response.json
         status = response.status_code
 
@@ -125,7 +125,7 @@ class BlogApiTestCase(TestCase):
         self.session.add(blog)
         self.session.commit()
 
-        response = self.client.get(f'/api/v1/blogs/{blog.id}/')
+        response = self.client.get(f'/api/v3/blogs/{blog.id}/')
         data = response.json
         status = response.status_code
 
@@ -142,7 +142,7 @@ class BlogApiTestCase(TestCase):
         self.session.add(blog)
         self.session.commit()
 
-        response = self.client.get('/api/v1/blogs/2/')
+        response = self.client.get('/api/v3/blogs/2/')
         data = response.json
         status = response.status_code
 
@@ -157,7 +157,7 @@ class BlogApiTestCase(TestCase):
         patch_3.return_value.status_code = 200
 
         payload = {'content': '123', 'country': 'Poland', 'user_id': 1, 'title': 'title'}
-        response = self.client.post('/api/v1/blogs/', json=payload)
+        response = self.client.post('/api/v3/blogs/', json=payload)
         data = response.json
         status = response.status_code
 
@@ -174,7 +174,7 @@ class BlogApiTestCase(TestCase):
         patch_2.headers.get.return_value = None
 
         payload = {'content': '123', 'country': 'Poland', 'user_id': 1, 'title': 'title'}
-        response = self.client.post('/api/v1/blogs/', json=payload)
+        response = self.client.post('/api/v3/blogs/', json=payload)
         data = response.json
         status = response.status_code
 
@@ -188,7 +188,7 @@ class BlogApiTestCase(TestCase):
         patch_3.return_value.status_code = 401
 
         payload = {'content': '123', 'country': 'Poland', 'user_id': 1, 'title': 'title'}
-        response = self.client.post('/api/v1/blogs/', json=payload)
+        response = self.client.post('/api/v3/blogs/', json=payload)
         data = response.json
         status = response.status_code
 
@@ -202,7 +202,7 @@ class BlogApiTestCase(TestCase):
         patch_3.return_value.status_code = 200
 
         payload = {'content': '123', 'countryya': 'Poland', 'user_id': 1, 'title': 'title'}
-        response = self.client.post('/api/v1/blogs/', json=payload)
+        response = self.client.post('/api/v3/blogs/', json=payload)
         data = response.json
         status = response.status_code
 
@@ -217,7 +217,7 @@ class BlogApiTestCase(TestCase):
         patch_3.return_value.status_code = 200
 
         payload = {}
-        response = self.client.post('/api/v1/blogs/', json=payload)
+        response = self.client.post('/api/v3/blogs/', json=payload)
         data = response.json
         status = response.status_code
 
@@ -236,7 +236,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         payload = {'content': '456', 'title': 'new_title'}
-        response = self.client.put(f'/api/v1/blogs/{blog.id}/', json=payload)
+        response = self.client.put(f'/api/v3/blogs/{blog.id}/', json=payload)
         updated_blog = response.json
         status = response.status_code
 
@@ -258,7 +258,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         payload = {'conttent': '456', 'cooperators': '1,5'}
-        response = self.client.put(f'/api/v1/blogs/{blog.id}/', json=payload)
+        response = self.client.put(f'/api/v3/blogs/{blog.id}/', json=payload)
         updated_blog = response.json
         status = response.status_code
 
@@ -278,7 +278,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
         blog_id = blog.id
 
-        response = self.client.delete(f'/api/v1/blogs/{blog_id}/')
+        response = self.client.delete(f'/api/v3/blogs/{blog_id}/')
         status = response.status_code
 
         self.assertEqual(status, 204)
@@ -292,7 +292,7 @@ class BlogApiTestCase(TestCase):
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
-        response = self.client.get('/api/v1/blogs/authors/')
+        response = self.client.get('/api/v3/blogs/authors/')
         data = response.json
         status = response.status_code
 
@@ -314,7 +314,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         params = {'limit': '3', 'ordering': '-views'}
-        response = self.client.get('/api/v1/blogs/authors/', query_string=params)
+        response = self.client.get('/api/v3/blogs/authors/', query_string=params)
         data = response.json
         status = response.status_code
 
@@ -329,7 +329,7 @@ class BlogApiTestCase(TestCase):
         self.session.add_all([blog_1, blog_2])
         self.session.commit()
 
-        response = self.client.get('/api/v1/blogs/countries/')
+        response = self.client.get('/api/v3/blogs/countries/')
         data = response.json
         status = response.status_code
 
@@ -346,7 +346,7 @@ class BlogApiTestCase(TestCase):
         self.session.commit()
 
         params = {'limit': '2', 'ordering': '-views'}
-        response = self.client.get('/api/v1/blogs/countries/', query_string=params)
+        response = self.client.get('/api/v3/blogs/countries/', query_string=params)
         data = response.json
         status = response.status_code
 

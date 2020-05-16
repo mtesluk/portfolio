@@ -10,14 +10,14 @@ class TokenApiTestCase(APITestCase):
 
     def test_login(self):
         response = self.client.post(
-            '/api/v1/api_token_auth/',
+            '/api/v2/api_token_auth/',
             {'username': self.user.username, 'password': 'passwd'})
         data = response.json()
         self.assertEqual(data['token'], self.user.auth_token.key)
 
     def test_login_fail(self):
         response = self.client.post(
-            '/api/v1/api_token_auth/',
+            '/api/v2/api_token_auth/',
             {'username': self.user.username, 'password': 'ads'})
         data = response.json()
         self.assertEqual(data['non_field_errors'], ['Unable to log in with provided credentials.'])

@@ -11,6 +11,7 @@ import Entry from './detail/Entry';
 import Authors from './cards/Authors';
 import Dashboard from './Dashboard';
 import { BlogSidebar } from './Sidebar';
+import { AuthGuard } from '../../shared/guards/AuthGuard'
 
 
 interface Props {
@@ -23,7 +24,8 @@ const BlogComponent = (props: Props) => {
       <Switch>
           <Route path={config.routes.blog.dashboard} exact component={Dashboard} />
           <Route path={config.routes.blog.authors} component={Authors} />
-          <Route path={config.routes.blog.addNew} component={AddForm} />
+          {/* <Route path={config.routes.blog.addNew} component={AddForm} /> */}
+          <AuthGuard path={config.routes.blog.addNew} component={AddForm} app="blog" />
           <Route path={config.routes.blog.sites} component={Sites} />
           <Route path={config.routes.blog.detail()} component={Entry} />
       </Switch>

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import FacebookLogin from 'react-facebook-login';
 import { config } from '../../config';
 import { setToken } from '../../actions/token';
-import { User, RegisterFormType } from '../../shared/interfaces/user';
-import { setUserData } from '../../actions/user';
+import { RegisterFormType } from '../../shared/interfaces/user';
 import HttpService from '../../shared/services/HttpService';
+import { notifySuccess } from '../../actions/notify';
 
 
 interface FacebookDataPicture {
@@ -35,9 +35,9 @@ interface FacebookResponse {
 
 interface Props {
   setToken: (token: string) => void;
-  handleClose: () => void;
+  handleClose: (logged: boolean) => void;
+  notifySuccess: (msg: string) => void;
   setRegistration: (type: number) => void;
-  setUserData: (data: User) => void;
   fbCssClass: string;
 }
 
@@ -48,11 +48,10 @@ export const FacebookComponent = (props: Props) => {
     const url = config.endpoints.auth.exists_fb;
     _httpService.get(`${url}?fb_id=${responseFb.userID}`).then(response => {
       const exists = response.exists;
-      console.log(exists)
       if (exists) {
-        console.log(1111111111111)
         props.setToken(responseFb.accessToken);
-        props.handleClose();
+        props.notifySuccess('Now you are logged in!');
+        props.handleClose(true);
       } else {
         props.setRegistration(RegisterFormType.FRAGMENTARY);
       }
@@ -79,7 +78,7 @@ export const FacebookComponent = (props: Props) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setToken: (token: string) => dispatch(setToken(token)),
-    setUserData: (data: User) => dispatch(setUserData(data)),
+    notifySuccess: (msg: string) => dispatch(notifySuccess(msg)),
   };
 };
 

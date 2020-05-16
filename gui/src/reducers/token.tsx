@@ -1,3 +1,6 @@
+import { config } from "../config";
+
+
 const initialState: string = '';
 
 interface Action {
@@ -8,7 +11,7 @@ interface Action {
 const token = (state: string = initialState, action: Action) => {
   switch (action.type) {
     case 'SET_TOKEN' :
-      localStorage.setItem('token', action.value ? action.value : '');
+      localStorage.setItem(config.tokenKey, action.value ? action.value : '');
       state = action.value;
     break;
   }

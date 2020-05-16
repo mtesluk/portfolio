@@ -1,8 +1,5 @@
-from flask.helpers import get_debug_flag
-
 from app.init import create_app
-from app.config import DevelopmentConfig, ProductionConfig
+from app.config import DevelopmentConfig
 
-CONFIG = DevelopmentConfig if get_debug_flag() else ProductionConfig
 
-app = create_app(CONFIG)
+app = create_app(DevelopmentConfig)

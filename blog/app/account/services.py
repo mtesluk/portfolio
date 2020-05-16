@@ -11,7 +11,7 @@ class AccountService:
             id_str = ','.join(ids)
 
             base_url = current_app.config['AUTH_SERVER']
-            url = f'{base_url}/api/v1/users/'
+            url = f'{base_url}/api/v2/users/'
             params = {'ids': id_str}
             if ordering:
                 params['ordering'] = ordering
@@ -32,7 +32,7 @@ class AccountService:
             cached_token = cache.get(token)
             if not cached_token:
                 headers = {'Authorization': auth_header}
-                url = f'{base_url}/api/v1/users/is_authenticated/'
+                url = f'{base_url}/api/v2/users/is_authenticated/'
                 response = requests.get(url, headers=headers)
                 if not response.status_code == 200:
                     return jsonify({'message': 'You are not authorized!'}), 401

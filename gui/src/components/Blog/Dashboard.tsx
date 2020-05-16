@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 interface State {
   latestBlogs: Blog[];
   mostSeenBlogs: Blog[];
-  mostSeenAuthors: User[];
+  topSeenAuthors: User[];
   mostSeenCountries: string[];
 }
 
@@ -25,14 +25,14 @@ class Dashboard extends React.Component<Props, State> {
   state = {
     latestBlogs: [],
     mostSeenBlogs: [],
-    mostSeenAuthors: [],
+    topSeenAuthors: [],
     mostSeenCountries: [],
   };
 
   componentDidMount() {
     this.getMostSeenBlogs();
     this.getLatestBlogs();
-    this.getMostSeenAuthors();
+    this.getTopSeenAuthors();
     this.getMostSeenCountries();
   }
 
@@ -48,7 +48,7 @@ class Dashboard extends React.Component<Props, State> {
 
   getLatestBlogs() {
     const url = config.endpoints.blog.base;
-    const params = {limit: 5, ordering: '-add_date'};
+    const params = {limit: 5};
     this._httpService.get(url, params).then((response: Blog[]) => {
       this.setState({
         latestBlogs: response,
@@ -56,12 +56,12 @@ class Dashboard extends React.Component<Props, State> {
     }).catch(err => {});
   }
 
-  getMostSeenAuthors() {
+  getTopSeenAuthors() {
     const url = config.endpoints.blog.authors;
     const params = {limit: 5, ordering: '-views'};
     this._httpService.get(url, params).then((response: User[]) => {
       this.setState({
-        mostSeenAuthors: response,
+        topSeenAuthors: response,
       })
     }).catch(err => {});
   }
@@ -101,21 +101,21 @@ class Dashboard extends React.Component<Props, State> {
           })}
         </div>
 
-        <div className="blog-dashboard__table blog-dashboard__most-seen-authors">
+        <div className="blog-dashboard__table blog-dashboard__top-seen-authors">
           <header className="blog-dashboard__header-action">
-            <div>Most seen authors</div>
+            <div>Top 5 seen authors</div>
             <div>
               <Link to={{
                 pathname: config.routes.blog.authors,
                 state: {
-                  authors: this.state.mostSeenAuthors
+                  authors: this.state.topSeenAuthors
                 }}}
               >
                 Go to
               </Link>
             </div>
           </header>
-          {this.state.mostSeenAuthors.map((user: User, index: number) => {
+          {this.state.topSeenAuthors.map((user: User, index: number) => {
             return (
               <div key={index}>{user.username}</div>
             )

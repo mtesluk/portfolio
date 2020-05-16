@@ -192,5 +192,33 @@ var ErrorWidget = function ErrorWidget(props) {
   }, props.text);
 };
 
-export { ErrorWidget, InputWidget, SelectWidget };
+var InlineStyles$3 = {
+  button: {
+    fontSize: '2rem',
+    backgroundColor: 'transparent',
+    borderRadiusTop: '5px'
+  }
+};
+
+var ButtonWidget = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(ButtonWidget, _React$Component);
+
+  function ButtonWidget() {
+    return _React$Component.apply(this, arguments) || this;
+  }
+
+  var _proto = ButtonWidget.prototype;
+
+  _proto.render = function render() {
+    return React.createElement("button", {
+      style: InlineStyles$3.button,
+      type: this.props.type,
+      onClick: this.props.onClick
+    }, this.props.text);
+  };
+
+  return ButtonWidget;
+}(React.Component);
+
+export { ButtonWidget, ErrorWidget, InputWidget, SelectWidget };
 //# sourceMappingURL=index.modern.js.map
