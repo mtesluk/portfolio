@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/portfolio/static/css/main.d99f230c.chunk.css",
+    "main.js": "/portfolio/static/js/main.6c490d19.chunk.js",
+    "main.js.map": "/portfolio/static/js/main.6c490d19.chunk.js.map",
+    "runtime-main.js": "/portfolio/static/js/runtime-main.d056fcee.js",
+    "runtime-main.js.map": "/portfolio/static/js/runtime-main.d056fcee.js.map",
+    "static/js/2.fb0269e8.chunk.js": "/portfolio/static/js/2.fb0269e8.chunk.js",
+    "static/js/2.fb0269e8.chunk.js.map": "/portfolio/static/js/2.fb0269e8.chunk.js.map",
+    "index.html": "/portfolio/index.html",
+    "precache-manifest.889d5d7da546cfe0b8b9a1434377e158.js": "/portfolio/precache-manifest.889d5d7da546cfe0b8b9a1434377e158.js",
+    "service-worker.js": "/portfolio/service-worker.js",
+    "static/css/main.d99f230c.chunk.css.map": "/portfolio/static/css/main.d99f230c.chunk.css.map",
+    "static/js/2.fb0269e8.chunk.js.LICENSE": "/portfolio/static/js/2.fb0269e8.chunk.js.LICENSE",
+    "static/media/Dashboard.scss": "/portfolio/static/media/travel-dashboard.1679e80b.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d056fcee.js",
+    "static/js/2.fb0269e8.chunk.js",
+    "static/css/main.d99f230c.chunk.css",
+    "static/js/main.6c490d19.chunk.js"
+  ]
+}
