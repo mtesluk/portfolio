@@ -24,6 +24,6 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('BLOG_SQL_URI_TESTING', '')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BLOG_SQL_TESTING', '')
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
