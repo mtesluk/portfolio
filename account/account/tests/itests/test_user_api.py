@@ -77,6 +77,7 @@ class UserApiTestCase(APITestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['is_auth'], True)
+        self.assertEqual(data['user_id'], self.user.id)
 
     def test_get_users_filred_by_id_with_ordering(self):
         user_2 = User.objects.create(username='test_user_2')
