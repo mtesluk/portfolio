@@ -1,0 +1,25 @@
+.blog-detail {
+    width: 60%;
+    margin: 3rem auto;
+
+    &__description {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px rgb(112, 110, 110) solid;
+        font-size: 1.85rem;
+        padding: 1rem;
+    }
+
+    &__title {
+        font-size: 2rem;
+        text-transform: uppercase;
+    }
+
+    &__p {
+        margin-top: 2rem;
+    }
+
+    &__right {
+        text-align: end;
+    }
+}

@@ -7,6 +7,17 @@ export interface Blog {
     cooperators: string | null;
     views: number;
     photo_names: string | null;
-    add_data?: string;
+    add_date?: string;
     update_date?: string;
 }
+
+export enum ElementType {
+    PARAGRAPH,
+    IMAGE,
+}
+
+export interface Element {
+    value: string;
+    type: ElementType;
+}
+

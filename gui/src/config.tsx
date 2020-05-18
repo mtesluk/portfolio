@@ -19,7 +19,8 @@ export const config = {
             login: getBaseUrlConfig('account') + '/api_token_auth/',
             me: getBaseUrlConfig('account') + '/users/me/',
             exists_fb: getBaseUrlConfig('account') + '/users/exist_fb_account/',
-            register: getBaseUrlConfig('account') + '/users/'
+            register: getBaseUrlConfig('account') + '/users/',
+            users: getBaseUrlConfig('account') + '/users/'
         },
         blog: {
             authors: getBaseUrlConfig('blog') + '/blogs/authors/',

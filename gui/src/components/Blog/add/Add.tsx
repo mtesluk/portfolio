@@ -4,15 +4,16 @@ import { connect } from 'react-redux';
 import './Add.scss';
 
 import { notifySuccess } from '../../../actions/notify';
+import HttpService from '../../../shared/services/HttpService';
+import { config } from '../../../config';
+import { Blog, Element, ElementType } from '../../../shared/interfaces/blog';
+import BlogService from '../../../shared/services/blog.service';
 
-
-interface Element {
-  value: string,
-  type: 'paragraph' | 'image'
-}
 
 interface State {
   elements: Element[];
+  title: string;
+  country: string;
 }
 
 interface Props {
@@ -20,22 +21,24 @@ interface Props {
 }
 
 class AddForm extends React.Component <Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      elements: [{value: '', type: 'paragraph'}]
-    }
-  }
+  _httpService: HttpService = new HttpService();
+  _service: BlogService = new BlogService();
+
+  state = {
+    elements: [{value: '', type: ElementType.PARAGRAPH}],
+    title: '',
+    country: '',
+  };
 
   addNewParagrapgh(e: any, id: number) {
-    this.addElement('paragraph', id);
+    this.addElement(ElementType.PARAGRAPH, id);
   }
 
   addNewImage(e: any, id: number) {
-    this.addElement('image', id);
+    this.addElement(ElementType.IMAGE, id);
   }
 
-  addElement(type: 'paragraph' | 'image', id: number) {
+  addElement(type: ElementType, id: number) {
     const array: Element[] = [...this.state.elements];
     array.splice(id+1, 0, {value: '', type: type});
     this.setState({
@@ -53,11 +56,11 @@ class AddForm extends React.Component <Props, State> {
 
   getParagraph(v: string, id: number) {
     return (
-      <div className="form__paragraph" key={id}>
+      <div className="blog-add__paragraph" key={id}>
         <textarea
           key={id}
           id={id.toString()}
-          className="form__control form__textarea"
+          className="blog-add__control blog-add__textarea"
           name={'text-' + id.toString()}
           placeholder=""
           rows={5}
@@ -86,10 +89,10 @@ class AddForm extends React.Component <Props, State> {
     // console.log(e.target.value)
   }
 
-  getPartForm(elem: Element, id: number) {
+  renderPartForm(elem: Element, id: number) {
     return (
-      <div className="form__part-form" key={id}>
-        {elem.type === 'paragraph' ? this.getParagraph(elem.value, id) : this.getImage()}
+      <div className="blog-add__part-form" key={id}>
+        {elem.type === ElementType.PARAGRAPH ? this.getParagraph(elem.value, id) : this.getImage()}
         {this.toolAction(id)}
       </div>
     )
@@ -99,39 +102,56 @@ class AddForm extends React.Component <Props, State> {
     let removeButton = <div></ div>;
     const isDeletable = id === 0 && this.state.elements.length > 0;
     if (!isDeletable) {
-      removeButton = <button type="button" className="form__remove-p" onClick={(e) => this.removeElement(e, id)}>Remove</button>
+      removeButton = <button type="button" className="blog-add__remove-p" onClick={(e) => this.removeElement(e, id)}>Remove</button>
     }
 
     return (
-      <div className="form__tool-action">
-        <button type="button" className="form__add-p" onClick={(e) => this.addNewParagrapgh(e, id)}>Add here p</button>
-        <button type="button" className="form__add-p" onClick={(e) => this.addNewImage(e, id)}>Add here img</button>
+      <div className="blog-add__tool-action">
+        <button type="button" className="blog-add__add-p" onClick={(e) => this.addNewParagrapgh(e, id)}>Add here p</button>
+        <button type="button" className="blog-add__add-p" onClick={(e) => this.addNewImage(e, id)}>Add here img</button>
         {removeButton}
       </div>
     )
   }
 
-  setSettings() {
+  renderSettings() {
     return (
-      <div className="form__settings">
-        <input placeholder="Title" />
-        <input placeholder="Region" />
+      <div className="blog-add__settings">
+        <input placeholder="Title" onChange={(e) => this.setState({title: e.target.value})} value={this.state.title} />
+        <input placeholder="Region" onChange={(e) => this.setState({country: e.target.value})} value={this.state.country} />
       </div>
     )
   }
 
+  clearState() {
+    this.setState({
+      elements: [{value: '', type: ElementType.PARAGRAPH}],
+      title: '',
+      country: ''
+    })
+  }
+
   onSubmit(event: any) {
     event.preventDefault();
-    this.props.notifySuccess('asd');
+    const formattedContent = this._service.formatContent(this.state.elements);
+    const data = {
+      content: formattedContent,
+      country: this.state.country,
+      title: this.state.title,
+    };
+    this._httpService.post(config.endpoints.blog.base, data).then((response: Blog) => {
+      this.clearState();
+      this.props.notifySuccess('Blog successfully created. Please wait for administration verification!');
+    }).catch(err => {})
   }
 
   render() {
     return (
-      <div>
-        <form className="form" onSubmit={(e) => this.onSubmit(e)}>
-          { this.setSettings() }
-          { this.state.elements.map((elem, id) => this.getPartForm(elem, id)) }
-          <button type="submit" className="form__submit">Submit</button>
+      <div className="blog-add">
+        <form className="blog-add__form" onSubmit={(e) => this.onSubmit(e)}>
+          { this.renderSettings() }
+          { this.state.elements.map((elem: Element, id: number) => this.renderPartForm(elem, id)) }
+          <button type="submit" className="blog-add__submit">Submit</button>
         </form>
       </div>
     );

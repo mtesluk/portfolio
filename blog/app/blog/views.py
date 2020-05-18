@@ -43,9 +43,10 @@ class BlogViewSet(views.MethodView):
         return jsonify(blog)
 
     @AccountService.is_allowed
-    def post(self):
+    def post(self, user_id, *args, **kwargs):
         try:
             data = request.get_json()
+            data['user_id'] = user_id
             service = BlogService()
             blog = service.create_blog(data)
             return jsonify(blog), 201
@@ -53,13 +54,13 @@ class BlogViewSet(views.MethodView):
             raise BadRequest(err.args)
 
     @AccountService.is_allowed
-    def delete(self, id):
+    def delete(self, id, *args, **kwargs):
         service = BlogService()
         service.remove_blog(id)
         return jsonify({}), 204
 
     @AccountService.is_allowed
-    def put(self, id):
+    def put(self, id, *args, **kwargs):
         data = request.get_json()
         service = BlogService()
         blog = service.update_blog(id, data)
