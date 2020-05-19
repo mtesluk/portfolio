@@ -15,7 +15,7 @@ class HttpService {
     return axios.post(url, data).then(response => response.data);
   }
 
-  delete(url: string, id: number): Promise<any> {
+  delete(url: string): Promise<any> {
     return axios.delete(url).then(response => response.data);
   }
 

@@ -8,7 +8,7 @@ import { notifySuccess } from '../../actions/notify';
 import { User, Profile, RegisterFormType } from '../../shared/interfaces/user';
 import { config  } from "../../config";
 import HttpService from '../../shared/services/HttpService'
-import { InputWidget, ErrorWidget } from 'widgets';
+import { InputWidget, ErrorWidget, ButtonWidget } from 'widgets';
 
 interface Props {
   user: User;
@@ -91,8 +91,8 @@ export const RegisterFormComponent = (props: Props) => {
   const renderActions = () => {
     return (
       <div className="register-form__actions">
-        <button type="button" onClick={(e) => props.setRegistration(RegisterFormType.NONE)}>Back</button>
-        <button type="submit">Register</button>
+        <ButtonWidget type={"button"} onClick={(e) => props.setRegistration(RegisterFormType.NONE)} text={"Back"}/>
+        <ButtonWidget type={"submit"} text={"Register"}/>
       </div>
     )
   }

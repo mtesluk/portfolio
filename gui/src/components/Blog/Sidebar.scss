@@ -22,6 +22,10 @@ $border-color: rgb(109, 106, 106);
         -moz-box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.75);
         box-shadow: 2px 0px 2px 0px rgba(0,0,0,0.75);
 
+        @media screen and (max-width: 1350px) {
+            display: none;
+        }
+
         & a {
             display: block;
             color: inherit;
@@ -71,5 +75,6 @@ $border-color: rgb(109, 106, 106);
         height: 100%;
         width: 100%;
         font-size: 2rem;
+        position: relative;
     }
 }

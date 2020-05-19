@@ -6,13 +6,12 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
 
 import { config  } from '../../../config';
 import HttpService from '../../../shared/services/HttpService'
 import { Blog } from '../../../shared/interfaces/blog';
-import { SelectWidget } from 'widgets';
+import { SelectWidget, ButtonWidget } from 'widgets';
 
 
 interface Props {
@@ -132,7 +131,7 @@ class SelectCardList extends React.Component<Props, State> {
           })}
         </CardContent>
         <CardActions>
-          <Button size="large" onClick={() => this.handleRemoveSubjectBlogs(keyId)}>Unpin</Button>
+          <ButtonWidget onClick={() => this.handleRemoveSubjectBlogs(keyId)} text={'Unpin'}/>
         </CardActions>
       </Card>
     )

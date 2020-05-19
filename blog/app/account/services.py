@@ -31,6 +31,7 @@ class AccountService:
                 raise NotAuthorized
             token = auth_header.split(' ')[1]
             cached_user_id = cache.get(token)
+            is_admin = False
             if not cached_user_id:
                 headers = {'Authorization': auth_header}
                 url = f'{base_url}/api/v2/users/is_authenticated/'
@@ -39,8 +40,10 @@ class AccountService:
                     raise NotAuthorized
                 data = response.json()
                 user_id = data.get('user_id', '')
+                is_admin = data.get('is_admin', False)
                 cache.set(token, user_id, 3600)
                 cached_user_id = user_id
             kwargs['user_id'] = cached_user_id
+            kwargs['is_admin'] = is_admin
             return func(*args, **kwargs)
         return wrapper

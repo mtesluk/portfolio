@@ -1,17 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import {
+  withRouter
+} from 'react-router-dom';
 
 import './Entry.scss';
 
-import { config  } from '../../../config';
-import HttpService from '../../../shared/services/HttpService';
-import { Blog, Element } from '../../../shared/interfaces/blog';
 import BlogService from '../../../shared/services/blog.service';
+import UserService from '../../../shared/services/user.service';
+import { config  } from '../../../config';
+import { Blog, Element } from '../../../shared/interfaces/blog';
 import { Link } from 'react-router-dom';
 import { User } from '../../../shared/interfaces/user';
+import { notifySuccess } from '../../../actions/notify';
+import { ButtonWidget } from 'widgets';
 
 
 interface Props {
   match: any;
+  history: any;
+  notifySuccess: (msg: string) => void;
 };
 
 interface State {
@@ -22,8 +30,8 @@ interface State {
 
 
 class Entry extends React.Component<Props, State> {
-  _httpService: HttpService = new HttpService();
   _service: BlogService = new BlogService();
+  _userService: UserService = new UserService();
   state = {
     blog: {id: 0, content: '', user_id: 0, title: "", cooperators: null, photo_names: null, views: 0, country: "Poland", add_date: '', update_date: ''},
     elements: [],
@@ -36,19 +44,19 @@ class Entry extends React.Component<Props, State> {
   }
 
   getBlog(id: number) {
-    const url = `${config.endpoints.blog.base}${id}/`;
-    this._httpService.get(url).then((response: Blog) => {
-      this.setState({
-        blog: response,
-        elements: this._service.unformatContent(response.content),
-      });
-      this.getAuthorsNames();
+    this._service.getBlog(id).then((response: Blog) => {
+      if (response) {
+        this.setState({
+          blog: response,
+          elements: this._service.unformatContent(response.content),
+        });
+        this.getAuthorsNames();
+      }
     });
   }
 
   getAuthorsNames() {
-    const url = config.endpoints.auth.users;
-    this._httpService.get(url, {ids: this.state.blog.user_id}).then((response: User[]) => {
+    this._userService.getUsers(this.state.blog.user_id).then((response: User[]) => {
       this.setState({
         authors: {...this.state.authors, main: response[0]}
       });
@@ -56,12 +64,19 @@ class Entry extends React.Component<Props, State> {
 
     const cooperators = this.state.blog.cooperators;
     if (cooperators) {
-      this._httpService.get(url, {ids: cooperators}).then((response: User[]) => {
+      this._userService.getUsers(cooperators).then((response: User[]) => {
         this.setState({
           authors: {...this.state.authors, support: response}
         });
       });
     }
+  }
+
+  removeBlog(id: number) {
+    this._service.removeBlog(id).then(response => {
+      this.props.notifySuccess('Blog successfully removed...');
+      this.props.history.push('/blog');
+    }).catch(err => err);
   }
 
   render() {
@@ -104,8 +119,11 @@ class Entry extends React.Component<Props, State> {
           </div>
           <div className="blog-detail__right">
             <div className="blog-detail__add-date">Created: {this.state.blog.add_date}</div>
-            <div className="blog-detail__update-date">Last modify: {this.state.blog.update_date}</div>
+            <div className="blog-detail__update-date">Last modified: {this.state.blog.update_date}</div>
             <div className="blog-detail__seen">Views: {this.state.blog.views}</div>
+            <div className="blog-detail__actions">
+                <ButtonWidget text="Remove" onClick={(e) => this.removeBlog(this.state.blog.id)}/>
+            </div>
           </div>
         </div>
         <div className="blog-detail__content">
@@ -116,4 +134,10 @@ class Entry extends React.Component<Props, State> {
   }
 };
 
-export default Entry;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    notifySuccess: (msg: string) => dispatch(notifySuccess(msg))
+  };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(Entry));

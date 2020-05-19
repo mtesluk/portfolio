@@ -9,7 +9,7 @@ import { setToken } from '../../actions/token';
 import { RegisterFormType } from '../../shared/interfaces/user';
 import { config  } from "../../config";
 import HttpService from '../../shared/services/HttpService'
-import { InputWidget, ErrorWidget } from 'widgets';
+import { InputWidget, ErrorWidget, ButtonWidget } from 'widgets';
 
 
 interface Props {
@@ -83,10 +83,10 @@ export const LoginFormComponent = (props: Props) => {
         </div>
         <ErrorWidget text={validationError.valid ? "" : validationError.msg}/>
         <div className="login__actions">
-          {/* <ButtonWidget type={"button"} onClick={(e) => props.setRegistration(RegisterFormType.FULL)} text={"Sign up"}/>
-          <ButtonWidget type={"submit"} text={"Login"}/> */}
-          <button className="login__signup-btn" type="button" onClick={(e) => props.setRegistration(RegisterFormType.FULL)}>Sign up</button>
-          <button className="login__signin-btn" type="submit">Login</button>
+          <ButtonWidget type={"button"} onClick={(e) => props.setRegistration(RegisterFormType.FULL)} text={"Sign up"}/>
+          <ButtonWidget type={"submit"} text={"Login"}/>
+          {/* <button className="login__signup-btn" type="button" onClick={(e) => props.setRegistration(RegisterFormType.FULL)}>Sign up</button>
+          <button className="login__signin-btn" type="submit">Login</button> */}
         </div>
       </form>
     </div>

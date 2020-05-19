@@ -30,6 +30,8 @@
         display: block;
         font-size: 2rem;
         padding: .4rem 1rem;
+        hyphens: auto;
+        white-space: nowrap;
 
         &:hover {
             border-radius: .5rem;

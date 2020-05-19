@@ -155,7 +155,7 @@ class BlogApiTestCase(TestCase):
     def test_post_blog_with_correct_token(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1, 'is_admin': False}
 
         payload = {'content': '123', 'country': 'Poland', 'user_id': 1, 'title': 'title'}
         response = self.client.post('/api/v3/blogs/', json=payload)
@@ -201,8 +201,7 @@ class BlogApiTestCase(TestCase):
     def test_post_blog_with_wrong_data(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1, 'is_admin': False}
 
         payload = {'content': '123', 'countryya': 'Poland', 'user_id': 1, 'title': 'title'}
         response = self.client.post('/api/v3/blogs/', json=payload)
@@ -218,7 +217,7 @@ class BlogApiTestCase(TestCase):
     def test_post_blog_with_no_data(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1, 'is_admin': False}
 
         payload = {}
         response = self.client.post('/api/v3/blogs/', json=payload)
@@ -234,7 +233,7 @@ class BlogApiTestCase(TestCase):
     def test_put_blog(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0, 'is_admin': False}
 
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
@@ -257,7 +256,7 @@ class BlogApiTestCase(TestCase):
     def test_put_blog_not_permitted(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1, 'is_admin': False}
 
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
@@ -275,7 +274,7 @@ class BlogApiTestCase(TestCase):
     def test_put_blog_with_wrong_data(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0, 'is_admin': False}
 
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
@@ -296,7 +295,7 @@ class BlogApiTestCase(TestCase):
     def test_remove_blog(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0, 'is_admin': False}
 
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
@@ -315,7 +314,7 @@ class BlogApiTestCase(TestCase):
     def test_remove_blog_not_permitted(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1, 'is_admin': False}
 
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)

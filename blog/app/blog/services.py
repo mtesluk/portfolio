@@ -55,9 +55,13 @@ class BlogService:
             db.session.delete(blog)
             db.session.commit()
 
-    def is_allowed(self, id: int, blog_id: Union[int, str]):
-        blog_user_id = Blog.query.get(blog_id).user_id
-        return blog_user_id == int(id)
+    def is_allowed(self, id: int, is_admin: bool, blog_id: Union[int, str]):
+        blog = Blog.query.get(blog_id)
+        if blog:
+            blog_user_id = blog.user_id
+            return is_admin or blog_user_id == int(id)
+        else:
+            return False
 
     def get_authors(self, filters: dict = None, ordering: str = None, limit: str = None):
         queryset = db.session.query(Blog.user_id).distinct()

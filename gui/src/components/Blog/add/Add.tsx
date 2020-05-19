@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+  withRouter
+} from 'react-router-dom';
 
 import './Add.scss';
 
 import { notifySuccess } from '../../../actions/notify';
-import HttpService from '../../../shared/services/HttpService';
-import { config } from '../../../config';
 import { Blog, Element, ElementType } from '../../../shared/interfaces/blog';
 import BlogService from '../../../shared/services/blog.service';
+import { ButtonWidget } from 'widgets';
 
 
 interface State {
@@ -17,11 +19,11 @@ interface State {
 }
 
 interface Props {
-  notifySuccess: any;
+  notifySuccess: (msg: string) => void;
+  history: any;
 }
 
 class AddForm extends React.Component <Props, State> {
-  _httpService: HttpService = new HttpService();
   _service: BlogService = new BlogService();
 
   state = {
@@ -133,16 +135,16 @@ class AddForm extends React.Component <Props, State> {
 
   onSubmit(event: any) {
     event.preventDefault();
-    const formattedContent = this._service.formatContent(this.state.elements);
     const data = {
-      content: formattedContent,
+      elements: this.state.elements,
       country: this.state.country,
       title: this.state.title,
     };
-    this._httpService.post(config.endpoints.blog.base, data).then((response: Blog) => {
+    this._service.postBlog(data).then((response: Blog) => {
       this.clearState();
       this.props.notifySuccess('Blog successfully created. Please wait for administration verification!');
-    }).catch(err => {})
+      this.props.history.push('/blog/' + response.id);
+    }).catch(err => {});
   }
 
   render() {
@@ -151,7 +153,7 @@ class AddForm extends React.Component <Props, State> {
         <form className="blog-add__form" onSubmit={(e) => this.onSubmit(e)}>
           { this.renderSettings() }
           { this.state.elements.map((elem: Element, id: number) => this.renderPartForm(elem, id)) }
-          <button type="submit" className="blog-add__submit">Submit</button>
+          <ButtonWidget type="submit" text={'Submit'}/>
         </form>
       </div>
     );
@@ -164,4 +166,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddForm);
+export default withRouter(connect(null, mapDispatchToProps)(AddForm));

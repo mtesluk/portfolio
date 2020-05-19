@@ -1,14 +1,58 @@
 .blog-dashboard {
     width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin: auto;
+    display: flex;
+    flex-wrap: wrap;
 
-    &__table {
-        width: 30%;
-        margin-bottom: 3rem;
+    @media screen and (max-width: 1200px) {
+        flex-direction: column;
+        position: static;
+        transform: none;
     }
 
-    &__header-action {
-        display: flex;
-        justify-content: space-between;
+    &__card {
+        width: 50%;
+        // margin-bottom: 0rem;
+        // padding: 6rem 3rem;
+        // margin: auto;
+
+        @media screen and (max-width: 1200px) {
+            width: 70%;
+            margin: auto;
+        }
+
+        @media screen and (max-width: 1000px) {
+            width: 90%;
+            margin: auto;
+        }
+    }
+
+    &__header {
+        font-size: 3.5rem;
+    }
+
+    &__list-element-text {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+        white-space: nowrap;
+        display: inline;
+        margin-left: .8rem;
+        font-size: 2.5rem;
+    }
+
+    &__list-elem-link {
+        display: block;
+        font-size: 2rem;
+        padding: .4rem 1rem;
+
+        &:hover {
+            border-radius: .5rem;
+            background-color: rgb(243, 241, 237);
+        }
     }
 }

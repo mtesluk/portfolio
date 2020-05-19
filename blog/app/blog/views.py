@@ -3,12 +3,13 @@ import os
 from flask import request, flash, redirect, url_for, send_file, Blueprint, views, Response, jsonify
 # from werkzeug.utils import secure_filename
 # from .config import ALLOWED_EXTENSIONS
+from sqlalchemy.exc import OperationalError
 
+from app.decorators import is_allowed
 from app.blog.services import BlogService
 from app.account.services import AccountService
 from app.exceptions import BadRequest, NotPermitted
 from app.filter import Filter, Equal
-from sqlalchemy.exc import OperationalError
 
 
 blueprint = Blueprint('blog', __name__)
@@ -54,23 +55,20 @@ class BlogViewSet(views.MethodView):
             raise BadRequest(err.args)
 
     @AccountService.is_auth
-    def delete(self, id, user_id, *args, **kwargs):
+    @is_allowed
+    def delete(self, id, *args, **kwargs):
         service = BlogService()
-        if service.is_allowed(user_id, id):
-            service.remove_blog(id)
-            return jsonify({}), 204
-        else:
-            raise NotPermitted
+        service.remove_blog(id)
+        return jsonify({}), 204
+
 
     @AccountService.is_auth
-    def put(self, id, user_id, *args, **kwargs):
+    @is_allowed
+    def put(self, id, *args, **kwargs):
         data = request.get_json()
         service = BlogService()
-        if service.is_allowed(user_id, id):
-            blog = service.update_blog(id, data)
-            return jsonify(blog)
-        else:
-            raise NotPermitted
+        blog = service.update_blog(id, data)
+        return jsonify(blog)
 
 def authors():
     params = request.args
