@@ -24,7 +24,7 @@ class UserViewSet(viewsets.ViewSet):
 
     @decorators.action(detail=False,  methods=['get'], permission_classes=[IsAuthenticated])
     def is_authenticated(self, request):
-        return response.Response({'is_auth': True, 'user_id': request.user.id})
+        return response.Response({'is_auth': True, 'user_id': request.user.id, 'is_admin': request.user.is_superuser})
 
     @decorators.action(detail=False,  methods=['get'])
     def exist_fb_account(self, request):

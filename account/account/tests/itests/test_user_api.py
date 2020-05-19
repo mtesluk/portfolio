@@ -69,15 +69,28 @@ class UserApiTestCase(APITestCase):
 
         self.assertEqual(response.status_code, 403)
 
-    def test_is_auth(self):
+    def test_is_auth_not_admin(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.user.auth_token.key)
 
         response = self.client.get('/api/v2/users/is_authenticated/')
         data = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(data['is_auth'], True)
         self.assertEqual(data['user_id'], self.user.id)
+        self.assertTrue(data['is_auth'])
+        self.assertFalse(data['is_admin'])
+
+    def test_is_auth_not_admin(self):
+        user_2 = User.objects.create(username='test_user_2', is_superuser=True)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + user_2.auth_token.key)
+
+        response = self.client.get('/api/v2/users/is_authenticated/')
+        data = response.json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['user_id'], user_2.id)
+        self.assertTrue(data['is_auth'])
+        self.assertTrue(data['is_admin'])
 
     def test_get_users_filred_by_id_with_ordering(self):
         user_2 = User.objects.create(username='test_user_2')
