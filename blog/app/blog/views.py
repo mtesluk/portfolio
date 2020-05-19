@@ -5,10 +5,9 @@ from flask import request, flash, redirect, url_for, send_file, Blueprint, views
 # from .config import ALLOWED_EXTENSIONS
 from sqlalchemy.exc import OperationalError
 
-from app.decorators import is_allowed
+from app.decorators import is_allowed, is_auth
 from app.blog.services import BlogService
-from app.account.services import AccountService
-from app.exceptions import BadRequest, NotPermitted
+from app.exceptions import BadRequest
 from app.filter import Filter, Equal
 
 
@@ -43,7 +42,7 @@ class BlogViewSet(views.MethodView):
             raise BadRequest(error_msg)
         return jsonify(blog)
 
-    @AccountService.is_auth
+    @is_auth
     def post(self, user_id, *args, **kwargs):
         try:
             data = request.get_json()
@@ -54,7 +53,7 @@ class BlogViewSet(views.MethodView):
         except (TypeError, OperationalError) as err:
             raise BadRequest(err.args)
 
-    @AccountService.is_auth
+    @is_auth
     @is_allowed
     def delete(self, id, *args, **kwargs):
         service = BlogService()
@@ -62,7 +61,7 @@ class BlogViewSet(views.MethodView):
         return jsonify({}), 204
 
 
-    @AccountService.is_auth
+    @is_auth
     @is_allowed
     def put(self, id, *args, **kwargs):
         data = request.get_json()
