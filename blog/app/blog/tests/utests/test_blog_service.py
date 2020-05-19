@@ -25,6 +25,42 @@ class BlogServiceTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
+    def test_is_user_allowed(self):
+        blog = Blog(user_id=0, content='123', title='title')
+        self.session.add(blog)
+        self.session.commit()
+
+        is_allowed = self.service.is_allowed(0, blog.id)
+
+        self.assertTrue(is_allowed)
+
+    def test_is_user_not_allowed(self):
+        blog = Blog(user_id=0, content='123', title='title')
+        self.session.add(blog)
+        self.session.commit()
+
+        is_allowed = self.service.is_allowed(2, blog.id)
+
+        self.assertFalse(is_allowed)
+
+    def test_is_user_allowed_with_str(self):
+        blog = Blog(user_id=0, content='123', title='title')
+        self.session.add(blog)
+        self.session.commit()
+
+        is_allowed = self.service.is_allowed('0', blog.id)
+
+        self.assertTrue(is_allowed)
+
+    def test_is_user_not_allowed_with_Str(self):
+        blog = Blog(user_id=0, content='123', title='title')
+        self.session.add(blog)
+        self.session.commit()
+
+        is_allowed = self.service.is_allowed('2', blog.id)
+
+        self.assertFalse(is_allowed)
+
     def test_update_blog(self):
         blog = Blog(user_id=0, content='123', title='title')
         self.session.add(blog)

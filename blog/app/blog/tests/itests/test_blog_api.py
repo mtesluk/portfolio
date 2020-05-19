@@ -234,7 +234,7 @@ class BlogApiTestCase(TestCase):
     def test_put_blog(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0}
 
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
@@ -254,10 +254,28 @@ class BlogApiTestCase(TestCase):
     @patch('app.account.services.requests.get')
     @patch('app.account.services.request')
     @patch('app.account.services.cache.get', return_value=False)
-    def test_put_blog_with_wrong_data(self, patch_1, patch_2, patch_3):
+    def test_put_blog_not_permitted(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
         patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+
+        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
+        self.session.add(blog)
+        self.session.commit()
+
+        payload = {'content': '456', 'title': 'new_title'}
+        response = self.client.put(f'/api/v3/blogs/{blog.id}/', json=payload)
+        status = response.status_code
+
+        self.assertEqual(status, 401)
+
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_put_blog_with_wrong_data(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 200
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0}
 
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
@@ -278,7 +296,7 @@ class BlogApiTestCase(TestCase):
     def test_remove_blog(self, patch_1, patch_2, patch_3):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
-        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 0}
 
         blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
         self.session.add(blog)
@@ -290,6 +308,24 @@ class BlogApiTestCase(TestCase):
 
         self.assertEqual(status, 204)
         self.assertEqual(Blog.query.get(blog_id), None)
+
+    @patch('app.account.services.requests.get')
+    @patch('app.account.services.request')
+    @patch('app.account.services.cache.get', return_value=False)
+    def test_remove_blog_not_permitted(self, patch_1, patch_2, patch_3):
+        patch_2.headers.get.return_value = 'Token 123'
+        patch_3.return_value.status_code = 200
+        patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1}
+
+        blog = Blog(user_id=0, content='123', cooperators='1,4', country='Poland', title='title')
+        self.session.add(blog)
+        self.session.commit()
+        blog_id = blog.id
+
+        response = self.client.delete(f'/api/v3/blogs/{blog_id}/')
+        status = response.status_code
+
+        self.assertEqual(status, 401)
 
     @patch('app.account.services.requests.get')
     def test_get_authors(self, patch):

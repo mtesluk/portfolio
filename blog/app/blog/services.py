@@ -1,3 +1,5 @@
+from typing import Union
+
 from app.extensions import db
 from app.blog.models import Blog
 from app.blog.serializers import BlogSerializer
@@ -52,6 +54,10 @@ class BlogService:
         if blog:
             db.session.delete(blog)
             db.session.commit()
+
+    def is_allowed(self, id: int, blog_id: Union[int, str]):
+        blog_user_id = Blog.query.get(blog_id).user_id
+        return blog_user_id == int(id)
 
     def get_authors(self, filters: dict = None, ordering: str = None, limit: str = None):
         queryset = db.session.query(Blog.user_id).distinct()

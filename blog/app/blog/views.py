@@ -6,7 +6,7 @@ from flask import request, flash, redirect, url_for, send_file, Blueprint, views
 
 from app.blog.services import BlogService
 from app.account.services import AccountService
-from app.exceptions import BadRequest
+from app.exceptions import BadRequest, NotPermitted
 from app.filter import Filter, Equal
 from sqlalchemy.exc import OperationalError
 
@@ -42,7 +42,7 @@ class BlogViewSet(views.MethodView):
             raise BadRequest(error_msg)
         return jsonify(blog)
 
-    @AccountService.is_allowed
+    @AccountService.is_auth
     def post(self, user_id, *args, **kwargs):
         try:
             data = request.get_json()
@@ -53,18 +53,24 @@ class BlogViewSet(views.MethodView):
         except (TypeError, OperationalError) as err:
             raise BadRequest(err.args)
 
-    @AccountService.is_allowed
-    def delete(self, id, *args, **kwargs):
+    @AccountService.is_auth
+    def delete(self, id, user_id, *args, **kwargs):
         service = BlogService()
-        service.remove_blog(id)
-        return jsonify({}), 204
+        if service.is_allowed(user_id, id):
+            service.remove_blog(id)
+            return jsonify({}), 204
+        else:
+            raise NotPermitted
 
-    @AccountService.is_allowed
-    def put(self, id, *args, **kwargs):
+    @AccountService.is_auth
+    def put(self, id, user_id, *args, **kwargs):
         data = request.get_json()
         service = BlogService()
-        blog = service.update_blog(id, data)
-        return jsonify(blog)
+        if service.is_allowed(user_id, id):
+            blog = service.update_blog(id, data)
+            return jsonify(blog)
+        else:
+            raise NotPermitted
 
 def authors():
     params = request.args

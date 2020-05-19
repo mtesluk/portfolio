@@ -2,6 +2,7 @@ import requests
 
 from flask import current_app, request, jsonify
 from app.extensions import cache
+from app.exceptions import NotAuthorized
 
 
 class AccountService:
@@ -22,12 +23,12 @@ class AccountService:
         return []
 
     @staticmethod
-    def is_allowed(func):
+    def is_auth(func):
         def wrapper(*args, **kwargs):
             base_url = current_app.config['AUTH_SERVER']
             auth_header = request.headers.get('Authorization', None)
             if not auth_header:
-                return jsonify({'message': 'You are not authorized!'}), 401
+                raise NotAuthorized
             token = auth_header.split(' ')[1]
             cached_user_id = cache.get(token)
             if not cached_user_id:
@@ -35,7 +36,7 @@ class AccountService:
                 url = f'{base_url}/api/v2/users/is_authenticated/'
                 response = requests.get(url, headers=headers)
                 if not response.status_code == 200:
-                    return jsonify({'message': 'You are not authorized!'}), 401
+                    raise NotAuthorized
                 data = response.json()
                 user_id = data.get('user_id', '')
                 cache.set(token, user_id, 3600)
