@@ -102,7 +102,7 @@ class Entry extends React.Component<Props, State> {
                   authors: [this.state.authors.main]
                 }}}
               >
-                {this.state.authors.main.username}
+                {this.state.authors.main ? this.state.authors.main.username : 'Anonym'}
               </Link>
             </div>
             <div className="blog-detail__support">
