@@ -1,6 +1,0 @@
-0000000000000000000000000000000000000000 58dd9dc8ebb8a93162751c3319d5addcb09dc9eb mtesluk <mateusz@tesluk.pl> 1587418445 +0200	WIP on master: 2f9bca4 Test api of account
-58dd9dc8ebb8a93162751c3319d5addcb09dc9eb 4306f5797ac6cad0b3e07dcb18d533dc32ae2461 mtesluk <mateusz@tesluk.pl> 1587418464 +0200	WIP on master: 2f9bca4 Test api of account
-4306f5797ac6cad0b3e07dcb18d533dc32ae2461 c5efca517234c1698d6bee0e85c9bb6f53a28339 mtesluk <mateusz@tesluk.pl> 1588954675 +0200	WIP on master: cfd54dd Fix urls
-c5efca517234c1698d6bee0e85c9bb6f53a28339 514575748c0a53e503170d849c7a87cb10ad74d1 mtesluk <mateusz@tesluk.pl> 1589740121 +0200	WIP on master: 83c0bdd Add docker composes, change politicy for deployment
-514575748c0a53e503170d849c7a87cb10ad74d1 b3c135e0ef665b324320987fff75131b3ceffcc2 mtesluk <mateusz@tesluk.pl> 1589740209 +0200	WIP on master: 5a80e65 Add docker composes, change politicy for deployment
-b3c135e0ef665b324320987fff75131b3ceffcc2 1cdc87cc18c042a115ed1c8c8ce4c40507dc02d6 mtesluk <mateusz@tesluk.pl> 1589748215 +0200	WIP on master: 80689f2 Fix test config

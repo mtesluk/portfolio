@@ -83,7 +83,6 @@ class SelectCardList extends React.Component<Props, State> {
   getBlogs(subject: Subject) {
     const subjectBlogsExists = this.state.selectedEntity.map((entity: Entity) => entity.subject.id).includes(subject.id);
     if (!subjectBlogsExists) {
-      const url = config.endpoints.blog.base;
       const filters = {};
       for (const key in this.props.filters) {
         filters[key] = this.props.filters[key] === 'id' ? subject.id : subject.name;
