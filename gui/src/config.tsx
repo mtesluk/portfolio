@@ -26,6 +26,9 @@ export const config = {
             authors: getBaseUrlConfig('blog') + '/blogs/authors/',
             countries: getBaseUrlConfig('blog') + '/blogs/countries/',
             base: getBaseUrlConfig('blog') + '/blogs/',
+        },
+        countries: {
+            base: '/countries',
         }
     },
     routes: {
@@ -35,6 +38,7 @@ export const config = {
             authors: '/blog/authors',
             sites: '/blog/sites',
             addNew: '/blog/add',
+            profile: '/blog/profile',
             detail: detailRoute('/blog/'),
         }
     }

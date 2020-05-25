@@ -1,0 +1,88 @@
+# This is a combination of 2 commits.
+# This is the 1st commit message:
+
+Add dcker compose for account
+
+# This is the commit message #2:
+
+Add docker composes, change politicy for deployment
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Sat May 16 16:55:50 2020 +0200
+#
+# interactive rebase in progress; onto 4ed31c3
+# Last commands done (2 commands done):
+#    pick 1e71611 Add dcker compose for account
+#    squash 83c0bdd Add docker composes, change politicy for deployment
+# No commands remaining.
+# You are currently rebasing branch 'master' on '4ed31c3'.
+#
+# Changes to be committed:
+#	modified:   README.md
+#	new file:   account/.env.cfg
+#	new file:   account/.gitignore
+#	modified:   account/Dockerfile
+#	modified:   account/account/tests/itests/test_token_api.py
+#	modified:   account/account/tests/itests/test_user_api.py
+#	new file:   account/docker-compose.yml
+#	modified:   account/project/__pycache__/settings.cpython-38.pyc
+#	modified:   account/project/__pycache__/urls.cpython-38.pyc
+#	modified:   account/project/__pycache__/wsgi.cpython-38.pyc
+#	modified:   account/project/settings.py
+#	deleted:    account/project/settings_prod.py
+#	modified:   account/project/urls.py
+#	modified:   account/project/wsgi.py
+#	modified:   account/requirements.txt
+#	new file:   blog/.env.cfg
+#	modified:   blog/.gitignore
+#	modified:   blog/Dockerfile
+#	modified:   blog/app/account/services.py
+#	modified:   blog/app/blog/tests/itests/test_blog_api.py
+#	modified:   blog/app/config.py
+#	modified:   blog/app/init.py
+#	new file:   blog/app/wsgi.py
+#	new file:   blog/docker-compose.yml
+#	deleted:    blog/migrations/versions/407172ffa48d_add_title_to_blog.py
+#	deleted:    blog/migrations/versions/4210429aa32c_add_add_date_and_update_date_to_blog.py
+#	new file:   blog/migrations/versions/b52485ef32f5_add_blog_model.py
+#	deleted:    blog/migrations/versions/f707489fba45_initial_migration.py
+#	modified:   blog/requirements.txt
+#	modified:   blog/run.py
+#	deleted:    docker-compose.yml
+#	modified:   gui/package-lock.json
+#	modified:   gui/package.json
+#	modified:   gui/src/components/App.tsx
+#	modified:   gui/src/components/Blog/Blog.tsx
+#	modified:   gui/src/components/Blog/Dashboard.tsx
+#	modified:   gui/src/components/Blog/Sidebar.tsx
+#	modified:   gui/src/components/Blog/common/SelectCardList.scss
+#	modified:   gui/src/components/Blog/common/SelectCardList.tsx
+#	modified:   gui/src/components/Blog/detail/Entry.tsx
+#	modified:   gui/src/components/Dashboard/Dashboard.scss
+#	modified:   gui/src/components/Dashboard/Dashboard.tsx
+#	modified:   gui/src/components/Login/Facebook.tsx
+#	modified:   gui/src/components/Login/LoginDialog.tsx
+#	modified:   gui/src/components/Login/LoginForm.tsx
+#	modified:   gui/src/components/Login/RegisterForm.tsx
+#	modified:   gui/src/config.tsx
+#	new file:   gui/src/configAxios.tsx
+#	modified:   gui/src/reducers/token.tsx
+#	modified:   gui/src/setupProxy.js
+#	renamed:    gui/src/components/Common/NotFound.tsx -> gui/src/shared/components/NotFound.tsx
+#	new file:   gui/src/shared/guards/AdminGuard.tsx
+#	new file:   gui/src/shared/guards/AuthGuard.tsx
+#	modified:   gui/src/shared/interceptors/response_error.interceptor.tsx
+#	modified:   gui/src/shared/interceptors/token.interceptor.tsx
+#	modified:   gui/src/shared/interfaces/blog.tsx
+#	modified:   gui/src/shared/services/HttpService.tsx
+#	new file:   widgets/dist/button/button.d.ts
+#	modified:   widgets/dist/index.d.ts
+#	modified:   widgets/dist/index.js
+#	modified:   widgets/dist/index.js.map
+#	modified:   widgets/dist/index.modern.js
+#	modified:   widgets/dist/index.modern.js.map
+#	new file:   widgets/src/button/button.tsx
+#	modified:   widgets/src/index.tsx
+#

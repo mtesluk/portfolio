@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, current_app
 
-from app.exceptions import BadRequest, NotPermitted, NotAuthorized
+from app.exceptions import BadRequest, NotPermitted, NotAuthorized, FileExtensionNotAllowed
 
 
 errors = Blueprint('errors', __name__)
@@ -29,5 +29,13 @@ def handle_not_permitted_request_format(error):
 def handle_not_authorized_request_format(error):
     payload = {}
     payload['message'] = 'You are not authorized!'
+    payload['type'] = error.__class__.__name__
+    return jsonify(payload), error.status_code
+
+@errors.app_errorhandler(FileExtensionNotAllowed)
+def handle_not_valid_file_format(error):
+    payload = {}
+    allowed_formats = ', '.join(current_app.config['ALLOWED_EXTENSIONS'])
+    payload['message'] = f'Format of file/image is not valid! Allowed formats {allowed_formats}'
     payload['type'] = error.__class__.__name__
     return jsonify(payload), error.status_code

@@ -12,3 +12,11 @@ class NotPermitted(Exception):
 
 class NotAuthorized(Exception):
     status_code = 401
+
+
+class FileExtensionNotAllowed(Exception):
+    status_code = 400
+
+
+class BooleanFilterTypeError(Exception):
+    status_code = 400

@@ -1,9 +1,15 @@
+import os
+import ftplib
 from typing import Union
+
+from werkzeug.utils import secure_filename
+from flask import current_app
 
 from app.extensions import db
 from app.blog.models import Blog
 from app.blog.serializers import BlogSerializer
 from app.account.services import AccountService
+from app.exceptions import FileExtensionNotAllowed
 
 class UserService:
     """
@@ -16,6 +22,32 @@ class BlogService:
     """
     Service to handle blog data and operation
     """
+
+    def upload_files(self, files, prefix_filename=None):
+        filenames = []
+        with ftplib.FTP(os.environ.get('FTP_HOST', ''), os.environ.get('FTP_USERNAME', ''), os.environ.get('FTP_PASSWORD', '')) as ftp:
+            for i, file in enumerate(files):
+                filename = file.filename
+                filename_ext = self._get_filename_extension(filename)
+                if self._allowed_file(filename, filename_ext):
+                    filename = '{}_{}.{}'.format(prefix_filename, i, filename_ext) if prefix_filename else filename
+                    filename = secure_filename(filename)
+                    ftp.storbinary('STOR ' + filename, file)
+                    server_name = os.environ.get('FILE_SERVER_NAME', '')
+                    file_url = os.path.join(server_name, filename)
+                    filenames.append(file_url)
+                else:
+                    raise FileExtensionNotAllowed
+        return filenames
+
+    def _allowed_file(self, filename, filename_ext):
+        return filename_ext in current_app.config['ALLOWED_EXTENSIONS']
+
+    def _get_filename_extension(self, filename):
+        return filename.rsplit('.', 1)[1].lower() if '.' in filename else 'forbidden_ext'
+
+    def remove_files(self, filenames):
+        pass
 
     def get_blog(self, id: int):
         blog = Blog.query.get(id)

@@ -2,7 +2,7 @@ import axios from '../../configAxios';
 
 
 interface Params {
-  [name: string]: string | number;
+  [name: string]: string | number | boolean;
 }
 
 
@@ -11,8 +11,8 @@ class HttpService {
     return axios.get(url, {params: params}).then(response => response.data);
   }
 
-  post(url: string, data: {}): Promise<any> {
-    return axios.post(url, data).then(response => response.data);
+  post(url: string, data: {}, config: {} = {}): Promise<any> {
+    return axios.post(url, data, config).then(response => response.data);
   }
 
   delete(url: string): Promise<any> {
@@ -20,7 +20,7 @@ class HttpService {
   }
 
   put(url: string, data: {}): Promise<any> {
-    return axios.put(url).then(response => response.data);
+    return axios.put(url, data).then(response => response.data);
   }
 }
 

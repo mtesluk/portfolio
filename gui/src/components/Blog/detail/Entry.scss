@@ -1,6 +1,15 @@
 .blog-detail {
     width: 60%;
-    margin: 3rem auto;
+    padding: 2rem;
+    margin: auto;
+
+    @media screen and (max-width: 1550px) {
+        width: 80%;
+    }
+
+    @media screen and (max-width: 1100px) {
+        width: 100%;
+    }
 
     &__description {
         display: flex;
@@ -8,6 +17,10 @@
         border-bottom: 1px rgb(112, 110, 110) solid;
         font-size: 1.85rem;
         padding: 1rem;
+
+        @media screen and (max-width: 900px) {
+            flex-direction: column;
+        }
     }
 
     &__title {
@@ -21,5 +34,14 @@
 
     &__right {
         text-align: end;
+
+        @media screen and (max-width: 900px) {
+            text-align: start;
+        }
+    }
+
+    &__image {
+        margin: 2rem 0;
+        width: 100%;
     }
 }

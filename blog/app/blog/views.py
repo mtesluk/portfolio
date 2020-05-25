@@ -1,14 +1,12 @@
 import os
 
-from flask import request, flash, redirect, url_for, send_file, Blueprint, views, Response, jsonify
-# from werkzeug.utils import secure_filename
-# from .config import ALLOWED_EXTENSIONS
+from flask import request, flash, redirect, url_for, send_file, Blueprint, views, jsonify, current_app
 from sqlalchemy.exc import OperationalError
 
 from app.decorators import is_allowed, is_auth
 from app.blog.services import BlogService
 from app.exceptions import BadRequest
-from app.filter import Filter, Equal
+from app.filter import Filter, Equal, Boolean
 
 
 blueprint = Blueprint('blog', __name__)
@@ -16,6 +14,7 @@ blueprint = Blueprint('blog', __name__)
 class BlogFilter(Filter):
     user_id = Equal
     country = Equal
+    is_active = Boolean
 
 
 class BlogViewSet(views.MethodView):
@@ -45,10 +44,14 @@ class BlogViewSet(views.MethodView):
     @is_auth
     def post(self, user_id, *args, **kwargs):
         try:
-            data = request.get_json()
+            data = request.get_json() or request.form.to_dict()
+            images = request.files.getlist('file')
             data['user_id'] = user_id
             service = BlogService()
             blog = service.create_blog(data)
+            blog_id = blog['id']
+            filenames = service.upload_files(images, f'BLOG_{blog_id}')
+            service.update_blog(blog_id, {'photo_names': ','.join(filenames)})
             return jsonify(blog), 201
         except (TypeError, OperationalError) as err:
             raise BadRequest(err.args)
@@ -93,44 +96,3 @@ blueprint.add_url_rule('/', view_func=view, methods=['POST',])
 blueprint.add_url_rule('/<int:id>/', view_func=view, methods=['GET', 'PUT', 'DELETE'])
 blueprint.add_url_rule('/authors/', view_func=authors, methods=['GET'])
 blueprint.add_url_rule('/countries/', view_func=countries, methods=['GET'])
-
-
-# @app.route('get_blogs')
-# def get_blogs():
-#    return "hello world!"
-
-# @app.route('update_blog')
-# def update_blog():
-#    return "hello world!"
-
-# @blueprint.route('/', methods=['GET'])
-# def dsa():
-#    return 'a'
-
-# @app.route('/s')
-# def logo():
-#    return send_file("../j.jpg",
-#                     mimetype='image/jpg')
-
-# def allowed_file(filename):
-#     return '.' in filename and \
-#            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# @app.route('/', methods=['GET', 'POST'])
-# def upload_file():
-#    if request.method == 'POST':
-#       # check if the post request has the file part
-#       if 'file' not in request.files:
-#          flash('No file part')
-#          return redirect(request.url)
-#       file = request.files['file']
-#       # if user does not select file, browser also
-#       # submit an empty part without filename
-#       if file.filename == '':
-#          flash('No selected file')
-#          return redirect(request.url)
-#       if file and allowed_file(file.filename):
-#          filename = secure_filename(file.filename)
-#          file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#          return 'saved'
-#    return 'asd'

@@ -149,10 +149,11 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(status, 400)
         self.assertTrue(data['message'])
 
+    @patch('app.blog.services.BlogService.upload_files', return_value=[])
     @patch('app.account.services.requests.get')
     @patch('app.account.services.request')
     @patch('app.account.services.cache.get', return_value=False)
-    def test_post_blog_with_correct_token(self, patch_1, patch_2, patch_3):
+    def test_post_blog_with_correct_token(self, patch_1, patch_2, patch_3, patch_4):
         patch_2.headers.get.return_value = 'Token 123'
         patch_3.return_value.status_code = 200
         patch_3.return_value.json = lambda: {'is_auth': True, 'user_id': 1, 'is_admin': False}
@@ -365,7 +366,7 @@ class BlogApiTestCase(TestCase):
         self.assertEqual(data[0]['id'], blog_3.user_id)
         patch.assert_called_with([2, 3, 1])
 
-    def test_get_countries(self):
+    def test_get_blog_countries(self):
         blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
         blog_2 = Blog(user_id=0, content='456', country='Germany', title='title')
         self.session.add_all([blog_1, blog_2])
@@ -380,7 +381,7 @@ class BlogApiTestCase(TestCase):
         self.assertIn('Poland', data)
         self.assertIn('Germany', data)
 
-    def test_get_countries_ordered_by_blogs_views_and_limit(self):
+    def test_get_blog_countries_ordered_by_blogs_views_and_limit(self):
         blog_1 = Blog(user_id=0, content='123', country='Poland', title='title', views=1)
         blog_2 = Blog(user_id=0, content='456', country='Germany', title='title', views=5)
         blog_3 = Blog(user_id=0, content='456', country='Italy', title='title', views=2)

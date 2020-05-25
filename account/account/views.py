@@ -8,6 +8,15 @@ from account.services.user import UserService
 from account.services.token import TokenService
 
 
+def is_allowed(func):
+    def wrapper(*args, **kwargs):
+        service = BlogService()
+        if service.is_allowed(kwargs['user_id'], kwargs['is_admin'], kwargs['id']):
+            return func(*args, **kwargs)
+        raise NotPermitted
+    return wrapper
+
+
 class UserViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny, )
 
@@ -48,6 +57,11 @@ class UserViewSet(viewsets.ViewSet):
         except IntegrityError:
             return response.Response({'message': 'User with provided data already exists'}, 500)
         return response.Response(data, 201)
+
+    def update(self, request, *args, **kwargs):
+        service = UserService()
+        data = service.update_user(request.user.id, request.data)
+        return response.Response(data)
 
 
 class CustomObtainAuthTokenView(ObtainAuthToken):

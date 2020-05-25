@@ -10,6 +10,7 @@ export interface User {
     first_name?: string;
     last_name?: string;
     profile?: Profile;
+    is_superuser?: boolean;
 }
 
 export enum RegisterFormType {

@@ -3,8 +3,17 @@ $border-color: rgb(109, 106, 106);
 .blog {
     display: flex;
     height: 100vh;
-    // background-color: rgb(235, 240, 231);
     background: radial-gradient(rgb(235, 240, 231), rgb(132, 157, 158));
+
+    &__navbar {
+        width: 100%;
+        background-color: rgb(28, 87, 197);
+        padding: 1rem;
+    }
+
+    &__navbar-icon {
+        vertical-align: text-top;
+    }
 
     &__sidebar {
         position: sticky;
@@ -22,8 +31,21 @@ $border-color: rgb(109, 106, 106);
         -moz-box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.75);
         box-shadow: 2px 0px 2px 0px rgba(0,0,0,0.75);
 
-        @media screen and (max-width: 1350px) {
+        @media screen and (max-width: 1400px) {
+            width: 30%;
+        }
+
+        @media screen and (max-width: 1100px) {
+            width: 50%;
+        }
+
+        @media screen and (max-width: 800px) {
+            width: 70%;
+        }
+
+        &--hide {
             display: none;
+            width: 0%;
         }
 
         & a {
@@ -58,12 +80,19 @@ $border-color: rgb(109, 106, 106);
     }
 
     &__bottom {
-        border-top: 1px $border-color solid;
+        text-align: center;
+
+        & > * {
+            border-top: 1px $border-color solid;
+        }
+    }
+
+    &__profile {
+        font-size: 3rem;
     }
 
     &__login {
         font-size: 4rem;
-        text-align: center;
 
         &:hover {
             cursor: pointer;

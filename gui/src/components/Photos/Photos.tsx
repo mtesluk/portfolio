@@ -1,10 +1,11 @@
 import React from 'react';
 
+import './Photos.scss';
+
 
 export const Photos = (props: any) => {
   return (
-    <div>
-      heh
+    <div className="photos">
     </div>
   );
 };

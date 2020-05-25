@@ -5,15 +5,15 @@ import {
 } from 'react-router-dom';
 
 import './Entry.scss';
+import ButtonWidget from '../../../shared/components/widgets/button/button';
 
 import BlogService from '../../../shared/services/blog.service';
 import UserService from '../../../shared/services/user.service';
 import { config  } from '../../../config';
-import { Blog, Element } from '../../../shared/interfaces/blog';
+import { Blog, Element, ElementType } from '../../../shared/interfaces/blog';
 import { Link } from 'react-router-dom';
 import { User } from '../../../shared/interfaces/user';
 import { notifySuccess } from '../../../actions/notify';
-import { ButtonWidget } from 'widgets';
 
 
 interface Props {
@@ -48,8 +48,9 @@ class Entry extends React.Component<Props, State> {
       if (response) {
         this.setState({
           blog: response,
-          elements: this._service.unformatContent(response.content),
+          elements: this._service.unformatContent(response.content, response.photo_names),
         });
+        console.log(this.state)
         this.getAuthorsNames();
       }
     });
@@ -86,6 +87,7 @@ class Entry extends React.Component<Props, State> {
           <div className="blog-detail__left">
             <div className="blog-detail__title">{this.state.blog.title}</div>
             <div className="blog-detail__region">
+              Region:	{'\u00A0'}
               <Link to={{
                 pathname: config.routes.blog.sites,
                 state: {
@@ -96,6 +98,7 @@ class Entry extends React.Component<Props, State> {
               </Link>
             </div>
             <div className="blog-detail__author">
+              Author:	{'\u00A0'}
               <Link to={{
                 pathname: config.routes.blog.authors,
                 state: {
@@ -127,7 +130,9 @@ class Entry extends React.Component<Props, State> {
           </div>
         </div>
         <div className="blog-detail__content">
-          {this.state.elements.map((elem: Element, id: number) => <div className="blog-detail__p" key={id}>{elem.value}</div>)}
+          {this.state.elements.map((elem: Element, id: number) => {
+            return elem.type === ElementType.PARAGRAPH ? <div className="blog-detail__p" key={id}>{elem.value}</div> : <img key={id} src={elem.value as string} alt={elem.value as string} className="blog-detail__image" />
+          })}
         </div>
       </div>
     );

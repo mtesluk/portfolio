@@ -17,7 +17,7 @@ export enum ElementType {
 }
 
 export interface Element {
-    value: string;
+    value: string | File;
     type: ElementType;
 }
 

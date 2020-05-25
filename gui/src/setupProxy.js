@@ -15,6 +15,13 @@ module.exports = function (app) {
             },
             // agent: new HttpsProxyAgent(proxyServer)
         }),
+        proxy(`/countries`,{
+            target: 'https://restcountries.eu/rest/v2/all?fields=name',
+            secure: false,
+            changeOrigin: true,
+            log: true,
+            // agent: new HttpsProxyAgent(proxyServer)
+        }),
         proxy(`/account`,{
             target: 'http://127.0.0.1:8000',
             secure: false,

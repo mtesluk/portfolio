@@ -6,13 +6,24 @@ import { config } from '../../config';
 class BlogService {
   _httpService: HttpService = new HttpService();
   seperator: string = '/{}/';
+  separatorHelper: string = '//{()}\\';
 
   formatContent(elements: Element[]) {
-    return elements.map((elem: Element) => elem.value).join(this.seperator)
+    return elements.map((elem: Element) => (elem.type === 0 ? elem.value : this.seperator)).join('');
   }
 
-  unformatContent(content: string) {
-    return content.split(this.seperator).map(el => ({value: el, type: ElementType.PARAGRAPH}))
+  unformatContent(contentStr: string, filenamesStr: string | null) {
+    const content: Element[] = [];
+    const filenames = (filenamesStr && filenamesStr.split(',')) || [];
+    filenames.forEach(filename => {
+      contentStr = contentStr.replace(this.seperator, this.separatorHelper);
+      const tmpContent = contentStr.split(this.separatorHelper);
+      contentStr = tmpContent[1];
+      if (tmpContent[0]) content.push({value: tmpContent[0], type: ElementType.PARAGRAPH});
+      content.push({value: filename, type: ElementType.IMAGE});
+    });
+    if (contentStr) content.push({value: contentStr, type: ElementType.PARAGRAPH});
+    return content;
   }
 
   removeBlog(id: number) {
@@ -25,15 +36,42 @@ class BlogService {
     return this._httpService.get(url).then((response: Blog) => response);
   }
 
-  postBlog(rawData: {elements: Element[], country: string, title: string}) {
-    const formattedContent = this.formatContent(rawData.elements);
-    const data = {
-      content: formattedContent,
-      country: rawData.country,
-      title: rawData.title,
-    };
+  putBlog(id: number, data: {}) {
+    const url = `${config.endpoints.blog.base}${id}/`;
+    return this._httpService.put(url, data).then((response: Blog) => response);
+  }
+
+  activateBlog(id: number) {
+    const url = `${config.endpoints.blog.base}${id}/`;
+    const data = {is_active: true};
+    return this._httpService.put(url, data).then((response: Blog) => response);
+  }
+
+  getActivatedBlogs(params: {} = {}) {
     const url = config.endpoints.blog.base;
-    return this._httpService.post(url, data).then((response: Blog) => response);
+    const newParams = {...params, is_active: true};
+    return this._httpService.get(url, newParams).then((response: Blog[]) => response);
+  }
+
+  getBlogs(params: {} = {}) {
+    const url = config.endpoints.blog.base;
+    return this._httpService.get(url, params).then((response: Blog[]) => response);
+  }
+
+  postBlog(rawData: {elements: Element[], country: string, title: string}) {
+    const data = new FormData();
+    const images = rawData.elements.filter(el => el.type === 1).map(el => el.value);
+    images.forEach(el => {
+      console.log(el)
+      data.append('file', el)
+    })
+    const formattedContent = this.formatContent(rawData.elements);
+    data.set('content', formattedContent);
+    data.set('country', rawData.country);
+    data.set('title', rawData.title);
+    console.log(data)
+    const url = config.endpoints.blog.base;
+    return this._httpService.post(url, data, {headers: {'Content-Type': 'multipart/form-data'}}).then((response: Blog) => response);
   }
 }
 

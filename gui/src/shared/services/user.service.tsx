@@ -1,6 +1,4 @@
-import { Element, ElementType } from '../interfaces/blog';
 import HttpService from './HttpService';
-import axios from '../../configAxios';
 import { config } from '../../config';
 
 
@@ -10,6 +8,11 @@ class UserService {
   getUsers(users: string | number) {
     const url = `${config.endpoints.auth.users}`;
     return this._httpService.get(url, {ids: users}).then(response => response);
+  }
+
+  putUser(data: {}) {
+    const url = `${config.endpoints.auth.users}`;
+    return this._httpService.put(url, data).then(response => response);
   }
 }
 

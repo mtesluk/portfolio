@@ -7,11 +7,13 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+import ButtonWidget from '../../../shared/components/widgets/button/button';
+import SelectWidget from '../../../shared/components/widgets/select/select';
 
 import { config  } from '../../../config';
 import HttpService from '../../../shared/services/HttpService'
 import { Blog } from '../../../shared/interfaces/blog';
-import { SelectWidget, ButtonWidget } from 'widgets';
+import BlogService from '../../../shared/services/blog.service';
 
 
 interface Props {
@@ -40,6 +42,7 @@ interface State {
 
 class SelectCardList extends React.Component<Props, State> {
   private _httpService: HttpService = new HttpService();
+  private _service: BlogService = new BlogService();
   state = {
     subjects: [],
     selectedEntity: [],
@@ -85,13 +88,12 @@ class SelectCardList extends React.Component<Props, State> {
       for (const key in this.props.filters) {
         filters[key] = this.props.filters[key] === 'id' ? subject.id : subject.name;
       }
-      this._httpService.get(url, filters).then((response: Blog[]) => {
+      this._service.getActivatedBlogs(filters).then((response: Blog[]) => {
         const entity: Entity = {subject, blogs: response};
         const selectedEntity: Entity[] = [...this.state.selectedEntity, entity];
         this.setState({
           selectedEntity,
         });
-        console.log(this.state)
       }).catch(error => {
       })
     }
@@ -142,7 +144,7 @@ class SelectCardList extends React.Component<Props, State> {
       <Card className="blog-cards__card--header">
         <CardContent>
           {this.state.loading && <LinearProgress />}
-          <SelectWidget data={this.state.subjects} onChange={(id: number) => this.handleSubjectSelectChange(id)}/>
+          <SelectWidget data={this.state.subjects} onChange={(id: number | string) => this.handleSubjectSelectChange(id as number)}/>
         </CardContent>
       </Card>
     )

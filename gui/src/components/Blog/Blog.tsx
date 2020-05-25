@@ -10,6 +10,7 @@ import Sites from './cards/Sites';
 import Entry from './detail/Entry';
 import Authors from './cards/Authors';
 import Dashboard from './Dashboard';
+import Account from './account/Account';
 import { BlogSidebar } from './Sidebar';
 import { AuthGuard } from '../../shared/guards/AuthGuard'
 
@@ -27,6 +28,7 @@ const BlogComponent = (props: Props) => {
           {/* <Route path={config.routes.blog.addNew} component={AddForm} /> */}
           <AuthGuard path={config.routes.blog.addNew} component={AddForm} app="blog" />
           <Route path={config.routes.blog.sites} component={Sites} />
+          <Route path={config.routes.blog.profile} component={Account} />
           <Route path={config.routes.blog.detail()} component={Entry} />
       </Switch>
     )

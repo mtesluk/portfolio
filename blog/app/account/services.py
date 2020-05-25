@@ -29,8 +29,8 @@ class AccountService:
         if not auth_header:
             return False
         token = auth_header.split(' ')[1]
-        cached_user_id = cache.get(token)
-        is_admin = False
+        cached_user_id = cache.get('{}_id'.format(token))
+        cached_user_is_admin = cache.get('{}_admin'.format(token))
         if not cached_user_id:
             headers = {'Authorization': auth_header}
             url = f'{base_url}/api/v2/users/is_authenticated/'
@@ -40,8 +40,10 @@ class AccountService:
             data = response.json()
             user_id = data.get('user_id', '')
             is_admin = data.get('is_admin', False)
-            cache.set(token, user_id, 3600)
+            cache.set('{}_id'.format(token), user_id, 3600)
+            cache.set('{}_admin'.format(token), is_admin, 3600)
             cached_user_id = user_id
+            cached_user_is_admin = is_admin
         kwargs['user_id'] = cached_user_id
-        kwargs['is_admin'] = is_admin
+        kwargs['is_admin'] = cached_user_is_admin
         return True

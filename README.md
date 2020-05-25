@@ -41,7 +41,3 @@ App built in React with Typescript
 
 #Server
 To run server exec 'npm run start'
-
-
-##WIDGET
-Lib built in React with Typescipt

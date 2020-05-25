@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import { Facebook } from './Facebook';
 
 import './LoginForm.scss';
+import InputWidget from '../../shared/components/widgets/input/input';
+import ErrorWidget from '../../shared/components/widgets/error/error';
+import ButtonWidget from '../../shared/components/widgets/button/button';
 
 import { notifySuccess } from '../../actions/notify';
 import { setToken } from '../../actions/token';
 import { RegisterFormType } from '../../shared/interfaces/user';
 import { config  } from "../../config";
 import HttpService from '../../shared/services/HttpService'
-import { InputWidget, ErrorWidget, ButtonWidget } from 'widgets';
 
 
 interface Props {
@@ -85,8 +87,6 @@ export const LoginFormComponent = (props: Props) => {
         <div className="login__actions">
           <ButtonWidget type={"button"} onClick={(e) => props.setRegistration(RegisterFormType.FULL)} text={"Sign up"}/>
           <ButtonWidget type={"submit"} text={"Login"}/>
-          {/* <button className="login__signup-btn" type="button" onClick={(e) => props.setRegistration(RegisterFormType.FULL)}>Sign up</button>
-          <button className="login__signin-btn" type="submit">Login</button> */}
         </div>
       </form>
     </div>

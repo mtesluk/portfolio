@@ -276,7 +276,7 @@ class BlogServiceTestCase(TestCase):
         filters = {'contentt': {'type': 'contains', 'value': '6'}}
         self.assertRaises(AttributeError, self.service.get_blogs, filters)
 
-    def test_get_countries(self):
+    def test_get_blog_countries(self):
         blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
         blog_2 = Blog(user_id=1, content='456', country='Poland', title='title')
         blog_3 = Blog(user_id=1, content='678', country='Germany', title='title')
@@ -289,7 +289,7 @@ class BlogServiceTestCase(TestCase):
         self.assertIn('Poland', countries)
         self.assertIn('Germany', countries)
 
-    def test_get_countries_with_null(self):
+    def test_get_blog_countries_with_null(self):
         blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
         blog_2 = Blog(user_id=1, content='456', country='Poland', title='title')
         blog_3 = Blog(user_id=1, content='678', title='title')

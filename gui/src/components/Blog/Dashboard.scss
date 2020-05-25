@@ -1,5 +1,5 @@
 .blog-dashboard {
-    width: 90%;
+    width: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -7,6 +7,7 @@
     margin: auto;
     display: flex;
     flex-wrap: wrap;
+    padding: 2rem;
 
     @media screen and (max-width: 1200px) {
         flex-direction: column;
@@ -16,18 +17,15 @@
 
     &__card {
         width: 50%;
-        // margin-bottom: 0rem;
-        // padding: 6rem 3rem;
-        // margin: auto;
 
         @media screen and (max-width: 1200px) {
             width: 70%;
             margin: auto;
+            margin-bottom: 2rem;
         }
 
         @media screen and (max-width: 1000px) {
-            width: 90%;
-            margin: auto;
+            width: 100%;
         }
     }
 

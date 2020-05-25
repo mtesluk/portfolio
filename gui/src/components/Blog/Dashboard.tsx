@@ -9,9 +9,10 @@ import { config } from '../../config';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardActions } from '@material-ui/core';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+import BlogService from '../../shared/services/blog.service';
 
 
-interface State {
+interface ComponentState {
   latestBlogs: Blog[];
   mostSeenBlogs: Blog[];
   topSeenAuthors: User[];
@@ -22,8 +23,9 @@ interface Props {
 
 }
 
-class Dashboard extends React.Component<Props, State> {
+class Dashboard extends React.Component<Props, ComponentState> {
   private _httpService: HttpService = new HttpService();
+  private _service: BlogService = new BlogService();
   state = {
     latestBlogs: [],
     mostSeenBlogs: [],
@@ -39,9 +41,8 @@ class Dashboard extends React.Component<Props, State> {
   }
 
   getMostSeenBlogs() {
-    const url = config.endpoints.blog.base;
     const params = {limit: 5, ordering: '-views'};
-    this._httpService.get(url, params).then((response: Blog[]) => {
+    this._service.getActivatedBlogs(params).then((response: Blog[]) => {
       this.setState({
         mostSeenBlogs: response,
       })
@@ -49,9 +50,8 @@ class Dashboard extends React.Component<Props, State> {
   }
 
   getLatestBlogs() {
-    const url = config.endpoints.blog.base;
     const params = {limit: 5};
-    this._httpService.get(url, params).then((response: Blog[]) => {
+    this._service.getActivatedBlogs(params).then((response: Blog[]) => {
       this.setState({
         latestBlogs: response,
       })
