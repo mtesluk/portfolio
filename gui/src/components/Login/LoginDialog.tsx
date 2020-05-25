@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import './LoginDialog.scss';
 
-import { setOpenLoginDialog } from '../../actions/login-dialog';
+import { setOpenLoginDialog } from 'actions/login-dialog';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
-import { User, RegisterFormType } from '../../shared/interfaces/user';
-import { Dialog } from '../../shared/components/Dialog';
-import { config  } from "../../config";
-import HttpService from '../../shared/services/HttpService';
-import { setUserData } from '../../actions/user';
+import { User, RegisterFormType } from 'shared/interfaces/user';
+import { Dialog } from 'shared/components/Dialog';
+import { config  } from "config";
+import { setUserData } from 'actions/user';
+import HttpService from 'shared/services/HttpService';
 
 
 interface Props {

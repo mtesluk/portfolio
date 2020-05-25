@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import './Add.scss';
-import ButtonWidget from '../../../shared/components/widgets/button/button';
-import SelectWidget from '../../../shared/components/widgets/select/select';
-import SelectFileWidget from '../../../shared/components/widgets/selectFile/selectFile';
+import ButtonWidget from 'shared/components/widgets/button/button';
+import SelectWidget from 'shared/components/widgets/select/select';
+import SelectFileWidget from 'shared/components/widgets/selectFile/selectFile';
 
-import { notifySuccess } from '../../../actions/notify';
-import { Blog, Element, ElementType } from '../../../shared/interfaces/blog';
-import BlogService from '../../../shared/services/blog.service';
-import { config } from '../../../config';
+import { notifySuccess } from 'actions/notify';
+import { Blog, Element, ElementType } from 'shared/interfaces/blog';
+import { config } from 'config';
+import BlogService from 'shared/services/blog.service';
 
 
 interface ComponentState {

@@ -5,15 +5,15 @@ import {
 } from 'react-router-dom';
 
 import './Entry.scss';
-import ButtonWidget from '../../../shared/components/widgets/button/button';
+import ButtonWidget from 'shared/components/widgets/button/button';
 
-import BlogService from '../../../shared/services/blog.service';
-import UserService from '../../../shared/services/user.service';
-import { config  } from '../../../config';
-import { Blog, Element, ElementType } from '../../../shared/interfaces/blog';
+import { config  } from 'config';
+import { Blog, Element, ElementType } from 'shared/interfaces/blog';
 import { Link } from 'react-router-dom';
-import { User } from '../../../shared/interfaces/user';
-import { notifySuccess } from '../../../actions/notify';
+import { User } from 'shared/interfaces/user';
+import { notifySuccess } from 'actions/notify';
+import BlogService from 'shared/services/blog.service';
+import UserService from 'shared/services/user.service';
 
 
 interface Props {

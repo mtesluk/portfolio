@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Blog } from '../../../../shared/interfaces/blog';
-import BlogService from '../../../../shared/services/blog.service';
+import { Blog } from 'shared/interfaces/blog';
+import BlogService from 'shared/services/blog.service';
 
 
 interface ComponentState {

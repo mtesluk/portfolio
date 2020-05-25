@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import FacebookLogin from 'react-facebook-login';
-import { config } from '../../config';
-import { setToken } from '../../actions/token';
-import { RegisterFormType } from '../../shared/interfaces/user';
-import HttpService from '../../shared/services/HttpService';
-import { notifySuccess } from '../../actions/notify';
+
+import { config } from 'config';
+import { setToken } from 'actions/token';
+import { RegisterFormType } from 'shared/interfaces/user';
+import { notifySuccess } from 'actions/notify';
+import HttpService from 'shared/services/HttpService';
 
 
 interface FacebookDataPicture {

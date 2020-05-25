@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 
 import './Blog.scss';
 
-import { config } from '../../config';
+import { config } from 'config';
+import { BlogSidebar } from './Sidebar';
+import { AuthGuard } from 'shared/guards/AuthGuard'
 import AddForm  from './add/Add';
 import Sites from './cards/Sites';
 import Entry from './detail/Entry';
 import Authors from './cards/Authors';
 import Dashboard from './Dashboard';
 import Account from './account/Account';
-import { BlogSidebar } from './Sidebar';
-import { AuthGuard } from '../../shared/guards/AuthGuard'
 
 
 interface Props {

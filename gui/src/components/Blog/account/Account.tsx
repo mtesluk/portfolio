@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import './Account.scss';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
-import { Blog } from '../../../shared/interfaces/blog';
+import { Blog } from 'shared/interfaces/blog';
+import { User } from 'shared/interfaces/user';
 import ChangePassword from './changePassword/ChangePassword';
 import EditProfile from './editProfile/EditProfile';
 import Admin from './admin/Admin';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { User } from '../../../shared/interfaces/user';
 
 
 interface ComponentState {

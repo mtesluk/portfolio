@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import InputWidget from '../../../../shared/components/widgets/input/input';
-import ButtonWidget from '../../../../shared/components/widgets/button/button';
+import InputWidget from 'shared/components/widgets/input/input';
+import ButtonWidget from 'shared/components/widgets/button/button';
 
-import { User } from '../../../../shared/interfaces/user';
-import { notifySuccess } from '../../../../actions/notify';
-import { setUserData } from '../../../../actions/user';
-import UserService from '../../../../shared/services/user.service';
+import { User } from 'shared/interfaces/user';
+import { notifySuccess } from 'actions/notify';
+import { setUserData } from 'actions/user';
+import UserService from 'shared/services/user.service';
 
 interface ReduxDispatch {
   notifySuccess: (msg: string) => void;

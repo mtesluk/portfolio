@@ -1,6 +1,6 @@
-import { Element, ElementType, Blog } from '../interfaces/blog';
+import { Element, ElementType, Blog } from 'shared/interfaces/blog';
+import { config } from 'config';
 import HttpService from './HttpService';
-import { config } from '../../config';
 
 
 class BlogService {

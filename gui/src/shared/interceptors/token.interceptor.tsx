@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
-import axios from '../../configAxios';
-import { config as appConfing } from '../../config';
+import axios from 'configAxios';
+import { config as appConfing } from 'config';
 
 
 class TokenInterceptor {

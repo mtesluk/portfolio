@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import { connect } from 'react-redux';
 
 import './RegisterForm.scss';
-import InputWidget from '../../shared/components/widgets/input/input';
-import ErrorWidget from '../../shared/components/widgets/error/error';
-import ButtonWidget from '../../shared/components/widgets/button/button';
+import InputWidget from 'shared/components/widgets/input/input';
+import ErrorWidget from 'shared/components/widgets/error/error';
+import ButtonWidget from 'shared/components/widgets/button/button';
 
-import { notifySuccess } from '../../actions/notify';
-import { User, Profile, RegisterFormType } from '../../shared/interfaces/user';
-import { config  } from "../../config";
-import HttpService from '../../shared/services/HttpService'
+import { notifySuccess } from 'actions/notify';
+import { User, Profile, RegisterFormType } from 'shared/interfaces/user';
+import { config  } from "config";
+import HttpService from 'shared/services/HttpService'
 
 
 interface Props {

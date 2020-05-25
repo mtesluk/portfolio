@@ -1,4 +1,4 @@
-import axios from '../../configAxios';
+import axios from 'configAxios';
 
 
 interface Params {

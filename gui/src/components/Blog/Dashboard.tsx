@@ -1,15 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './Dashboard.scss';
-
-import HttpService from '../../shared/services/HttpService';
-import { Blog } from '../../shared/interfaces/blog';
-import { User } from '../../shared/interfaces/user';
-import { config } from '../../config';
-import { Link } from 'react-router-dom';
 import { Card, CardContent, CardActions } from '@material-ui/core';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
-import BlogService from '../../shared/services/blog.service';
+
+import { config } from 'config';
+import { Blog } from 'shared/interfaces/blog';
+import { User } from 'shared/interfaces/user';
+import HttpService from 'shared/services/HttpService';
+import BlogService from 'shared/services/blog.service';
 
 
 interface ComponentState {

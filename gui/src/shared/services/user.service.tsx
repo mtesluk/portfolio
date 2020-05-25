@@ -1,5 +1,5 @@
+import { config } from 'config';
 import HttpService from './HttpService';
-import { config } from '../../config';
 
 
 class UserService {

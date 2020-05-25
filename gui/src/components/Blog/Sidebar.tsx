@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import './Sidebar.scss';
 import HomeIcon from '@material-ui/icons/Menu';
 
-import { config } from '../../config';
-import { setOpenLoginDialog } from '../../actions/login-dialog';
-import { User } from '../../shared/interfaces/user';
-import { resetToken } from '../../actions/token';
-import { notifySuccess } from '../../actions/notify';
-import { setUserData } from '../../actions/user';
+import { config } from 'config';
+import { setOpenLoginDialog } from 'actions/login-dialog';
+import { User } from 'shared/interfaces/user';
+import { resetToken } from 'actions/token';
+import { notifySuccess } from 'actions/notify';
+import { setUserData } from 'actions/user';
 
 
 interface ReduxState {

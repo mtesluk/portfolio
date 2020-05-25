@@ -7,13 +7,13 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
-import ButtonWidget from '../../../shared/components/widgets/button/button';
-import SelectWidget from '../../../shared/components/widgets/select/select';
+import ButtonWidget from 'shared/components/widgets/button/button';
+import SelectWidget from 'shared/components/widgets/select/select';
 
-import { config  } from '../../../config';
-import HttpService from '../../../shared/services/HttpService'
-import { Blog } from '../../../shared/interfaces/blog';
-import BlogService from '../../../shared/services/blog.service';
+import { config  } from 'config';
+import { Blog } from 'shared/interfaces/blog';
+import HttpService from 'shared/services/HttpService'
+import BlogService from 'shared/services/blog.service';
 
 
 interface Props {

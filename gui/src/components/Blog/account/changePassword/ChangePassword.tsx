@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import UserService from '../../../../shared/services/user.service';
-import { notifySuccess } from '../../../../actions/notify';
-import InputWidget from '../../../../shared/components/widgets/input/input';
-import ButtonWidget from '../../../../shared/components/widgets/button/button';
+import InputWidget from 'shared/components/widgets/input/input';
+import ButtonWidget from 'shared/components/widgets/button/button';
+
+import UserService from 'shared/services/user.service';
+import { notifySuccess } from 'actions/notify';
 
 
 interface ReduxDispatch {
@@ -29,10 +30,13 @@ const ChangePasswordComponent = (props: Props) => {
   return (
     <form className="blog-change-password" onSubmit={onSubmit}>
       <div className="form-field">
-        <InputWidget placeholder="Username" name="username" refe={register({required: false})}/>
+        <InputWidget placeholder="Old password" name="oldPassword" refe={register({required: false})}/>
       </div>
       <div className="form-field">
-        <InputWidget placeholder="Email" name="email" refe={register({required: false})}/>
+        <InputWidget placeholder="New password" name="newPassword" refe={register({required: false})}/>
+      </div>
+      <div className="form-field">
+        <InputWidget placeholder="Confirm new password" name="newConfirmationPassword" refe={register({required: false})}/>
       </div>
       <ButtonWidget type={"submit"} text={"Update"}/>
     </form>

@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useState } from 'react';
 
 
 const InlineStyles: {[name: string]: CSSProperties} = {
@@ -36,28 +36,23 @@ interface State {
 
 }
 
-class SelectFileWidget extends React.Component<Props, State>  {
-  state = {
-    selectedFile: null,
-  }
+const SelectFileWidget = (props: Props) => {
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  onFileChange(e: any) {
+  const onFileChange = (e: any) => {
     const file = e.target.files[0];
-    this.setState({selectedFile: file.name})
-    this.props.onChange && this.props.onChange(file);
+    setSelectedFile(file.name)
+    props.onChange && props.onChange(file);
   };
 
-  render() {
-    return (
-      <div className="widget-select-file" style={InlineStyles.widget}>
-        <label style={InlineStyles.label} htmlFor={`widget-select-file-id-${this.props.orderNumber}`}>
-          {/* <img src="upload.svg" alt="upload-svg" /> */}
-          {this.state.selectedFile || 'Select file...'}</label>
-        <input style={InlineStyles.file} type="file" name={this.props.name} accept="image/*" onChange={(e) => this.onFileChange(e)} id={`widget-select-file-id-${this.props.orderNumber}`} />
-      </div>
-    )
-  }
-
+  return (
+    <div className="widget-select-file" style={InlineStyles.widget}>
+      <label style={InlineStyles.label} htmlFor={`widget-select-file-id-${props.orderNumber}`}>
+        {/* <img src="upload.svg" alt="upload-svg" /> */}
+        {selectedFile || 'Select file...'}</label>
+      <input style={InlineStyles.file} type="file" name={props.name} accept="image/*" onChange={(e) => onFileChange(e)} id={`widget-select-file-id-${props.orderNumber}`} />
+    </div>
+  )
 }
 
 export default SelectFileWidget;

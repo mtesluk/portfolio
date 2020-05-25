@@ -2,9 +2,9 @@ import React from 'react';
 
 import './Authors.scss';
 
-import { config  } from '../../../config';
-import SelectCardList from '../common/SelectCardList';
-import { User } from '../../../shared/interfaces/user';
+import { config  } from 'config';
+import { User } from 'shared/interfaces/user';
+import SelectCardList from 'components/Blog/common/SelectCardList';
 
 
 interface Props {

@@ -1,8 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { notifyError } from '../../actions/notify';
-import { User } from '../interfaces/user';
 import { Redirect, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { notifyError } from 'actions/notify';
+import { User } from 'shared/interfaces/user';
 
 
 interface State {

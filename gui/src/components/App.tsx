@@ -4,22 +4,22 @@ import { connect } from 'react-redux';
 import NotificationSystem from 'react-notification-system';
 
 import './App.scss';
-import { Notification } from '../shared/interfaces/notification.interface';
 
+import { Notification } from 'shared/interfaces/notification.interface';
 import { Blog } from './Blog/Blog';
 import { Forum } from './Forum/Forum';
 import { Dashboard } from './Dashboard/Dashboard';
 import { Photos } from './Photos/Photos';
 import { Movies } from './Movies/Movies';
-import { NotFound } from '../shared/components/NotFound';
+import { NotFound } from 'shared/components/NotFound';
 import { LoginDialog } from './Login/LoginDialog';
-import { notifyError } from '../actions/notify';
-import Interceptor from '../shared/interceptors/interceptor';
-import { setToken } from '../actions/token';
-import { setUserData } from '../actions/user';
-import { User } from '../shared/interfaces/user';
-import HttpService from '../shared/services/HttpService';
-import { config } from '../config';
+import { notifyError } from 'actions/notify';
+import { setToken } from 'actions/token';
+import { setUserData } from 'actions/user';
+import { User } from 'shared/interfaces/user';
+import { config } from 'config';
+import HttpService from 'shared/services/HttpService';
+import Interceptor from 'shared/interceptors/interceptor';
 
 
 interface State {

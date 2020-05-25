@@ -1,4 +1,4 @@
-import { Notification } from '../shared/interfaces/notification.interface';
+import { Notification } from 'shared/interfaces/notification.interface';
 
 
 const initialState = {

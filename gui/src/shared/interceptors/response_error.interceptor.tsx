@@ -1,5 +1,5 @@
 import { AxiosResponse, AxiosError } from 'axios';
-import axios from '../../configAxios';
+import axios from 'configAxios';
 
 
 class ErrorResponseInterceptor {
