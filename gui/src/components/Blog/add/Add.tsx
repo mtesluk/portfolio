@@ -128,13 +128,13 @@ class AddForm extends React.Component <Props, ComponentState> {
     let removeButton = <div></ div>;
     const isDeletable = id === 0 && this.state.elements.length > 0;
     if (!isDeletable) {
-      removeButton = <button type="button" className="blog-add__remove-p" onClick={(e) => this.removeElement(e, id)}>Remove</button>
+      removeButton = <ButtonWidget onClick={(e) => this.removeElement(e, id)} text="Remove"/>
     }
 
     return (
       <div className="blog-add__tool-action">
-        <button type="button" className="blog-add__add-p" onClick={(e) => this.addNewParagraph(e, id)}>Add here paragrapgh</button>
-        <button type="button" className="blog-add__add-p" onClick={(e) => this.addNewImage(e, id)}>Add here image</button>
+        <ButtonWidget onClick={(e) => this.addNewParagraph(e, id)} text="Add here paragrapgh"/>
+        <ButtonWidget onClick={(e) => this.addNewImage(e, id)} text="Add here image"/>
         {removeButton}
       </div>
     )

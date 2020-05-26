@@ -1,0 +1,44 @@
+.widget-select-file {
+    width: 100%;
+    box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.75);
+    position: relative;
+    padding: 4rem 5rem;
+    background-color: #ffa31a;
+
+    &--resize {
+        padding: 10rem 5rem;
+        border: 2px solid red;
+    }
+
+    &__img {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__input {
+        display: none;
+        position: absolute;
+        z-index: -1;
+        margin: auto;
+    }
+
+    &__label {
+        cursor: pointer;
+        border: 1px dashed black;
+        padding: 1rem 2rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        background-color: #ffa31a;
+
+        @media screen and (max-width: 1000px) {
+            font-size: 1.5rem;
+        }
+    }
+}

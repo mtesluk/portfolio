@@ -1,16 +1,7 @@
 import React from 'react';
 
+import './input.scss';
 
-const InlineStyles = {
-  input: {
-    width: '100%',
-    fontSize: '2.5rem',
-  }
-}
-
-interface State {
-
-}
 
 interface Props {
   onChange?: (val: string) => void;
@@ -20,24 +11,21 @@ interface Props {
   type?: string;
 }
 
-class InputWidget extends React.Component<Props, State> {
-  onChange(event: any) {
-    if (this.props.onChange) this.props.onChange(event.target.value);
+const InputWidget = (props: Props) => {
+  const onChange = (event: any) => {
+    if (props.onChange) props.onChange(event.target.value);
   }
 
-  render() {
-    return (
-      <input
-        className="widget-input"
-        style={InlineStyles.input}
-        type={this.props.type}
-        placeholder={this.props.placeholder}
-        name={this.props.name}
-        ref={this.props.refe}
-        onChange={e => this.onChange(e)}
-      />
-    )
-  }
+  return (
+    <input
+      className="widget-input"
+      type={props.type}
+      placeholder={props.placeholder}
+      name={props.name}
+      ref={props.refe}
+      onChange={e => onChange(e)}
+    />
+  )
 }
 
 export default InputWidget;

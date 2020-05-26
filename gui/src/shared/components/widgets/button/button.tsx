@@ -1,22 +1,7 @@
 import React from 'react';
 
+import './button.scss';
 
-const InlineStyles = {
-  button: {
-    fontSize: '2rem',
-    border: '0',
-    // borderBottom: '1px black solid',
-    backgroundColor: 'transparent',
-    // borderRadiusTop: '5px',
-    // outline: 'none',
-    // fontFamily: 'serif',
-    // paddingLeft: '3px',
-  }
-};
-
-interface State {
-
-}
 
 interface Props {
   text?: string;
@@ -24,16 +9,16 @@ interface Props {
   onClick?: (event: any) => void;
 }
 
-class ButtonWidget extends React.Component<Props, State> {
-  render() {
-    return (
-      <button
-        style={InlineStyles.button}
-        type={this.props.type}
-        onClick={this.props.onClick}
-      >{this.props.text}</button>
-    )
-  }
+const ButtonWidget = (props: Props) => {
+  return (
+    <button
+      className="widget-button"
+      type={props.type || 'button'}
+      onClick={props.onClick}
+    >
+      {props.text}
+    </button>
+  )
 }
 
 export default ButtonWidget;

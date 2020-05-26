@@ -1,13 +1,7 @@
 import React from 'react';
 
+import './error.scss'
 
-const InlineStyles = {
-  error: {
-    color: 'red',
-    font_weight: 'bold' as string,
-    fontSize: '1.5rem',
-  }
-};
 
 interface Props {
   customStyle?: {};
@@ -16,12 +10,12 @@ interface Props {
 
 const ErrorWidget = (props: Props) => {
   return (
-      <div
-        className="widget-error"
-        style={{...InlineStyles.error, ...props.customStyle}}
-      >
-        {props.text}
-      </div>
+    <div
+      className="widget-error"
+      style={{...props.customStyle}}
+    >
+      {props.text}
+    </div>
   )
 }
 

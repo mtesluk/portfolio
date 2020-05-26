@@ -10,6 +10,7 @@ import { Blog } from 'shared/interfaces/blog';
 import { User } from 'shared/interfaces/user';
 import HttpService from 'shared/services/HttpService';
 import BlogService from 'shared/services/blog.service';
+import ButtonWidget from 'shared/components/widgets/button/button';
 
 
 interface ComponentState {
@@ -126,7 +127,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
                   authors: this.state.topSeenAuthors
                 }}}
               >
-                Visit
+                <ButtonWidget text="Visit" />
               </Link>
           </CardActions>
         </Card>
@@ -147,7 +148,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
                   countries: this.state.mostSeenCountries
                 }}}
               >
-                Visit
+                <ButtonWidget text="Visit" />
               </Link>
           </CardActions>
         </Card>

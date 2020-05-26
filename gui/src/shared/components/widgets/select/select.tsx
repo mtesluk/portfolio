@@ -1,24 +1,9 @@
 import React from 'react';
 
+import './select.scss';
+
 import HttpService from '../../../services/HttpService';
 
-
-const InlineStyles = {
-  select: {
-    width: '100%',
-    fontSize: '2rem',
-    border: '0',
-    borderBottom: '1px black solid',
-    backgroundColor: 'transparent',
-    borderRadiusTop: '5px',
-    outline: 'none',
-    fontFamily: 'serif',
-    paddingLeft: '3px',
-    '&:hover': {
-      backgroundColor: 'black',
-    }
-  }
-};
 
 interface State {
   selected: number | string;
@@ -83,11 +68,13 @@ class SelectWidget extends React.Component<Props, State> {
     return (
       <select
         className="widget-select"
-        style={InlineStyles.select}
         value={this.props.changeValue ? this.state.selected : -1}
         onChange={(e) => this.handleSelectChange(e)}
       >
-        <option value={-1} disabled>{this.props.placeholder || "Pick"}</option>
+        <option
+          value={-1}
+          disabled>{this.props.placeholder || "Pick"}
+        </option>
         {this.state.data.map((entity: Entity, index: number) => <option key={entity.id || index} value={entity.id || entity.name}>{entity.name}</option>)}
       </select>
     )
