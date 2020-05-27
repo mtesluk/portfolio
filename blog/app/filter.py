@@ -24,6 +24,14 @@ class Equal(Field):
         return {'type': 'equal', 'value': self.value}
 
 
+class Contains(Field):
+    def __init__(self, value):
+        self.value = value
+
+    def to_dict(self):
+        return {'type': 'contains', 'value': self.value}
+
+
 class Boolean(Field):
     def __init__(self, value):
         if value in ['true', 'True', 1, '1', True]:

@@ -3,16 +3,12 @@ import React from 'react';
 import './select.scss';
 
 import HttpService from '../../../services/HttpService';
+import { Entity } from 'shared/interfaces/select';
 
 
 interface State {
   selected: number | string;
   data: Entity[];
-}
-
-interface Entity {
-  id: number;
-  name: string;
 }
 
 interface Props {

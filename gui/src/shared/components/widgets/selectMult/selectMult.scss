@@ -1,0 +1,22 @@
+.widget-select-multiple {
+  &__selected-elements {
+
+  }
+
+  &__selected-element {
+    padding: .5rem;
+    background-color: #ffa31a;
+    border-radius: 10%;
+    margin: 1rem 1rem 0 0;
+  }
+  
+  &__selected-element-rm {
+    margin-left: .5rem;
+    padding: 0 .1rem;
+    border: 1px solid transparent;
+
+    &:hover {
+      border: 1px solid grey;
+    }
+  }
+}

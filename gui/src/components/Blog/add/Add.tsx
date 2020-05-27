@@ -4,19 +4,19 @@ import { withRouter } from 'react-router-dom';
 
 import './Add.scss';
 import ButtonWidget from 'shared/components/widgets/button/button';
-import SelectWidget from 'shared/components/widgets/select/select';
 import SelectFileWidget from 'shared/components/widgets/selectFile/selectFile';
 
 import { notifySuccess } from 'actions/notify';
 import { Blog, Element, ElementType } from 'shared/interfaces/blog';
 import { config } from 'config';
 import BlogService from 'shared/services/blog.service';
+import SelectMultipleWidget from 'shared/components/widgets/selectMult/selectMult';
 
 
 interface ComponentState {
   elements: Element[];
   title: string;
-  country: string;
+  countries: string[];
 }
 
 interface Props {
@@ -30,14 +30,14 @@ class AddForm extends React.Component <Props, ComponentState> {
   state = {
     elements: [{value: '', type: ElementType.PARAGRAPH}],
     title: '',
-    country: '',
+    countries: [],
   };
 
   clearState() {
     this.setState({
       elements: [{value: '', type: ElementType.PARAGRAPH}],
       title: '',
-      country: ''
+      countries: []
     });
   }
 
@@ -85,7 +85,7 @@ class AddForm extends React.Component <Props, ComponentState> {
     event.preventDefault();
     const data = {
       elements: this.state.elements,
-      country: this.state.country,
+      countries: this.state.countries,
       title: this.state.title,
     };
     this._service.postBlog(data).then((response: Blog) => {
@@ -144,7 +144,7 @@ class AddForm extends React.Component <Props, ComponentState> {
     return (
       <div className="blog-add__settings">
         <input placeholder="Title" onChange={(e) => this.setState({title: e.target.value})} value={this.state.title} />
-        <SelectWidget placeholder="Region" changeValue={true} onChange={(value) => this.setState({country: value.toString()})} endpoint={config.endpoints.countries.base}/>
+        <SelectMultipleWidget placeholder="Region" onChange={(value) => this.setState({countries: value})} endpoint={config.endpoints.countries.base}/>
       </div>
     )
   }

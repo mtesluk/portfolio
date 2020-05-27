@@ -6,14 +6,14 @@ from sqlalchemy.exc import OperationalError
 from app.decorators import is_allowed, is_auth
 from app.blog.services import BlogService
 from app.exceptions import BadRequest
-from app.filter import Filter, Equal, Boolean
+from app.filter import Filter, Equal, Boolean, Contains
 
 
 blueprint = Blueprint('blog', __name__)
 
 class BlogFilter(Filter):
     user_id = Equal
-    country = Equal
+    country = Contains
     is_active = Boolean
 
 
@@ -88,7 +88,18 @@ def countries():
 
     service = BlogService()
     countries = service.get_countries(None, ordering, limit)
-    return jsonify(countries)
+    set_countries = set()
+    for country in countries:
+        if ';' in country:
+            s = country.split(';')
+            print(s)
+            for a in s:
+                set_countries.add(a)
+        else:
+            set_countries.add(country)
+    
+
+    return jsonify(list(set_countries))
 
 view = BlogViewSet.as_view('blog_view')
 blueprint.add_url_rule('/', defaults={'id': None}, view_func=view, methods=['GET',])

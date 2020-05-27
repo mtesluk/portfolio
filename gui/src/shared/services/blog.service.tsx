@@ -58,7 +58,7 @@ class BlogService {
     return this._httpService.get(url, params).then((response: Blog[]) => response);
   }
 
-  postBlog(rawData: {elements: Element[], country: string, title: string}) {
+  postBlog(rawData: {elements: Element[], countries: string[], title: string}) {
     const data = new FormData();
     const images = rawData.elements.filter(el => el.type === 1).map(el => el.value);
     images.forEach(el => {
@@ -67,7 +67,7 @@ class BlogService {
     })
     const formattedContent = this.formatContent(rawData.elements);
     data.set('content', formattedContent);
-    data.set('country', rawData.country);
+    data.set('country', rawData.countries.join(';'));
     data.set('title', rawData.title);
     console.log(data)
     const url = config.endpoints.blog.base;

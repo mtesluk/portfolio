@@ -88,14 +88,18 @@ class Entry extends React.Component<Props, State> {
             <div className="blog-detail__title">{this.state.blog.title}</div>
             <div className="blog-detail__region">
               Region:	{'\u00A0'}
-              <Link to={{
-                pathname: config.routes.blog.sites,
-                state: {
-                  countries: [this.state.blog.country]
-                }}}
-              >
-                {this.state.blog.country}
-              </Link>
+                {this.state.blog.country.split(';').map(country => {
+                  return <span className="blog-detail__region-element">
+                          <Link to={{
+                            pathname: config.routes.blog.sites,
+                            state: {
+                              countries: [country]
+                            }}}
+                          >
+                            {country}
+                          </Link>
+                        </span>
+                })}
             </div>
             <div className="blog-detail__author">
               Author:	{'\u00A0'}

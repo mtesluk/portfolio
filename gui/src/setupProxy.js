@@ -1,6 +1,7 @@
 const proxy = require('http-proxy-middleware');
 // var HttpsProxyAgent = require('https-proxy-agent');
 // var proxyServer = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.http_proxy;
+const morgan = require("morgan");
 
 
 module.exports = function (app) {
@@ -20,6 +21,9 @@ module.exports = function (app) {
             secure: false,
             changeOrigin: true,
             log: true,
+            pathRewrite: {
+                [`^/countries`]: '',
+            },
             // agent: new HttpsProxyAgent(proxyServer)
         }),
         proxy(`/account`,{
@@ -33,4 +37,6 @@ module.exports = function (app) {
             // agent: new HttpsProxyAgent(proxyServer)
         }),
     );
+
+    app.use(morgan('combined'));
 };
