@@ -1,12 +1,14 @@
 const baseUrlConfig = {
     account: '/account',
     blog: '',
+    countries: '/countries',
 };
 
 const productionUrl = 'http://172.105.93.9';
 const baseUrlConfigProd = {
     account: `${productionUrl}/api/v2`,
     blog: `${productionUrl}/api/v3`,
+    countries: 'https://cors-anywhere.herokuapp.com/https://restcountries.eu/rest/v2/all?fields=name',
 };
 
 const getBaseUrlConfig = (name: string) => (process.env.NODE_ENV === 'production' ? baseUrlConfigProd[name] : baseUrlConfig[name]);
@@ -28,7 +30,7 @@ export const config = {
             base: getBaseUrlConfig('blog') + '/blogs/',
         },
         countries: {
-            base: '/countries',
+            base: getBaseUrlConfig('countries'),
         }
     },
     routes: {

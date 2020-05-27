@@ -37,6 +37,4 @@ module.exports = function (app) {
             // agent: new HttpsProxyAgent(proxyServer)
         }),
     );
-
-    app.use(morgan('combined'));
 };
