@@ -1,14 +1,14 @@
 const baseUrlConfig = {
-    account: '/account',
-    blog: '',
-    countries: '/countries',
+    account: 'account/',
+    blog: 'blogs/',
+    countries: 'countries/',
 };
 
-const productionUrl = 'http://172.105.93.9';
+// https://cors-anywhere.herokuapp.com - workaround for CORS as proxy server
 const baseUrlConfigProd = {
-    account: `${productionUrl}/api/v2`,
-    blog: `${productionUrl}/api/v3`,
-    countries: 'https://cors-anywhere.herokuapp.com/https://restcountries.eu/rest/v2/all?fields=name',
+    account: 'https://cors-anywhere.herokuapp.com/https://account-mt.herokuapp.com/api/v2/',
+    blog: 'https://cors-anywhere.herokuapp.com/https://portfolio-blog-mt.herokuapp.com/api/v3/blogs/',
+    countries: 'https://cors-anywhere.herokuapp.com/https://restcountries.eu/rest/v2/all?fields=name/',
 };
 
 const getBaseUrlConfig = (name: string) => (process.env.NODE_ENV === 'production' ? baseUrlConfigProd[name] : baseUrlConfig[name]);
@@ -18,16 +18,16 @@ export const config = {
     tokenKey: 'token_fsf0324fsd',
     endpoints: {
         auth: {
-            login: getBaseUrlConfig('account') + '/api_token_auth/',
-            me: getBaseUrlConfig('account') + '/users/me/',
-            exists_fb: getBaseUrlConfig('account') + '/users/exist_fb_account/',
-            register: getBaseUrlConfig('account') + '/users/',
-            users: getBaseUrlConfig('account') + '/users/'
+            login: getBaseUrlConfig('account') + 'api_token_auth/',
+            me: getBaseUrlConfig('account') + 'users/me/',
+            exists_fb: getBaseUrlConfig('account') + 'users/exist_fb_account/',
+            register: getBaseUrlConfig('account') + 'users/',
+            users: getBaseUrlConfig('account') + 'users/'
         },
         blog: {
-            authors: getBaseUrlConfig('blog') + '/blogs/authors/',
-            countries: getBaseUrlConfig('blog') + '/blogs/countries/',
-            base: getBaseUrlConfig('blog') + '/blogs/',
+            authors: getBaseUrlConfig('blog') + 'authors/',
+            countries: getBaseUrlConfig('blog') + 'countries/',
+            base: getBaseUrlConfig('blog'),
         },
         countries: {
             base: getBaseUrlConfig('countries'),

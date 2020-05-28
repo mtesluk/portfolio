@@ -1,38 +1,50 @@
 const proxy = require('http-proxy-middleware');
 // var HttpsProxyAgent = require('https-proxy-agent');
 // var proxyServer = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.http_proxy;
-const morgan = require("morgan");
 
+const baseServerConfig = {
+    account: 'http://127.0.0.1:8000',
+    blog: 'http://127.0.0.1:5000',
+    countries: 'https://restcountries.eu/rest/v2/all?fields=name',
+};
+
+const baseServerConfigProd = {
+    account: 'https://account-mt.herokuapp.com',
+    blog: 'https://portfolio-blog-mt.herokuapp.com',
+    countries: 'https://restcountries.eu/rest/v2/all?fields=name',
+};
+
+const getBaseUrlConfig = (name) => (process.env.NODE_ENV === 'production' ? baseServerConfig[name] : baseServerConfig[name]);
 
 module.exports = function (app) {
     app.use(
-        proxy(`/blogs`,{
-            target: 'http://127.0.0.1:5000',
+        proxy('/portfolio/account',{
+            target: getBaseUrlConfig('account'),
             secure: false,
             changeOrigin: true,
             log: true,
             pathRewrite: {
-                [`^/blogs`]: '/api/v3/blogs',
+                '^/portfolio/account': '/api/v2',
             },
             // agent: new HttpsProxyAgent(proxyServer)
         }),
-        proxy(`/countries`,{
-            target: 'https://restcountries.eu/rest/v2/all?fields=name',
+        proxy('/portfolio/blogs',{
+            target: getBaseUrlConfig('blog'),
             secure: false,
             changeOrigin: true,
             log: true,
             pathRewrite: {
-                [`^/countries`]: '',
+                '^/portfolio/blogs': '/api/v3/blogs',
             },
             // agent: new HttpsProxyAgent(proxyServer)
         }),
-        proxy(`/account`,{
-            target: 'http://127.0.0.1:8000',
+        proxy('/portfolio/countries',{
+            target: getBaseUrlConfig('countries'),
             secure: false,
             changeOrigin: true,
             log: true,
             pathRewrite: {
-                [`^/account`]: '/api/v2',
+                '^/portfolio/countries': '',
             },
             // agent: new HttpsProxyAgent(proxyServer)
         }),
