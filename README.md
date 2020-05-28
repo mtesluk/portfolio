@@ -3,41 +3,112 @@
 My project to learn react and microservices on backend. It is still in progress.
 https://mtesluk.github.io/portfolio/
 
-##BLOG BACKEND
+![alt text](http://mateusz.tesluk.pl/Portfolio.jpg)
+
+# ACCOUNT BACKEND TO AUTH
 Python 3.8.3
 
-#Requirements
-To install libs in virtualenv exec 'pip install -r requirements.txt'
+## Requirements
+```
+pip install -r requirements.txt
+```
 
-#Server
-To enable to run app first exec 'export FLASK_APP=run.py'
-To load dev config exec 'export FLASK_DEBUG=1'
-To run server exec 'flask run'
+## Dev Server
+```
+python manage.py runserver
+```
 
-#Tests
-To run test exec 'python -m unittest discover'
+## Prod Server
+Dont forget abount env variables and $PORT.
+What you need is in .env.cfg
+```
+docker build . -t account_img
+docker run -it --name account_img -d account_container
+```
+OR from docker hub
+```
+docker run -it --name mtesluk/account -d account_container
+```
 
-#Migrations
-To init migrations dir exec 'flask db init'
-To add new migraton exec 'flask db migrate -m "Initial migration."'
-To upgrade db with migrations exec 'flask db upgrade'
+## Deploy
+You must be logged in to docker and heroku
+```
+docker login
+heroku login
+./deploy.sh
+```
 
+## Tests
+```
+python manage.py test
+```
 
-##ACCOUNT BACKEND TO AUTH
+# BLOG BACKEND
 Python 3.8.3
 
-#Requirements
-To install libs in virtualenv exec 'pip install -r requirements.txt'
+## Requirements
+```
+pip install -r requirements.txt
+```
 
-#Server
-To run server exec 'python manage.py runserver'
+## Dev Server
+```
+export FLASK_APP=run.py
+export FLASK_DEBUG=1
+flask run
+```
 
-#Tests
-To run test exec 'python manage.py test'
+## Prod Server
+Dont forget abount env variables and $PORT.
+What you need is in .env.cfg
+```
+docker build . -t blog_img
+docker run -it --name blog_img -d blog_container
+```
+OR from docker hub
+```
+docker run -it --name mtesluk/blog -d blog_container
+```
+
+## Deploy
+You must be logged in to docker and heroku
+```
+docker login
+heroku login
+./deploy.sh
+```
+
+## Tests
+```
+python -m unittest discover
+```
+
+## Migrations
+To init migrations dir:
+```
+flask db init
+```
+To add new migraton:
+```
+flask db migrate -m "Initial migration."
+```
+To upgrade db with existing migrations:
+```
+flask db upgrade
+```
 
 
-##GUI
+
+
+# GUI
 App built in React with Typescript
 
-#Server
-To run server exec 'npm run start'
+## Server
+```
+npm run start
+```
+
+## Build
+```
+npm run build
+```
