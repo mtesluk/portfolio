@@ -6,6 +6,8 @@ class Config(object):
     TESTING = False
     AUTH_SERVER = os.environ.get('AUTH_SERVER', '')
     ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
+    RATELIMIT_DEFAULT = '200 per day;10 per second'
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024     # 16 megabytes
 
 
 class ProductionConfig(Config):

@@ -126,6 +126,21 @@ class BlogService:
             data = {'views': blog.views + num}
             self.update_blog(blog.id, data)
 
+    def get_countries_from_string(self, countries: str):
+        seperated_countries = countries.split(';')
+        return seperated_countries
+
+    def unpack_countries(self, countries: list, seperator: str = ';'):
+        unique_countries = set()
+        for country in countries:
+            if seperator in country:
+                seperated_countries = self.get_countries_from_string(country)
+                for country in seperated_countries:
+                    unique_countries.add(country)
+            else:
+                unique_countries.add(country)
+        return list(unique_countries)
+
     def _filter_order_query(self, queryset, filters: dict, ordering: str):
         for key, options in filters.items():
             if options['type'] == 'contains':

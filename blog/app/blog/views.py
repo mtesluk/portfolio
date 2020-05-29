@@ -7,6 +7,7 @@ from app.decorators import is_allowed, is_auth
 from app.blog.services import BlogService
 from app.exceptions import BadRequest
 from app.filter import Filter, Equal, Boolean, Contains
+from app.extensions import limiter
 
 
 blueprint = Blueprint('blog', __name__)
@@ -88,18 +89,8 @@ def countries():
 
     service = BlogService()
     countries = service.get_countries(None, ordering, limit)
-    set_countries = set()
-    for country in countries:
-        if ';' in country:
-            s = country.split(';')
-            print(s)
-            for a in s:
-                set_countries.add(a)
-        else:
-            set_countries.add(country)
-    
-
-    return jsonify(list(set_countries))
+    countries = service.unpack_countries(countries)
+    return jsonify(countries)
 
 view = BlogViewSet.as_view('blog_view')
 blueprint.add_url_rule('/', defaults={'id': None}, view_func=view, methods=['GET',])

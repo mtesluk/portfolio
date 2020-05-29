@@ -24,7 +24,7 @@ module.exports = function (app) {
             changeOrigin: true,
             log: true,
             pathRewrite: {
-                '^/portfolio/account': '/api/v2',
+                '^/portfolio/account': '/api/v1',
             },
             // agent: new HttpsProxyAgent(proxyServer)
         }),
@@ -34,7 +34,7 @@ module.exports = function (app) {
             changeOrigin: true,
             log: true,
             pathRewrite: {
-                '^/portfolio/blogs': '/api/v3/blogs',
+                '^/portfolio/blogs': '/api/v1/blogs',
             },
             // agent: new HttpsProxyAgent(proxyServer)
         }),
@@ -44,7 +44,7 @@ module.exports = function (app) {
             changeOrigin: true,
             log: true,
             pathRewrite: {
-                '^/portfolio/countries': '',
+                '^/portfolio/countries/': '',
             },
             // agent: new HttpsProxyAgent(proxyServer)
         }),
