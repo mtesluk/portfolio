@@ -1,22 +1,40 @@
+@keyframes showTextPulse {
+    0% {opacity: 0;}
+    50% {opacity: 1;}
+    100% {opacity: 0;}
+  }
+
+
 .blog-dashboard {
     width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
     padding: 2rem;
+    display: grid;
+    grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr [col-4] 1fr [col-5];
+    grid-template-rows: [row-1] auto [row-2] auto [row-3] auto [row-4];
+    grid-template-areas:
+        "chart-1 chart-2 blogs-1 blogs-1"
+        "blogs-2 blogs-2 blogs-3 blogs-3"
+        "chart-3 chart-4 blogs-4 blogs-4";
+    gap: 2rem;
 
     @media screen and (max-width: 1200px) {
         flex-direction: column;
-        position: static;
-        transform: none;
+        grid-template-columns: [col-1] 1fr [col-2];
+        grid-template-areas:
+            "blogs-1"
+            "chart-1"
+            "chart-2"
+            "blogs-2"
+            "blogs-3"
+            "blogs-4"
+            "chart-3"
+            "chart-4";
+        gap: 0;
     }
 
     &__card {
-        width: 50%;
+        width: 100%;
+        padding: 2rem;
 
         @media screen and (max-width: 1200px) {
             width: 70%;
@@ -29,8 +47,75 @@
         }
     }
 
+    &__card-content {
+        height: 100%;
+        position: relative;
+    }
+
+    &__loading {
+        text-align: center;
+    }
+
+    &__authors-count {
+        position: relative;
+        grid-area: chart-1;
+    }
+
+    &__a {
+        position: relative;
+        grid-area: chart-2;
+    }
+
+    &__most-seen-blogs {
+        grid-area: blogs-1;
+    }
+
+    &__latest-blogs {
+        grid-area: blogs-2;
+    }
+
+    &__top-seen-authors {
+        grid-area: blogs-3;
+    }
+
+    &__most-seen-countries {
+        grid-area: blogs-4;
+    }
+
+    &__b {
+        position: relative;
+        grid-area: chart-3;
+    }
+
+    &__c {
+        position: relative;
+        grid-area: chart-4;
+    }
+
+    &__soon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        text-align: center;
+        animation: showTextPulse 2s linear infinite;
+
+        @media screen and (max-width: 1000px) {
+            font-size: 2rem;
+        }
+    }
+
     &__header {
         font-size: 3.5rem;
+    }
+
+    &__actions {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: row-reverse;
     }
 
     &__list-element-text {

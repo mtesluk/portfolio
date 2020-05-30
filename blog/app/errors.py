@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, current_app
+from werkzeug.exceptions import RequestEntityTooLarge
 
 from app.exceptions import BadRequest, NotPermitted, NotAuthorized, FileExtensionNotAllowed
 from flask_limiter import RateLimitExceeded
@@ -46,3 +47,10 @@ def ratelimit_handler(error):
     payload['message'] = 'Limit of requests is off'
     payload['type'] = error.__class__.__name__
     return jsonify(payload), 429
+
+@errors.app_errorhandler(RequestEntityTooLarge)
+def max_file_size_handler(error):
+    payload = {}
+    payload['message'] = 'Overstep max size of file which is 16 Megabytes'
+    payload['type'] = error.__class__.__name__
+    return jsonify(payload), 413

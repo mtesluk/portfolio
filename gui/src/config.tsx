@@ -6,9 +6,9 @@ const baseUrlConfig = {
 
 // https://cors-anywhere.herokuapp.com - workaround for CORS as proxy server
 const baseUrlConfigProd = {
-    account: 'https://cors-anywhere.herokuapp.com/https://account-mt.herokuapp.com/api/v1/',
-    blog: 'https://cors-anywhere.herokuapp.com/https://portfolio-blog-mt.herokuapp.com/api/v1/blogs/',
-    countries: 'https://cors-anywhere.herokuapp.com/https://restcountries.eu/rest/v2/all?fields=name',
+    account: `https://cors-anywhere.herokuapp.com/https://account-mt.herokuapp.com/api/v1/`,
+    blog: `https://cors-anywhere.herokuapp.com/https://portfolio-blog-mt.herokuapp.com/api/v1/blogs/`,
+    countries: `https://cors-anywhere.herokuapp.com/https://restcountries.eu/rest/v2/all?fields=name`,
 };
 
 const getBaseUrlConfig = (name: string) => (process.env.NODE_ENV === 'production' ? baseUrlConfigProd[name] : baseUrlConfig[name]);

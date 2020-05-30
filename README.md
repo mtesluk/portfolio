@@ -3,7 +3,10 @@
 My project to learn react and microservices on backend. It is still in progress.
 https://mtesluk.github.io/portfolio/
 
+Now:
 ![alt text](http://mateusz.tesluk.pl/Portfolio.jpg)
+In future:
+![alt text](http://mateusz.tesluk.pl/Portfolio_Move.jpg)
 
 # ACCOUNT BACKEND TO AUTH
 Python 3.8.3

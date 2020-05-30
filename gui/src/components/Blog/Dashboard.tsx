@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './Dashboard.scss';
-import { Card, CardContent, CardActions } from '@material-ui/core';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Card } from '@material-ui/core';
 
 import { config } from 'config';
 import { Blog } from 'shared/interfaces/blog';
@@ -35,10 +36,13 @@ class Dashboard extends React.Component<Props, ComponentState> {
   };
 
   componentDidMount() {
-    this.getMostSeenBlogs();
-    this.getLatestBlogs();
-    this.getTopSeenAuthors();
-    this.getMostSeenCountries();
+    setTimeout(() => {
+      this.getMostSeenBlogs();
+      this.getLatestBlogs();
+      this.getTopSeenAuthors();
+      this.getMostSeenCountries();
+
+    }, 10000)
   }
 
   getMostSeenBlogs() {
@@ -82,9 +86,26 @@ class Dashboard extends React.Component<Props, ComponentState> {
   render() {
     return (
       <div className="blog-dashboard">
-        <Card className="blog-dashboard__card">
-          <CardContent>
+        <Card className="blog-dashboard__card blog-dashboard__authors-count">
+          <div className="blog-dashboard__soon">Show up soon</div>
+        </Card>
+
+        <Card className="blog-dashboard__card blog-dashboard__a">
+          <div className="blog-dashboard__soon">Show up soon</div>
+        </Card>
+
+        <Card className="blog-dashboard__card blog-dashboard__b">
+          <div className="blog-dashboard__soon">Show up soon</div>
+        </Card>
+
+        <Card className="blog-dashboard__card blog-dashboard__c">
+          <div className="blog-dashboard__soon">Show up soon</div>
+        </Card>
+
+        <Card className="blog-dashboard__card blog-dashboard__most-seen-blogs">
+          <div className="blog-dashboard__card-content">
             <header className="blog-dashboard__header">Most seen blogs</header>
+            {!this.state.mostSeenBlogs.length && <div className="blog-dashboard__loading"><CircularProgress color="secondary" /></div>}
             {this.state.mostSeenBlogs.map((blog: Blog) => {
               return (
                 <Link to={config.routes.blog.detail(blog.id)} className="blog-dashboard__list-elem-link" key={blog.id}>
@@ -93,12 +114,13 @@ class Dashboard extends React.Component<Props, ComponentState> {
                 </Link>
               )
             })}
-          </CardContent>
+          </div>
         </Card>
 
-        <Card className="blog-dashboard__card">
-          <CardContent>
+        <Card className="blog-dashboard__card blog-dashboard__latest-blogs">
+          <div className="blog-dashboard__card-content">
             <header className="blog-dashboard__header">Latest blogs</header>
+            {!this.state.latestBlogs.length && <div className="blog-dashboard__loading"><CircularProgress color="secondary" /></div>}
             {this.state.latestBlogs.map((blog: Blog) => {
               return (
                 <Link to={config.routes.blog.detail(blog.id)} className="blog-dashboard__list-elem-link" key={blog.id}>
@@ -107,21 +129,21 @@ class Dashboard extends React.Component<Props, ComponentState> {
                 </Link>
               )
             })}
-          </CardContent>
+          </div>
         </Card>
 
 
-        <Card className="blog-dashboard__card">
-          <CardContent>
+        <Card className="blog-dashboard__card blog-dashboard__top-seen-authors">
+          <div className="blog-dashboard__card-content">
             <header className="blog-dashboard__header">Top 5 seen authors</header>
+            {!this.state.topSeenAuthors.length && <div className="blog-dashboard__loading"><CircularProgress color="secondary" /></div>}
             {this.state.topSeenAuthors.map((user: User, index: number) => {
               return (
                 <div key={index}>{user.username}</div>
               )
             })}
-          </CardContent>
-          <CardActions>
-            <Link to={{
+            <footer className="blog-dashboard__actions">
+              <Link to={{
                 pathname: config.routes.blog.authors,
                 state: {
                   authors: this.state.topSeenAuthors
@@ -129,28 +151,30 @@ class Dashboard extends React.Component<Props, ComponentState> {
               >
                 <ButtonWidget text="Visit" />
               </Link>
-          </CardActions>
+            </footer>
+          </div>
         </Card>
 
-        <Card className="blog-dashboard__card">
-          <CardContent>
+        <Card className="blog-dashboard__card blog-dashboard__most-seen-countries">
+          <div className="blog-dashboard__card-content">
             <header className="blog-dashboard__header">Most seen countries</header>
+            {!this.state.mostSeenCountries.length && <div className="blog-dashboard__loading"><CircularProgress color="secondary" /></div>}
             {this.state.mostSeenCountries.map((country: string, index: number) => {
               return (
                 <div key={index}>{country}</div>
               )
             })}
-          </CardContent>
-          <CardActions>
-            <Link to={{
-                pathname: config.routes.blog.sites,
-                state: {
-                  countries: this.state.mostSeenCountries
-                }}}
-              >
-                <ButtonWidget text="Visit" />
-              </Link>
-          </CardActions>
+            <footer className="blog-dashboard__actions">
+              <Link to={{
+                  pathname: config.routes.blog.sites,
+                  state: {
+                    countries: this.state.mostSeenCountries
+                  }}}
+                >
+                  <ButtonWidget text="Visit" />
+                </Link>
+            </footer>
+          </div>
         </Card>
       </div>
     );
