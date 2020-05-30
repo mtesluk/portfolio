@@ -144,7 +144,7 @@ class AddForm extends React.Component <Props, ComponentState> {
     return (
       <div className="blog-add__settings">
         <input placeholder="Title" onChange={(e) => this.setState({title: e.target.value})} value={this.state.title} />
-        <SelectMultipleWidget placeholder="Region" onChange={(value) => this.setState({countries: value})} endpoint={config.endpoints.countries.base}/>
+        <SelectMultipleWidget placeholder="Pick region" onChange={(value) => this.setState({countries: value})} endpoint={config.endpoints.countries.base}/>
       </div>
     )
   }

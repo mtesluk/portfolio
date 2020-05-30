@@ -1,7 +1,7 @@
 const baseUrlConfig = {
-    account: 'account/',
-    blog: 'blogs/',
-    countries: 'countries/',
+    account: '/account/',
+    blog: '/blogs/',
+    countries: '/countries',
 };
 
 // https://cors-anywhere.herokuapp.com - workaround for CORS as proxy server

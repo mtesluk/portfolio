@@ -53,9 +53,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-       'https://mtesluk.github.io',
-)
+CORS_ORIGIN_WHITELIST = os.environ.get('ACCOUNT_ALLOWED_ORIGINS', '').split(' ') or []
 
 ROOT_URLCONF = 'project.urls'
 

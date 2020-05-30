@@ -8,7 +8,7 @@ class Config(object):
     ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
     RATELIMIT_DEFAULT = '200 per day;10 per second'
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024     # 16 megabytes
-    CORS_ORIGINS = ['https://mtesluk.github.io']
+    CORS_ORIGINS = os.environ.get('BLOG_ALLOWED_ORIGINS', '').split(' ')
 
 
 class ProductionConfig(Config):

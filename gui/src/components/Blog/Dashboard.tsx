@@ -36,13 +36,10 @@ class Dashboard extends React.Component<Props, ComponentState> {
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      this.getMostSeenBlogs();
-      this.getLatestBlogs();
-      this.getTopSeenAuthors();
-      this.getMostSeenCountries();
-
-    }, 10000)
+    this.getMostSeenBlogs();
+    this.getLatestBlogs();
+    this.getTopSeenAuthors();
+    this.getMostSeenCountries();
   }
 
   getMostSeenBlogs() {

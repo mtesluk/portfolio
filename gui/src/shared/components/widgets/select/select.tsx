@@ -1,8 +1,9 @@
 import React from 'react';
 
 import './select.scss';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
-import HttpService from '../../../services/HttpService';
+import HttpService from 'shared/services/HttpService';
 import { Entity } from 'shared/interfaces/select';
 
 
@@ -47,7 +48,7 @@ class SelectWidget extends React.Component<Props, State> {
       this._httpService.get(url).then(response => {
         this.setState({
           data: response || [],
-        })
+        });
       }).catch(err => {});
     }
   }
@@ -62,17 +63,21 @@ class SelectWidget extends React.Component<Props, State> {
 
   render() {
     return (
-      <select
-        className="widget-select"
-        value={this.props.changeValue ? this.state.selected : -1}
-        onChange={(e) => this.handleSelectChange(e)}
-      >
-        <option
-          value={-1}
-          disabled>{this.props.placeholder || "Pick"}
-        </option>
-        {this.state.data.map((entity: Entity, index: number) => <option key={entity.id || index} value={entity.id || entity.name}>{entity.name}</option>)}
-      </select>
+      <div className="widget-select">
+        {this.state.data.length ?
+          <select
+            className="widget-select__select"
+            value={this.props.changeValue ? this.state.selected : -1}
+            onChange={(e) => this.handleSelectChange(e)}
+          >
+            <option
+              value={-1}
+              disabled>{this.props.placeholder || "Pick"}
+            </option>
+            {this.state.data.map((entity: Entity, index: number) => <option key={entity.id || index} value={entity.id || entity.name}>{entity.name}</option>)}
+          </select>
+        : <div className="widget-select__loading"><LinearProgress color="secondary" /></div>}
+      </div>
     )
   }
 }

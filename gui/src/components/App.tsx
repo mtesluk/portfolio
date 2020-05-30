@@ -76,7 +76,7 @@ class App extends React.Component <Props, State> {
 
   renderRouter() {
     return (
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router>
         <Switch>
           <Route path="/" exact component={Dashboard} />
           <Route path="/blog" component={Blog} />

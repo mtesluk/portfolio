@@ -1,7 +1,7 @@
 # Portfolio
 
 My project to learn react and microservices on backend. It is still in progress.
-https://mtesluk.github.io/portfolio/
+https://portfolio-mt.netlify.app/
 
 Now:
 ![alt text](http://mateusz.tesluk.pl/Portfolio.jpg)
@@ -9,6 +9,7 @@ In future:
 ![alt text](http://mateusz.tesluk.pl/Portfolio_Move.jpg)
 
 # ACCOUNT BACKEND TO AUTH
+[https://account-mt.herokuapp.com/](https://account-mt.herokuapp.com/)
 Python 3.8.3
 
 ## Requirements
@@ -22,7 +23,7 @@ python manage.py runserver
 ```
 
 ## Prod Server
-Dont forget abount env variables and $PORT.
+Dont forget about env variables and $PORT.
 What you need is in .env.cfg
 ```
 docker build . -t account_img
@@ -34,9 +35,8 @@ docker run -it --name mtesluk/account -d account_container
 ```
 
 ## Deploy
-You must be logged in to docker and heroku
+You must be logged in to heroku
 ```
-docker login
 heroku login
 ./deploy.sh
 ```
@@ -47,6 +47,7 @@ python manage.py test
 ```
 
 # BLOG BACKEND
+[https://portfolio-blog-mt.herokuapp.com/](https://portfolio-blog-mt.herokuapp.com/)
 Python 3.8.3
 
 ## Requirements
@@ -62,7 +63,7 @@ flask run
 ```
 
 ## Prod Server
-Dont forget abount env variables and $PORT.
+Dont forget about env variables and $PORT.
 What you need is in .env.cfg
 ```
 docker build . -t blog_img
@@ -74,9 +75,8 @@ docker run -it --name mtesluk/blog -d blog_container
 ```
 
 ## Deploy
-You must be logged in to docker and heroku
+You must be logged in to heroku
 ```
-docker login
 heroku login
 ./deploy.sh
 ```
