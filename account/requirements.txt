@@ -4,3 +4,4 @@ django-filter==2.2.0
 psycopg2===2.8.5
 gunicorn===20.0.4
 requests==2.23.0
+django-cors-headers==3.3.0

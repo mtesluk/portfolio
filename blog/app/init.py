@@ -1,7 +1,7 @@
 from flask import Flask
 
 from app.config import ProductionConfig
-from app.extensions import db, ma, migrate, cache, limiter
+from app.extensions import db, ma, migrate, cache, limiter, cors
 from app.blog import views as blog_views
 from app.blog import models
 from app.errors import errors
@@ -18,5 +18,6 @@ def create_app(config):
     migrate.init_app(app, db)
     cache.init_app(app)
     limiter.init_app(app)
+    cors.init_app(app)
 
     return app
