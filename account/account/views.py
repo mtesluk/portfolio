@@ -8,19 +8,16 @@ from account.services.user import UserService
 from account.services.token import TokenService
 
 
-def is_allowed(func):
-    def wrapper(*args, **kwargs):
-        service = BlogService()
-        if service.is_allowed(kwargs['user_id'], kwargs['is_admin'], kwargs['id']):
-            return func(*args, **kwargs)
-        raise NotPermitted
-    return wrapper
-
 
 class UserViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny, )
 
     def list(self, request, *args, **kwargs):
+        """
+        Endpoint to get list of users
+
+        Description comming soon
+        """
         filters = {}
         filters_ids = request.GET.get('ids', None)
         ordering = request.GET.get('ordering', None)
@@ -33,10 +30,20 @@ class UserViewSet(viewsets.ViewSet):
 
     @decorators.action(detail=False,  methods=['get'], permission_classes=[IsAuthenticated])
     def is_authenticated(self, request):
+        """
+        Endpoint to get if user is authenticated
+
+        Description comming soon
+        """
         return response.Response({'is_auth': True, 'user_id': request.user.id, 'is_admin': request.user.is_superuser})
 
     @decorators.action(detail=False,  methods=['get'])
     def exist_fb_account(self, request):
+        """
+        Endpoint to check if given fb token exists in database
+
+        Description comming soon
+        """
         fb_id = request.GET.get('fb_id', None)
         service = UserService()
         exists = service.fb_account_exists(fb_id=fb_id)
@@ -45,12 +52,22 @@ class UserViewSet(viewsets.ViewSet):
 
     @decorators.action(detail=False,  methods=['get'], permission_classes=[IsAuthenticated])
     def me(self, request):
+        """
+        Endpoint to retrieve data of user authenticated
+
+        Description comming soon
+        """
         user = request.user
         service = UserService()
         data = service.get_user(user.id)
         return response.Response(data)
 
     def create(self, request):
+        """
+        Endpoint to create user
+
+        Description comming soon
+        """
         service = UserService()
         try:
             data = service.create_user(request.data)
@@ -59,13 +76,25 @@ class UserViewSet(viewsets.ViewSet):
         return response.Response(data, 201)
 
     def update(self, request, *args, **kwargs):
+        """
+        Endpoint to update self user data
+
+        Does not wotk yet
+        """
+        user = request.user
+        data = request.data
         service = UserService()
-        data = service.update_user(request.user.id, request.data)
+        data = service.update_user(user.id, data)
         return response.Response(data)
 
 
 class CustomObtainAuthTokenView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
+        """
+        Endpoint to login
+
+        What is understood by getting auth token.
+        """
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
         serializer.is_valid(raise_exception=True)
