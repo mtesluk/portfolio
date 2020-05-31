@@ -5,8 +5,8 @@ class Interceptor {
   private _errInterceptor: ErrorResponseInterceptor = new ErrorResponseInterceptor();
   private _tokenInterceptor: TokenInterceptor = new TokenInterceptor();
 
-  initInterceptors(notifyError: (msg: string) => void) {
-    this._errInterceptor.initInterceptor(notifyError);
+  initInterceptors(notifyError: (msg: string) => void, setToken: (token: string) => void, refreshToken: string) {
+    this._errInterceptor.initInterceptor(notifyError, setToken, refreshToken);
     this._tokenInterceptor.initInterceptor();
   }
 }

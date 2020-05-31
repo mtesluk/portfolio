@@ -9,11 +9,13 @@ class Config(object):
     RATELIMIT_DEFAULT = '200 per day;10 per second'
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024     # 16 megabytes
     CORS_ORIGINS = os.environ.get('BLOG_ALLOWED_ORIGINS', '').split(' ')
+    PUBLIC_AUTH_KEY = os.environ.get('PUBLIC_AUTH_KEY', '')
 
 
 class ProductionConfig(Config):
     SECRET_KEY = os.environ.get('BLOG_SECRET_KEY', '')
     SQLALCHEMY_DATABASE_URI = os.environ.get('BLOG_SQL_URI', '')
+    SQLALCHEMY_POOL_RECYCLE=90
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -21,6 +23,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     SECRET_KEY = os.environ.get('BLOG_SECRET_KEY', '')
     SQLALCHEMY_DATABASE_URI = os.environ.get('BLOG_SQL_URI', '')
+    SQLALCHEMY_POOL_RECYCLE=90
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

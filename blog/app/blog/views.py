@@ -74,6 +74,7 @@ class BlogViewSet(views.MethodView):
         return jsonify(blog)
 
 def authors():
+    print(1111111111111111)
     params = request.args
     ordering = params.get('ordering', None)
     limit = params.get('limit', None)
@@ -83,6 +84,7 @@ def authors():
     return jsonify(authors)
 
 def countries():
+    print(1111111111111111)
     params = request.args
     ordering = params.get('ordering', None)
     limit = params.get('limit', None)

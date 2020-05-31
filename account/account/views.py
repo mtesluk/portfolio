@@ -3,10 +3,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.db.utils import IntegrityError
 
-from account.models import Profile, WebToken
+from account.models import Profile
 from account.services.user import UserService
 from account.services.token import TokenService
-
+from account.jwt import CustomTokenObtainPairSerializer, TokenObtainPairView
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -88,17 +88,5 @@ class UserViewSet(viewsets.ViewSet):
         return response.Response(data)
 
 
-class CustomObtainAuthTokenView(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        """
-        Endpoint to login
-
-        What is understood by getting auth token.
-        """
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        service = UserService()
-        token = service.sign_in(user)
-        return response.Response({'token': token})
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

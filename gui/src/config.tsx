@@ -16,9 +16,11 @@ const detailRoute = (routeName: string) => (id: number | null = null) => (id ? `
 
 export const config = {
     tokenKey: 'token_fsf0324fsd',
+    refreshTokenKey: 'token_jhdhfghgfjh',
     endpoints: {
         auth: {
-            login: getBaseUrlConfig('account') + 'api_token_auth/',
+            login: getBaseUrlConfig('account') + 'token_auth/',
+            refreshLogin: getBaseUrlConfig('account') + 'token_auth/refresh/',
             me: getBaseUrlConfig('account') + 'users/me/',
             exists_fb: getBaseUrlConfig('account') + 'users/exist_fb_account/',
             register: getBaseUrlConfig('account') + 'users/',

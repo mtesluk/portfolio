@@ -50,10 +50,9 @@ class Entry extends React.Component<Props, State> {
           blog: response,
           elements: this._service.unformatContent(response.content, response.photo_names),
         });
-        console.log(this.state)
         this.getAuthorsNames();
       }
-    });
+    }).catch(err => {});
   }
 
   getAuthorsNames() {
@@ -88,8 +87,8 @@ class Entry extends React.Component<Props, State> {
             <div className="blog-detail__title">{this.state.blog.title}</div>
             <div className="blog-detail__region">
               Region:	{'\u00A0'}
-                {this.state.blog.country.split(';').map(country => {
-                  return <span className="blog-detail__region-element">
+                {this.state.blog.country.split(';').map((country, index) => {
+                  return <span className="blog-detail__region-element" key={index}>
                           <Link to={{
                             pathname: config.routes.blog.sites,
                             state: {

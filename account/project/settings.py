@@ -91,7 +91,8 @@ DATABASES = {
     }
 }
 
-# REST framework
+PRIV_KEY = os.environ.get('PRIVATE_AUTH_KEYY', None)
+PUB_KEY = os.environ.get('PUBLIC_AUTH_KEY', None)
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -102,11 +103,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'account.authentication.CustomTokenAuthentication',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'account.authentication.CustomJWTAuthentication',
+    ],
+    'AUTH_HEADER_TYPES': ('FB', 'Bearer'),
+    'ALGORITHM': 'RS256',
+    'SIGNING_KEY': PRIV_KEY,
+    'VERIFYING_KEY': PUB_KEY,
 }
 
 

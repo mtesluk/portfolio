@@ -5,14 +5,13 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 
 from account.services.facebook import FacebookService
-from account.models import WebToken
 
 
 class TokenService:
     """
     Service for manage token data
     """
-    model = WebToken
+    model = ''
 
     def authenticate_token(self, key: str):
         """
@@ -50,9 +49,9 @@ class TokenService:
     def _get_tokens(self, filters: dict):
         return self.model.objects.filter(**filters)
 
-    def _token_exists(self, tokens: List[WebToken]):
+    def _token_exists(self, tokens: List[str]):
         return tokens.exists()
 
-    def _update_token(self, token: WebToken, values: dict):
+    def _update_token(self, token: str, values: dict):
         for key, value in values.items():
             setattr(token, key, value)

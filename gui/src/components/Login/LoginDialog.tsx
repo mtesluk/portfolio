@@ -34,7 +34,7 @@ const LoginComponent = (props: Props) => {
   const getUserData = () => {
     _httpService.get(config.endpoints.auth.me).then((response: User) => {
       props.setUserData(response);
-    })
+    }).catch(err => {});
   }
 
   const handleClose = (logged: boolean = false) => {

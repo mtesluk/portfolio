@@ -11,7 +11,7 @@ class TokenInterceptor {
       if (token) {
         headers = {
           ...headers,
-          'Authorization': `Token ${token}`,
+          'Authorization': `Bearer ${token}`,
         }
         config = {
           ...config,

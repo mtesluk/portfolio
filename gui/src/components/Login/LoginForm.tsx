@@ -39,7 +39,8 @@ export const LoginFormComponent = (props: Props) => {
     if (credentials.username && credentials.password) {
       const url = config.endpoints.auth.login;
       _httpService.post(url, credentials).then(response => {
-        props.setToken(response.token);
+        props.setToken(response.access);
+        localStorage.setItem(config.refreshTokenKey, response.refresh);
         props.handleClose(true);
         props.notifySuccess('Now you are logged in!');
       }).catch(err => {});

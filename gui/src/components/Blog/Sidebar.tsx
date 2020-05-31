@@ -64,6 +64,8 @@ class BlogSidebarComponent extends React.Component <Props, ComponentState>  {
     this.handleToggleSidebarIfSmallScreen();
     if (this.props.token) {
       this.props.resetToken();
+      localStorage.removeItem(config.tokenKey);
+      localStorage.removeItem(config.refreshTokenKey);
       this.props.setUserData({});
       this.props.notifySuccess('Logout confirmed');
     } else {
