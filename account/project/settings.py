@@ -91,7 +91,7 @@ DATABASES = {
     }
 }
 
-PRIV_KEY = os.environ.get('PRIVATE_AUTH_KEYY', None)
+PRIV_KEY = os.environ.get('PRIVATE_AUTH_KEY', None)
 PUB_KEY = os.environ.get('PUBLIC_AUTH_KEY', None)
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',

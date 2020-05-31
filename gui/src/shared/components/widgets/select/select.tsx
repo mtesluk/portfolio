@@ -64,19 +64,17 @@ class SelectWidget extends React.Component<Props, State> {
   render() {
     return (
       <div className="widget-select">
-        {this.state.data.length ?
-          <select
-            className="widget-select__select"
-            value={this.props.changeValue ? this.state.selected : -1}
-            onChange={(e) => this.handleSelectChange(e)}
-          >
-            <option
-              value={-1}
-              disabled>{this.props.placeholder || "Pick"}
-            </option>
-            {this.state.data.map((entity: Entity, index: number) => <option key={entity.id || index} value={entity.id || entity.name}>{entity.name}</option>)}
-          </select>
-        : <div className="widget-select__loading"><LinearProgress color="secondary" /></div>}
+        <select
+          className="widget-select__select"
+          value={this.props.changeValue ? this.state.selected : -1}
+          onChange={(e) => this.handleSelectChange(e)}
+        >
+          <option
+            value={-1}
+            disabled>{this.props.placeholder || "Pick"}
+          </option>
+          {this.state.data.map((entity: Entity, index: number) => <option key={entity.id || index} value={entity.id || entity.name}>{entity.name}</option>)}
+        </select>
       </div>
     )
   }

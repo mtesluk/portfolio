@@ -5,8 +5,6 @@ https://portfolio-mt.netlify.app/
 
 Now:
 ![alt text](http://mateusz.tesluk.pl/Portfolio.jpg)
-In future:
-![alt text](http://mateusz.tesluk.pl/Portfolio_Move.jpg)
 
 # ACCOUNT BACKEND TO AUTH
 [https://account-mt.herokuapp.com/](https://account-mt.herokuapp.com/)

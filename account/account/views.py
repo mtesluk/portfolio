@@ -6,7 +6,7 @@ from django.db.utils import IntegrityError
 from account.models import Profile
 from account.services.user import UserService
 from account.services.token import TokenService
-from account.jwt import CustomTokenObtainPairSerializer, TokenObtainPairView
+from account.serializers.jwt import CustomTokenObtainPairSerializer, TokenObtainPairView
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -27,15 +27,6 @@ class UserViewSet(viewsets.ViewSet):
         service = UserService()
         users = service.get_users(filters, None, ordering)
         return response.Response(users)
-
-    @decorators.action(detail=False,  methods=['get'], permission_classes=[IsAuthenticated])
-    def is_authenticated(self, request):
-        """
-        Endpoint to get if user is authenticated
-
-        Description comming soon
-        """
-        return response.Response({'is_auth': True, 'user_id': request.user.id, 'is_admin': request.user.is_superuser})
 
     @decorators.action(detail=False,  methods=['get'])
     def exist_fb_account(self, request):

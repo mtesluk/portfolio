@@ -47,8 +47,7 @@ class App extends React.Component <Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const refreshToken = localStorage.getItem(config.refreshTokenKey) || '';
-    this._interceptor.initInterceptors(props.notifyError, props.setToken, refreshToken);
+    this._interceptor.initInterceptors(props.notifyError, props.setToken);
     const token = localStorage.getItem(config.tokenKey);
     props.setToken(token || '');
     if (token) this.getUserData();
