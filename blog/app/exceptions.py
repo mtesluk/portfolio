@@ -14,6 +14,14 @@ class NotAuthorized(Exception):
     status_code = 401
 
 
+class LackOfTokenHeader(NotAuthorized):
+    pass
+
+
+class WrongTokenHeader(NotAuthorized):
+    pass
+
+
 class FileExtensionNotAllowed(Exception):
     status_code = 400
 

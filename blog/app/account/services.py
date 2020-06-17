@@ -1,10 +1,9 @@
-import requests
-
 import jwt
-from flask import current_app, request, jsonify
+import requests
+from flask import current_app, request
 
-from app.extensions import cache
-from app.exceptions import NotAuthorized
+from app.exceptions import NotAuthorized, LackOfTokenHeader, WrongTokenHeader
+
 
 class AccountService:
     def get_users(self, ids, ordering = None):
@@ -23,19 +22,28 @@ class AccountService:
             return data
         return []
 
-    @staticmethod
-    def is_auth(kwargs):
-        auth_header = request.headers.get('Authorization', None)
+    def is_auth(self):
+        auth_header = self.get_token_header()
         if not auth_header:
-            return False
-        token = auth_header.split(' ')[1]
+            raise LackOfTokenHeader
 
         try:
-            public_key = current_app.config['PUBLIC_AUTH_KEY']
-            decoded = jwt.decode(token, public_key, 'RS256')
-        except jwt.ExpiredSignatureError:
-            return False
+            token = auth_header.split(' ')[1]
+        except IndexError:
+            raise WrongTokenHeader
 
-        kwargs['user_id'] = decoded['user_id']
-        kwargs['is_admin'] = decoded['admin']
-        return True
+        try:
+            decoded = self.get_token_decoded(token)
+        except jwt.ExpiredSignatureError:
+            raise NotAuthorized
+        except Exception:
+            raise NotAuthorized
+
+        return decoded['user_id'], decoded['admin']
+
+    def get_token_header(self):
+        return request.headers.get('Authorization', None)
+
+    def get_token_decoded(self, token):
+        public_key = current_app.config['PUBLIC_AUTH_KEY']
+        return jwt.decode(token, public_key, 'RS256')

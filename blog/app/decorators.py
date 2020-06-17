@@ -3,21 +3,19 @@ from app.account.services import AccountService
 from app.exceptions import NotPermitted, NotAuthorized
 
 
+def is_auth(func):
+    def wrapper(*args, **kwargs):
+        service = AccountService()
+        user_id, is_admin = service.is_auth()
+        kwargs['user_id'] = user_id
+        kwargs['is_admin'] = is_admin
+        return func(*args, **kwargs)
+    return wrapper
+
 def is_allowed(func):
     def wrapper(*args, **kwargs):
         service = BlogService()
-        print(11111111111)
-        print(kwargs)
-        if service.is_allowed(kwargs['user_id'], kwargs['is_admin'], kwargs['id']):
+        if service.is_allowed(kwargs.get('user_id', ''), kwargs.get('is_admin', ''), kwargs.get('id', '')):
             return func(*args, **kwargs)
         raise NotPermitted
-    return wrapper
-
-def is_auth(func):
-    def wrapper(*args, **kwargs):
-        print(1111111111111111111111)
-        service = AccountService()
-        if service.is_auth(kwargs):
-            return func(*args, **kwargs)
-        raise NotAuthorized
     return wrapper

@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from flask import Flask
 from flask_testing import TestCase
-from sqlalchemy.exc import OperationalError
+from sqlalchemy.exc import IntegrityError
 
 from app.config import TestingConfig
 from app.blog.services import BlogService
@@ -166,7 +166,7 @@ class BlogServiceTestCase(TestCase):
         self.assertEqual(blog_data['content'], blog.content)
         self.assertEqual(blog_data['photo_names'], blog.photo_names)
         self.assertEqual(blog_data['views'], blog.views)
-        self.assertEqual(blog_data['country'], blog.country)
+        self.assertEqual(blog_data['countries'], blog.countries)
         self.assertEqual(blog_data['title'], blog.title)
         self.assertEqual(blog_data.get('is_active', 'no_key'), 'no_key')
 
@@ -277,9 +277,9 @@ class BlogServiceTestCase(TestCase):
         self.assertRaises(AttributeError, self.service.get_blogs, filters)
 
     def test_get_blog_countries(self):
-        blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
-        blog_2 = Blog(user_id=1, content='456', country='Poland', title='title')
-        blog_3 = Blog(user_id=1, content='678', country='Germany', title='title')
+        blog_1 = Blog(user_id=0, content='123', countries='Poland', title='title')
+        blog_2 = Blog(user_id=1, content='456', countries='Poland', title='title')
+        blog_3 = Blog(user_id=1, content='678', countries='Germany', title='title')
         self.session.add_all([blog_1, blog_2, blog_3])
         self.session.commit()
 
@@ -290,8 +290,8 @@ class BlogServiceTestCase(TestCase):
         self.assertIn('Germany', countries)
 
     def test_get_blog_countries_with_null(self):
-        blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
-        blog_2 = Blog(user_id=1, content='456', country='Poland', title='title')
+        blog_1 = Blog(user_id=0, content='123', countries='Poland', title='title')
+        blog_2 = Blog(user_id=1, content='456', countries='Poland', title='title')
         blog_3 = Blog(user_id=1, content='678', title='title')
         self.session.add_all([blog_1, blog_2, blog_3])
         self.session.commit()
@@ -304,9 +304,9 @@ class BlogServiceTestCase(TestCase):
     @patch('app.account.services.AccountService.get_users')
     def test_get_authors(self, patch):
         patch.return_value = [{'username': 'mtesluk', 'id': 0}, {'username': 'kdziubek', 'id': 1}]
-        blog_1 = Blog(user_id=0, content='123', country='Poland', title='title')
-        blog_2 = Blog(user_id=1, content='456', country='Poland', title='title')
-        blog_3 = Blog(user_id=1, content='678', country='Germany', title='title')
+        blog_1 = Blog(user_id=0, content='123', countries='Poland', title='title')
+        blog_2 = Blog(user_id=1, content='456', countries='Poland', title='title')
+        blog_3 = Blog(user_id=1, content='678', countries='Germany', title='title')
         self.session.add_all([blog_1, blog_2, blog_3])
         self.session.commit()
 
@@ -330,18 +330,18 @@ class BlogServiceTestCase(TestCase):
 
     def test_create_blog_no_user_input(self):
         data = {'content': '123'}
-        self.assertRaises(OperationalError, self.service.create_blog, data)
+        self.assertRaises(IntegrityError, self.service.create_blog, data)
 
     def test_create_blog_no_content(self):
         data = {'user_id': 1}
-        self.assertRaises(OperationalError, self.service.create_blog, data)
+        self.assertRaises(IntegrityError, self.service.create_blog, data)
 
     def test_set_blog_verified(self):
         blog = Blog(user_id=0, content='123', title='title')
         self.session.add(blog)
         self.session.commit()
 
-        self.assertEqual(blog.is_active, False)
+        self.assertEqual(blog.is_active, True)
 
         self.service.set_blog_verified(blog.id)
 

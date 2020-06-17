@@ -11,12 +11,6 @@ from app.blog.serializers import BlogSerializer
 from app.account.services import AccountService
 from app.exceptions import FileExtensionNotAllowed
 
-class UserService:
-    """
-    Service to handle user data from auth server
-    """
-    pass
-
 
 class BlogService:
     """
@@ -106,7 +100,7 @@ class BlogService:
         return authors
 
     def get_countries(self, filters: dict = None, ordering: str = None, limit: str = None):
-        queryset = db.session.query(Blog.country).distinct()
+        queryset = db.session.query(Blog.countries).distinct()
         queryset = self._filter_order_query(queryset, filters if filters else {}, ordering)
         queryset = queryset.limit(limit) if limit else queryset
         countries = [country for country, in queryset if country]

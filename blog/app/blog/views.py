@@ -1,7 +1,7 @@
 import os
 
 from flask import request, flash, redirect, url_for, send_file, Blueprint, views, jsonify, current_app
-from sqlalchemy.exc import OperationalError
+from sqlalchemy.exc import OperationalError, IntegrityError
 
 from app.decorators import is_allowed, is_auth
 from app.blog.services import BlogService
@@ -14,7 +14,7 @@ blueprint = Blueprint('blog', __name__)
 
 class BlogFilter(Filter):
     user_id = Equal
-    country = Contains
+    countries = Contains
     is_active = Boolean
 
 
@@ -54,7 +54,7 @@ class BlogViewSet(views.MethodView):
             filenames = service.upload_files(images, f'BLOG_{blog_id}')
             service.update_blog(blog_id, {'photo_names': ','.join(filenames)})
             return jsonify(blog), 201
-        except (TypeError, OperationalError) as err:
+        except (TypeError, OperationalError, IntegrityError) as err:
             raise BadRequest(err.args)
 
     @is_auth
@@ -74,7 +74,6 @@ class BlogViewSet(views.MethodView):
         return jsonify(blog)
 
 def authors():
-    print(1111111111111111)
     params = request.args
     ordering = params.get('ordering', None)
     limit = params.get('limit', None)
@@ -84,7 +83,6 @@ def authors():
     return jsonify(authors)
 
 def countries():
-    print(1111111111111111)
     params = request.args
     ordering = params.get('ordering', None)
     limit = params.get('limit', None)

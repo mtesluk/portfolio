@@ -11,7 +11,7 @@ class Blog(db.Model):
     photo_names = db.Column(db.String(300))
     cooperators = db.Column(db.String(200))
     views = db.Column(db.Integer, default=0)
-    country = db.Column(db.Text)
+    countries = db.Column(db.Text)
     is_active = db.Column(db.Boolean(), default=True)
     add_date = db.Column(db.DateTime(timezone=True), server_default=func.now())
     update_date = db.Column(db.DateTime(timezone=True), onupdate=func.now())

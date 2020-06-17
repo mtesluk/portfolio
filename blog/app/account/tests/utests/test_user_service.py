@@ -6,6 +6,7 @@ from flask_testing import TestCase
 from app.config import TestingConfig
 from app.account.services import AccountService
 from app.extensions import db
+from app.exceptions import NotAuthorized, LackOfTokenHeader, WrongTokenHeader
 from app.init import create_app
 
 
@@ -63,3 +64,24 @@ class UserServiceTestCase(TestCase):
         users = self.service.get_users([])
 
         self.assertEqual(len(users), 0)
+
+    @patch('app.account.services.AccountService.get_token_header', return_value=None)
+    def test_is_request_not_contain_header_token(self, patch):
+        self.assertRaises(LackOfTokenHeader, self.service.is_auth)
+
+    @patch('app.account.services.AccountService.get_token_header', return_value='Tok123')
+    def test_request_wrong_header_token(self, patch):
+        self.assertRaises(WrongTokenHeader, self.service.is_auth)
+
+    @patch('app.account.services.AccountService.get_token_header', return_value='Bearer 123')
+    @patch('app.account.services.AccountService.get_token_decoded', side_effect=Exception)
+    def test_request_token_expire_or_wrong(self, patch_1, patch_2):
+        self.assertRaises(NotAuthorized, self.service.is_auth)
+
+    @patch('app.account.services.AccountService.get_token_header', return_value='Bearer 123')
+    @patch('app.account.services.AccountService.get_token_decoded', return_value={'user_id': '2', 'admin': True})
+    def test_request_token_expire_or_wrong(self, patch_1, patch_2):
+        data = self.service.is_auth()
+
+        self.assertEqual(data[0], '2')
+        self.assertTrue(data[1])
