@@ -12,7 +12,6 @@ import { config } from 'config';
 import BlogService from 'shared/services/blog.service';
 import SelectMultipleWidget from 'shared/components/widgets/selectMult/selectMult';
 import InputWidget from 'shared/components/widgets/input/input';
-import { SelectedEntity } from 'shared/interfaces/select';
 
 
 interface ComponentState {

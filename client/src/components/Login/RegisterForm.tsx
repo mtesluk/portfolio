@@ -35,6 +35,7 @@ interface Account {
 export const RegisterFormComponent = (props: Props) => {
   const _httpService: HttpService = new HttpService();
   const [validationError, setValidationError] = useState<{valid: boolean, msg: string}>({valid: true, msg: "Passwords must be the same"});
+  // eslint-disable-next-line
   const {register, setValue, handleSubmit, errors} = useForm<Account>();
 
   const onSubmit = handleSubmit((data: Account) => {

@@ -14,7 +14,6 @@ import { config  } from 'config';
 import { Blog } from 'shared/interfaces/blog';
 import HttpService from 'shared/services/HttpService'
 import BlogService from 'shared/services/blog.service';
-import { SelectedEntity } from 'shared/interfaces/select';
 
 
 interface Props {

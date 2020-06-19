@@ -5,38 +5,43 @@ import { useForm } from 'react-hook-form';
 import InputWidget from 'shared/components/widgets/input/input';
 import ButtonWidget from 'shared/components/widgets/button/button';
 
-import UserService from 'shared/services/user.service';
+import { User } from 'shared/interfaces/user';
 import { notifySuccess } from 'actions/notify';
+import { setUserData } from 'actions/user';
 
 
 interface ReduxDispatch {
   notifySuccess: (msg: string) => void;
+  setUserData: (data: User) => void;
 }
 
 interface Props extends ReduxDispatch {
 
 }
 
-const ChangePasswordComponent = (props: Props) => {
-  const _service: UserService = new UserService();
+interface Account {
+  username?: string;
+  email?: string;
+}
+
+const EditProfileComponent = (props: Props) => {
+  // eslint-disable-next-line
   const {register, setValue, handleSubmit, errors} = useForm<Account>();
 
   const onSubmit = handleSubmit((data: Account) => {
     // _service.putUser(data).then(response => {
     //   props.notifySuccess('User data updated');
+    //   props.setUserData(response);
     // }).catch(err => {});
   });
 
   return (
-    <form className="blog-change-password" onSubmit={onSubmit}>
+    <form className="blog-edit-profile" onSubmit={onSubmit}>
       <div className="form-field">
-        <InputWidget placeholder="Old password" name="oldPassword" refe={register({required: false})}/>
+        <InputWidget placeholder="Username" name="username" refe={register({required: false})}/>
       </div>
       <div className="form-field">
-        <InputWidget placeholder="New password" name="newPassword" refe={register({required: false})}/>
-      </div>
-      <div className="form-field">
-        <InputWidget placeholder="Confirm new password" name="newConfirmationPassword" refe={register({required: false})}/>
+        <InputWidget placeholder="Email" name="email" refe={register({required: false})}/>
       </div>
       <ButtonWidget type={"submit"} text={"Update"}/>
     </form>
@@ -46,9 +51,10 @@ const ChangePasswordComponent = (props: Props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     notifySuccess: (msg: string) => dispatch(notifySuccess(msg)),
+    setUserData: (data: User) => dispatch(setUserData(data)),
   };
 };
 
-const ChangePassword = connect(null, mapDispatchToProps)(ChangePasswordComponent);
+const EditProfile = connect(null, mapDispatchToProps)(EditProfileComponent);
 
-export default ChangePassword;
+export default EditProfile;

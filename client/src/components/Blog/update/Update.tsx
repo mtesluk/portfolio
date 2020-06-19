@@ -25,7 +25,7 @@ const UpdateForm = (props: Props) => {
   useEffect(() => {
     const { id } = props.match.params;
     getBlog(id);
-  }, [])
+  }, [props.match.params])
 
   const getBlog = (id: number) => {
     service.getBlog(id).then((response: Blog) => {

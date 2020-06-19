@@ -1,8 +1,7 @@
-import React, { useState, useEffect, ImgHTMLAttributes } from 'react';
+import React, { useState } from 'react';
 
 import './selectFile.scss';
 import BackupIcon from '@material-ui/icons/Backup';
-import { config } from 'config';
 
 
 interface Props {
@@ -27,7 +26,7 @@ const SelectFileWidget = (props: Props) => {
   };
   if (selectedFile || props.initialValue) {
     const imageUrl = props.initialValue && !selectedFile ? props.initialValue : URL.createObjectURL(selectedFile)
-    imageConfig.imageTag = <img className="widget-select-file__img" src={imageUrl} />;
+    imageConfig.imageTag = <img className="widget-select-file__img" src={imageUrl} alt={imageUrl} />;
     imageConfig.classImgResize = 'widget-select-file--resize';
   }
 

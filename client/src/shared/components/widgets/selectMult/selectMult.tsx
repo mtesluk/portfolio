@@ -32,7 +32,7 @@ const SelectMultipleWidget = (props: Props) => {
   }
 
   const rm = (index: number) => {
-    setSelected(selected.filter((el, i) => index != i));
+    setSelected(selected.filter((el, i) => index !== i));
   }
 
   const renderElements = () => {
