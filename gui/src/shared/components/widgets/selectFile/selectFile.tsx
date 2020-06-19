@@ -1,13 +1,15 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { useState, useEffect, ImgHTMLAttributes } from 'react';
 
 import './selectFile.scss';
 import BackupIcon from '@material-ui/icons/Backup';
+import { config } from 'config';
 
 
 interface Props {
   onChange?: (file: File) => void;
   name?: string;
   orderNumber?: number;
+  initialValue?: string | null;
 }
 
 const SelectFileWidget = (props: Props) => {
@@ -19,18 +21,24 @@ const SelectFileWidget = (props: Props) => {
     props.onChange && props.onChange(file);
   };
 
-  const renderImage = selectedFile ? <img className="widget-select-file__img" src={URL.createObjectURL(selectedFile)} /> : <></ >;
-  const classResize = selectedFile ? 'widget-select-file--resize' : '';
-  const uploadIcon = <BackupIcon fontSize="large" style={{verticalAlign: 'text-top', marginRight: '1rem'}}/>;
+  let imageConfig = {
+    imageTag: <></>,
+    classImgResize: ''
+  };
+  if (selectedFile || props.initialValue) {
+    const imageUrl = props.initialValue && !selectedFile ? props.initialValue : URL.createObjectURL(selectedFile)
+    imageConfig.imageTag = <img className="widget-select-file__img" src={imageUrl} />;
+    imageConfig.classImgResize = 'widget-select-file--resize';
+  }
 
   return (
-    <div className={`widget-select-file ${classResize}`}>
-      {renderImage}
+    <div className={`widget-select-file ${imageConfig.classImgResize}`}>
+      {imageConfig.imageTag}
       <label
         htmlFor={`widget-select-file-id-${props.orderNumber}`}
         className="widget-select-file__label"
       >
-        {uploadIcon}
+        <BackupIcon fontSize="large" style={{verticalAlign: 'text-top', marginRight: '1rem'}}/>
         {selectedFile?.name || 'Select file...'}
       </label>
       <input

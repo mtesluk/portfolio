@@ -1,20 +1,19 @@
 import React from 'react';
 
 import './select.scss';
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 import HttpService from 'shared/services/HttpService';
-import { Entity } from 'shared/interfaces/select';
+import { SelectedEntity } from 'shared/interfaces/select';
 
 
 interface State {
   selected: number | string;
-  data: Entity[];
+  data: SelectedEntity[];
 }
 
 interface Props {
   onChange?: (value: number | string) => void;
-  data?: Entity[];
+  data?: SelectedEntity[];
   endpoint?: string;
   placeholder?: string;
   changeValue?: boolean;
@@ -55,6 +54,7 @@ class SelectWidget extends React.Component<Props, State> {
 
   handleSelectChange(event: any) {
     const value: number | string = Number(event.target.value) || event.target.value;
+    console.log(value)
     if (this.props.onChange) this.props.onChange(value);
     this.setState({
       selected: value,
@@ -73,7 +73,7 @@ class SelectWidget extends React.Component<Props, State> {
             value={-1}
             disabled>{this.props.placeholder || "Pick"}
           </option>
-          {this.state.data.map((entity: Entity, index: number) => <option key={entity.id || index} value={entity.id || entity.name}>{entity.name}</option>)}
+          {this.state.data.map((entity: SelectedEntity, index: number) => <option key={entity.id || index} value={entity.id || entity.name}>{entity.name}</option>)}
         </select>
       </div>
     )

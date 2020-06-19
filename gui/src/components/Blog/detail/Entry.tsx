@@ -33,7 +33,7 @@ class Entry extends React.Component<Props, State> {
   _service: BlogService = new BlogService();
   _userService: UserService = new UserService();
   state = {
-    blog: {id: 0, content: '', user_id: 0, title: "", cooperators: null, photo_names: null, views: 0, country: "Poland", add_date: '', update_date: ''},
+    blog: {id: 0, content: '', user_id: 0, title: "", cooperators: null, photo_names: null, views: 0, countries: [], add_date: '', update_date: ''},
     elements: [],
     authors: {main: {username: ''}, support: []},
   }
@@ -79,6 +79,10 @@ class Entry extends React.Component<Props, State> {
     }).catch(err => err);
   }
 
+  editBlog(id: number) {
+    this.props.history.push(`/blog/edit/${id}`);
+  }
+
   render() {
     return (
       <div className="blog-detail">
@@ -87,7 +91,7 @@ class Entry extends React.Component<Props, State> {
             <div className="blog-detail__title">{this.state.blog.title}</div>
             <div className="blog-detail__region">
               Region:	{'\u00A0'}
-                {this.state.blog.country.split(';').map((country, index) => {
+                {this.state.blog.countries.map((country: string, index: number) => {
                   return <span className="blog-detail__region-element" key={index}>
                           <Link to={{
                             pathname: config.routes.blog.sites,
@@ -129,6 +133,7 @@ class Entry extends React.Component<Props, State> {
             <div className="blog-detail__seen">Views: {this.state.blog.views}</div>
             <div className="blog-detail__actions">
                 <ButtonWidget text="Remove" onClick={(e) => this.removeBlog(this.state.blog.id)}/>
+                <ButtonWidget text="Edit" onClick={(e) => this.editBlog(this.state.blog.id)}/>
             </div>
           </div>
         </div>

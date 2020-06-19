@@ -33,7 +33,7 @@ export const config = {
         },
         countries: {
             base: getBaseUrlConfig('countries'),
-        }
+        },
     },
     routes: {
         root: '/',
@@ -44,6 +44,7 @@ export const config = {
             addNew: '/blog/add',
             profile: '/blog/profile',
             detail: detailRoute('/blog/'),
+            updateBlog: detailRoute('/blog/edit/'),
         }
     }
 }

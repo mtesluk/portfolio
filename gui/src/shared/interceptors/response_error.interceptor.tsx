@@ -43,6 +43,8 @@ class ErrorResponseInterceptor {
               setToken(res.access)
               originalReq.headers['Bearer'] = res.access;
               return axios(originalReq);
+          }).catch(err => {
+            notifyError('Please login again!');
           });
 
           resolve(res);

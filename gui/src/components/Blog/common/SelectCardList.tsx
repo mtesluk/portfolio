@@ -14,6 +14,7 @@ import { config  } from 'config';
 import { Blog } from 'shared/interfaces/blog';
 import HttpService from 'shared/services/HttpService'
 import BlogService from 'shared/services/blog.service';
+import { SelectedEntity } from 'shared/interfaces/select';
 
 
 interface Props {
@@ -143,7 +144,7 @@ class SelectCardList extends React.Component<Props, State> {
       <Card className="blog-cards__card--header">
         <CardContent>
           {this.state.loading && <LinearProgress />}
-          <SelectWidget data={this.state.subjects} onChange={(id: number | string) => this.handleSubjectSelectChange(id as number)}/>
+          <SelectWidget data={this.state.subjects} onChange={(id: string | number) => this.handleSubjectSelectChange(id as number)}/>
         </CardContent>
       </Card>
     )

@@ -1,4 +1,4 @@
-export interface Entity {
-    id: number;
+export interface SelectedEntity {
+    id?: number;
     name: string;
 }
