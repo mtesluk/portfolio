@@ -68,9 +68,13 @@ class BlogViewSet(views.MethodView):
     @is_auth
     @is_allowed
     def put(self, id, *args, **kwargs):
-        data = request.get_json()
+        data = request.get_json() or request.form.to_dict()
+        images = request.files.getlist('file')
         service = BlogService()
         blog = service.update_blog(id, data)
+        blog_id = blog['id']
+        filenames = service.upload_files(images, f'BLOG_{blog_id}')
+        service.update_blog(blog_id, {'photo_names': ','.join(filenames)})
         return jsonify(blog)
 
 def authors():
@@ -90,6 +94,7 @@ def countries():
     service = BlogService()
     countries = service.get_countries(None, ordering, limit)
     countries = service.unpack_countries(countries)
+    countries = countries[:int(limit)] if limit else countries
     return jsonify(countries)
 
 view = BlogViewSet.as_view('blog_view')
