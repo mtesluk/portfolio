@@ -60,11 +60,25 @@ $border-color: rgb(109, 106, 106);
         }
     }
 
-    &__name {
-        font-size: 4.5rem;
-        letter-spacing: 1rem;
-        text-align: center;
+    &__logo {
+        padding: 1rem 1rem 0 1rem;
         border-bottom: 1px solid $border-color;
+    }
+
+    &__header, &__travel-icon {
+        font-size: 4.5rem;
+    }
+
+    &__subheader {
+        font-size: 3.5rem;
+    }
+
+    &__subheader, &__header {
+        line-height: 5rem;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
     }
 
     &__navs {

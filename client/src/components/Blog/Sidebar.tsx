@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import './Sidebar.scss';
 import HomeIcon from '@material-ui/icons/Menu';
+import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
+import FlightLandIcon from '@material-ui/icons/FlightLand';
 
 import { config } from 'config';
 import { setOpenLoginDialog } from 'actions/login-dialog';
@@ -32,6 +34,7 @@ interface Props extends ReduxState, ReduxDispatch {
 interface ComponentState {
   showSidebar: boolean;
   showNavbar: boolean;
+  logoChanged: boolean;
 }
 
 class BlogSidebarComponent extends React.Component <Props, ComponentState>  {
@@ -39,6 +42,7 @@ class BlogSidebarComponent extends React.Component <Props, ComponentState>  {
   state = {
     showSidebar: true,
     showNavbar: false,
+    logoChanged: false,
   }
 
   componentDidMount() {
@@ -78,10 +82,28 @@ class BlogSidebarComponent extends React.Component <Props, ComponentState>  {
   };
 
   renderSidebar() {
+    const IconLogo = this.state.logoChanged ? FlightLandIcon : FlightTakeoffIcon;
+
     return (
       <div className={`blog__sidebar ${this.state.showSidebar ? 'blog__sidebar--show' : 'blog__sidebar--hide'}`} ref={this._ref}>
         <div className="blog__top">
-          <Link to="/" className="blog__name">Blog</Link>
+          <Link to="/" className="blog__logo" onMouseEnter={() => this.setState({logoChanged: true})} onMouseLeave={() => this.setState({logoChanged: false})}>
+            <div className="blog__header">
+              <div><IconLogo fontSize="inherit" className="blog__travel-icon" /></div>
+              <div>B</div>
+              <div>l</div>
+              <div>o</div>
+              <div>g</div>
+            </div>
+            <div className="blog__subheader">
+              <div>T</div>
+              <div>r</div>
+              <div>a</div>
+              <div>v</div>
+              <div>e</div>
+              <div>l</div>
+            </div>
+          </Link>
           <div className="blog__navs">
             <Link to={config.routes.blog.dashboard} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Dashboard</Link>
             <Link to={config.routes.blog.authors} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Authors</Link>
