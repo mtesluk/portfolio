@@ -6,7 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ButtonWidget from 'shared/components/widgets/button/button';
 import SelectWidget from 'shared/components/widgets/select/select';
 
@@ -125,7 +125,7 @@ class SelectCardList extends React.Component<Props, State> {
           {blogs.map(blog => {
             return (
               <Link to={config.routes.blog.detail(blog.id)} className="blog-cards__blogs-list-element" key={blog.id}>
-                <ViewHeadlineIcon fontSize="inherit" />
+                <ArrowRightIcon fontSize="inherit" />
                 <div className="blog-cards__blogs-list-element-text">{blog.title}</div>
               </Link>
             )

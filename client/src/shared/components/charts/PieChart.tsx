@@ -64,7 +64,7 @@ class PieChart extends React.Component<Props, State> {
         this.props.setPickedData((d.data as any).name);
       })
       .append('title')
-      .text(d => `${(d.data as any).name}: ${(d.data as any).value.toLocaleString()}`);
+      .text(d => (d.data as any).name);
 
     svg.append('g')
       .attr('font-family', 'sans-serif')
@@ -82,7 +82,7 @@ class PieChart extends React.Component<Props, State> {
       .call(text => text.append('tspan')
           .attr('y', '-0.4rem')
           .attr('font-weight', 'bold')
-          .text((d: any) => d.data.name))
+          .text((d: any) => `${d.data.name.slice(0, 7)}...`))
       .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
           .attr('x', 0)
           .attr('y', '0.7rem')

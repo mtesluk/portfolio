@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './Dashboard.scss';
-import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Card } from '@material-ui/core';
 
@@ -12,6 +12,7 @@ import { User } from 'shared/interfaces/user';
 import HttpService from 'shared/services/HttpService';
 import BlogService from 'shared/services/blog.service';
 import ButtonWidget from 'shared/components/widgets/button/button';
+import PieChart from 'shared/components/charts/PieChart';
 
 
 interface ComponentState {
@@ -84,7 +85,13 @@ class Dashboard extends React.Component<Props, ComponentState> {
     return (
       <div className="blog-dashboard">
         <Card className="blog-dashboard__card blog-dashboard__authors-count">
-          <div className="blog-dashboard__soon">Show up soon</div>
+        <header className="blog-dashboard__header">View's amount</header>
+          <PieChart
+            data={this.state.mostSeenBlogs.map((elem: Blog) => ({name: elem.title, value: elem.views})).slice(0, 3)}
+            classSvgName="charts-main__svg-pie"
+            setPickedData={(name: string) => {}}
+            width={200}
+          />
         </Card>
 
         <Card className="blog-dashboard__card blog-dashboard__a">
@@ -106,7 +113,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
             {this.state.mostSeenBlogs.map((blog: Blog) => {
               return (
                 <Link to={config.routes.blog.detail(blog.id)} className="blog-dashboard__list-elem-link" key={blog.id}>
-                  <ViewHeadlineIcon fontSize="inherit" />
+                  <ArrowRightIcon fontSize="inherit" />
                   <div className="blog-dashboard__list-element-text">{blog.title}</div>
                 </Link>
               )
@@ -121,7 +128,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
             {this.state.latestBlogs.map((blog: Blog) => {
               return (
                 <Link to={config.routes.blog.detail(blog.id)} className="blog-dashboard__list-elem-link" key={blog.id}>
-                  <ViewHeadlineIcon fontSize="inherit" />
+                  <ArrowRightIcon fontSize="inherit" />
                   <div className="blog-dashboard__list-element-text">{blog.title}</div>
                 </Link>
               )
