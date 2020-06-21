@@ -26,9 +26,11 @@ const SelectMultipleWidget = (props: Props) => {
   }, [props.initialValue]);
 
 
-  function handleAdd(value: number | string) {
-    const newSelected = [value, ...selected];
-    setSelected(newSelected);
+  const handleAdd = (value: number | string) => {
+    if (!selected.includes(value)) {
+      const newSelected = [value, ...selected];
+      setSelected(newSelected);
+    }
   }
 
   const rm = (index: number) => {
