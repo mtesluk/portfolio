@@ -28,13 +28,13 @@ export class Dashboard extends React.Component {
             </Link>
           </div>
           <div className="part part--3">
-            <Link to="/forum" className="part__link link">
+            <a href="https://wcwm.netlify.app/">
               <div className="part__quarter part__quarter--3">
                 <div className="part__name part__name--3">
-                  forum
+                  wcwm
                 </div>
               </div>
-            </Link>
+            </a>
           </div>
           <div className="part part--4">
             <div className="part__bg-video">
