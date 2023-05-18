@@ -48,7 +48,7 @@
     }
 
     &--4 {
-
+      @include background-img-gradient(#ad3232, #fff, "../assets/covid.png");
     }
 
     &__link {

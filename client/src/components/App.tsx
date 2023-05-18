@@ -7,10 +7,8 @@ import './App.scss';
 
 import { Notification } from 'shared/interfaces/notification.interface';
 import { Blog } from './Blog/Blog';
-import { Forum } from './Forum/Forum';
 import { Dashboard } from './Dashboard/Dashboard';
 import { Photos } from './Photos/Photos';
-import { Movies } from './Movies/Movies';
 import { NotFound } from 'shared/components/NotFound';
 import { LoginDialog } from './Login/LoginDialog';
 import { notifyError } from 'actions/notify';
@@ -81,8 +79,6 @@ class App extends React.Component <Props, State> {
           <Route path="/" exact component={Dashboard} />
           <Route path="/blog" component={Blog} />
           <Route path="/photos" component={Photos} />
-          <Route path="/forum" component={Forum} />
-          <Route path="/movies" component={Movies} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>

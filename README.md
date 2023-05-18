@@ -103,8 +103,15 @@ flask db upgrade
 
 # GUI
 App built in React with Typescript
+Node: 10.24.1
+Npm: 6.14.12
 
-## Server
+## Install
+```
+npm install
+```
+
+## Run
 ```
 npm run start
 ```

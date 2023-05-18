@@ -37,22 +37,13 @@ export class Dashboard extends React.Component {
             </a>
           </div>
           <div className="part part--4">
-            <div className="part__bg-video">
-              {/* <ReactPlayer url='containers/movies.mp4' className="part__bg-video--content" lopp playing muted controls/> */}
-              <video className="part__bg-video--content" autoPlay muted loop>
-                <source src="movie-dashboard.mp4" type="video/mp4"></source>
-                <source src="movie-dashboard-2.webm" type="video/webm"></source>
-                Sorry, your browser doesn't support embedded videos.
-              </video>
-              <div className="part__bg-video--gradient"></div>
-            </div>
-            <Link to="/movies" className="part__link link">
+            <a href="https://mtesluk.github.io/covid-eu/">
               <div className="part__quarter part__quarter--4">
                 <div className="part__name part__name--4">
-                  movies
+                  covid-19
                 </div>
               </div>
-            </Link>
+            </a>
           </div>
       </div>
     );
