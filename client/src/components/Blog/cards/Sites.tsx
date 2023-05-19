@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { config  } from 'config';
+import { getConfigUrlSrvBlog } from 'config';
 import SelectCardList from 'components/Blog/common/SelectCardList';
 
 
@@ -14,7 +14,7 @@ interface Props {
 };
 
 class Sites extends React.Component<Props, State> {
-  endpoint: string = config.endpoints.blog.countries;
+  endpoint: string = getConfigUrlSrvBlog('countries');
   filters = {country: null};
   state = {
     sites: []

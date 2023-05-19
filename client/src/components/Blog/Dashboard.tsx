@@ -6,7 +6,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Card } from '@material-ui/core';
 
-import { config } from 'config';
+import { getConfigUrlSrvBlog, getConfigRoutesBlog } from 'config';
 import { Blog } from 'shared/interfaces/blog';
 import { User } from 'shared/interfaces/user';
 import HttpService from 'shared/services/HttpService';
@@ -62,7 +62,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
   }
 
   getTopSeenAuthors() {
-    const url = config.endpoints.blog.authors;
+    const url = getConfigUrlSrvBlog('authors');
     const params = {limit: 5, ordering: '-views'};
     this._httpService.get(url, params).then((response: User[]) => {
       this.setState({
@@ -72,7 +72,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
   }
 
   getMostSeenCountries() {
-    const url = config.endpoints.blog.countries;
+    const url = getConfigUrlSrvBlog('countries');;
     const params = {limit: 5, ordering: '-views'};
     this._httpService.get(url, params).then((response: string[]) => {
       this.setState({
@@ -112,7 +112,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
             {!this.state.mostSeenBlogs.length && <div className="blog-dashboard__loading"><CircularProgress color="secondary" /></div>}
             {this.state.mostSeenBlogs.map((blog: Blog) => {
               return (
-                <Link to={config.routes.blog.detail(blog.id)} className="blog-dashboard__list-elem-link" key={blog.id}>
+                <Link to={getConfigRoutesBlog('detail')(blog.id)} className="blog-dashboard__list-elem-link" key={blog.id}>
                   <ArrowRightIcon fontSize="inherit" />
                   <div className="blog-dashboard__list-element-text">{blog.title}</div>
                 </Link>
@@ -127,7 +127,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
             {!this.state.latestBlogs.length && <div className="blog-dashboard__loading"><CircularProgress color="secondary" /></div>}
             {this.state.latestBlogs.map((blog: Blog) => {
               return (
-                <Link to={config.routes.blog.detail(blog.id)} className="blog-dashboard__list-elem-link" key={blog.id}>
+                <Link to={getConfigRoutesBlog('detail')(blog.id)} className="blog-dashboard__list-elem-link" key={blog.id}>
                   <ArrowRightIcon fontSize="inherit" />
                   <div className="blog-dashboard__list-element-text">{blog.title}</div>
                 </Link>
@@ -148,7 +148,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
             })}
             <footer className="blog-dashboard__actions">
               <Link to={{
-                pathname: config.routes.blog.authors,
+                pathname: getConfigRoutesBlog('authors'),
                 state: {
                   authors: this.state.topSeenAuthors
                 }}}
@@ -170,7 +170,7 @@ class Dashboard extends React.Component<Props, ComponentState> {
             })}
             <footer className="blog-dashboard__actions">
               <Link to={{
-                  pathname: config.routes.blog.sites,
+                  pathname: getConfigRoutesBlog('sites'),
                   state: {
                     countries: this.state.mostSeenCountries
                   }}}

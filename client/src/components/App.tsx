@@ -15,7 +15,7 @@ import { notifyError } from 'actions/notify';
 import { setToken } from 'actions/token';
 import { setUserData } from 'actions/user';
 import { User } from 'shared/interfaces/user';
-import { config } from 'config';
+import { getConfigBlog, getConfigUrlSrvAuth } from 'config';
 import HttpService from 'shared/services/HttpService';
 import Interceptor from 'shared/interceptors/interceptor';
 
@@ -46,7 +46,7 @@ class App extends React.Component <Props, State> {
   constructor(props: Props) {
     super(props);
     this._interceptor.initInterceptors(props.notifyError, props.setToken);
-    const token = localStorage.getItem(config.tokenKey);
+    const token = localStorage.getItem(getConfigBlog('tokenKey'));
     props.setToken(token || '');
     if (token) this.getUserData();
   }
@@ -59,7 +59,7 @@ class App extends React.Component <Props, State> {
   }
 
   getUserData() {
-    this._httpService.get(config.endpoints.auth.me).then((response: User) => {
+    this._httpService.get(getConfigUrlSrvAuth('me')).then((response: User) => {
       this.props.setUserData(response);
     }).catch(err => {});
   }

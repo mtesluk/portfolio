@@ -1,5 +1,5 @@
 import { Element, ElementType, Blog, BlogFormData } from 'shared/interfaces/blog';
-import { config } from 'config';
+import { getConfigUrlSrvBlog } from 'config';
 import HttpService from './HttpService';
 
 
@@ -27,41 +27,41 @@ class BlogService {
   }
 
   removeBlog(id: number) {
-    const url = `${config.endpoints.blog.base}${id}/`;
+    const url = `${getConfigUrlSrvBlog('base')}${id}/`;
     return this._httpService.delete(url).then(response => response);
   }
 
   getBlog(id: number) {
-    const url = `${config.endpoints.blog.base}${id}/`;
+    const url = `${getConfigUrlSrvBlog('base')}${id}/`;
     return this._httpService.get(url).then(response => ({...response, countries: response.countries.split(';')}));
   }
 
   putBlog(id: number, rawData: BlogFormData) {
     const data = this._formatBlogDataToSend(rawData);
-    const url = `${config.endpoints.blog.base}${id}/`;
+    const url = `${getConfigUrlSrvBlog('base')}${id}/`;
     return this._httpService.put(url, data).then((response: Blog) => response);
   }
 
   activateBlog(id: number) {
-    const url = `${config.endpoints.blog.base}${id}/`;
+    const url = `${getConfigUrlSrvBlog('base')}${id}/`;
     const data = {is_active: true};
     return this._httpService.put(url, data).then((response: Blog) => response);
   }
 
   getActivatedBlogs(params: {} = {}) {
-    const url = config.endpoints.blog.base;
+    const url = getConfigUrlSrvBlog('base');
     const newParams = {...params, is_active: true};
     return this._httpService.get(url, newParams).then((response: Blog[]) => response);
   }
 
   getBlogs(params: {} = {}) {
-    const url = config.endpoints.blog.base;
+    const url = getConfigUrlSrvBlog('base');
     return this._httpService.get(url, params).then((response: Blog[]) => response);
   }
 
   postBlog(rawData: BlogFormData) {
     const data = this._formatBlogDataToSend(rawData);
-    const url = config.endpoints.blog.base;
+    const url = getConfigUrlSrvBlog('base');
     return this._httpService.post(url, data, {headers: {'Content-Type': 'multipart/form-data'}}).then((response: Blog) => response);
   }
 

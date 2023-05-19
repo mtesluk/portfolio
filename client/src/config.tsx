@@ -1,39 +1,22 @@
-const baseUrlConfig = {
-    account: '/account/',
-    blog: '/blogs/',
-    countries: '/countries',
-};
-
-// https://cors-anywhere.herokuapp.com - workaround for CORS as proxy server
-const baseUrlConfigProd = {
-    account: `https://account-mt.herokuapp.com/api/v1/`,
-    blog: `https://portfolio-blog-mt.herokuapp.com/api/v1/blogs/`,
-    countries: `https://cors-anywhere.herokuapp.com/https://restcountries.eu/rest/v2/all?fields=name`,
-};
-
-const getBaseUrlConfig = (name: string) => (process.env.NODE_ENV === 'production' ? baseUrlConfigProd[name] : baseUrlConfig[name]);
 const detailRoute = (routeName: string) => (id: number | null = null) => (id ? `${routeName}${id}` : `${routeName}:id`);
 
-export const config = {
-    tokenKey: 'token_fsf0324fsd',
-    refreshTokenKey: 'token_jhdhfghgfjh',
+const config = {
+    //tokenKey: 'token_fsf0324fsd',
+    //refreshTokenKey: 'token_jhdhfghgfjh',
     endpoints: {
         auth: {
-            login: getBaseUrlConfig('account') + 'token_auth/',
-            refreshLogin: getBaseUrlConfig('account') + 'token_auth/refresh/',
-            me: getBaseUrlConfig('account') + 'users/me/',
-            exists_fb: getBaseUrlConfig('account') + 'users/exist_fb_account/',
-            register: getBaseUrlConfig('account') + 'users/',
-            users: getBaseUrlConfig('account') + 'users/'
+            login: 'token_auth/',
+            refreshLogin: 'token_auth/refresh/',
+            me: 'users/me/',
+            exists_fb: 'users/exist_fb_account/',
+            register: 'users/',
+            users: 'users/'
         },
         blog: {
-            authors: getBaseUrlConfig('blog') + 'authors/',
-            countries: getBaseUrlConfig('blog') + 'countries/',
-            base: getBaseUrlConfig('blog'),
+            authors: 'authors/',
+            countries: 'countries/'
         },
-        countries: {
-            base: getBaseUrlConfig('countries'),
-        },
+        countries: {},
     },
     routes: {
         root: '/',
@@ -47,4 +30,30 @@ export const config = {
             updateBlog: detailRoute('/blog/edit/'),
         }
     }
+}
+
+export const getConfigUrlSrvAuth = (key?: string | null) => {
+    const url = window['appConfig']['account']['baseUrlSrv'];
+    if (!key) return url;
+    return url + config.endpoints.auth[key]
+}
+
+export const getConfigUrlSrvBlog = (key?: string | null) => {
+    const url = window['appConfig']['blog']['baseUrlSrv'];
+    if (!key) return url;
+    return url + config.endpoints.blog[key]
+}
+
+export const getConfigUrlSrvCountires = (key?: string | null) => {
+    const url = window['appConfig']['countries']['baseUrlSrv'];
+    if (!key) return url;
+    return url + config.endpoints.countries[key]
+}
+
+export const getConfigBlog = (key: string) => {
+    return window['appConfig']['blog'][key];
+}
+
+export const getConfigRoutesBlog = (key: string) => {
+    return config.routes.blog[key];
 }

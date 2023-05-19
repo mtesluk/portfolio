@@ -9,7 +9,7 @@ import ButtonWidget from 'shared/components/widgets/button/button';
 
 import { notifySuccess } from 'actions/notify';
 import { User, Profile, RegisterFormType } from 'shared/interfaces/user';
-import { config  } from "config";
+import { getConfigUrlSrvAuth } from "config";
 import HttpService from 'shared/services/HttpService'
 
 
@@ -51,7 +51,7 @@ export const RegisterFormComponent = (props: Props) => {
     } else {
       delete data.passwordConfirmation;
       data = {...data, profile: {facebook_id: props.user.profile?.facebook_id}};
-      const url = config.endpoints.auth.register
+      const url = getConfigUrlSrvAuth('register');
       _httpService.post(url, data).then(reponse => {
         props.setRegistration(RegisterFormType.NONE);
         props.notifySuccess('Register successfully! Login again to authenticate yourself')

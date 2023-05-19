@@ -1,4 +1,4 @@
-import { config } from "config";
+import { getConfigBlog } from "config";
 
 
 const initialState: string = '';
@@ -11,7 +11,7 @@ interface Action {
 const token = (state: string = initialState, action: Action) => {
   switch (action.type) {
     case 'SET_TOKEN' :
-      localStorage.setItem(config.tokenKey, action.value ? action.value : '');
+      localStorage.setItem(getConfigBlog('tokenKey'), action.value ? action.value : '');
       state = action.value;
     break;
   }

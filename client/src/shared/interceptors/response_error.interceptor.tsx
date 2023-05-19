@@ -1,6 +1,6 @@
 import { AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios';
 import axios from 'configAxios';
-import { config } from 'config';
+import { getConfigBlog, getConfigUrlSrvAuth } from "config";
 
 interface AxiosErrorEx extends AxiosRequestConfig {
   _retry: boolean
@@ -26,7 +26,7 @@ class ErrorResponseInterceptor {
           const originalReq = error.config;
           originalReq._retry = true;
 
-          let res = fetch(config.endpoints.auth.refreshLogin, {
+          let res = fetch(getConfigUrlSrvAuth('refreshLogin'), {
               method: 'POST',
               mode: 'cors',
               cache: 'no-cache',
@@ -37,7 +37,7 @@ class ErrorResponseInterceptor {
               redirect: 'follow',
               referrer: 'no-referrer',
               body: JSON.stringify({
-                  refresh: localStorage.getItem(config.refreshTokenKey)
+                  refresh: localStorage.getItem(getConfigBlog('refreshTokenKey'))
               }),
           }).then(res => res.json()).then(res => {
               setToken(res.access)

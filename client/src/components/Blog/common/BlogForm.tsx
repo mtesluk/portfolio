@@ -8,7 +8,7 @@ import SelectFileWidget from 'shared/components/widgets/selectFile/selectFile';
 
 import { notifySuccess } from 'actions/notify';
 import { Blog, Element, ElementType, BlogFormData } from 'shared/interfaces/blog';
-import { config } from 'config';
+import { getConfigUrlSrvCountires } from 'config';
 import BlogService from 'shared/services/blog.service';
 import SelectMultipleWidget from 'shared/components/widgets/selectMult/selectMult';
 import InputWidget from 'shared/components/widgets/input/input';
@@ -183,7 +183,7 @@ class BlogForm extends React.Component <ReduxProps & Props, ComponentState> {
     return (
       <div className="blog-form__settings">
         <InputWidget placeholder="Title" onChange={(value: string) => this.onTitleChange(value)} initialValue={this.state.title}/>
-        <SelectMultipleWidget placeholder="Pick region" onChange={(countries: any[]) => this.onCountriesChange(countries.map(country => country))} endpoint={config.endpoints.countries.base} initialValue={this.state.countries}/>
+        <SelectMultipleWidget placeholder="Pick region" onChange={(countries: any[]) => this.onCountriesChange(countries.map(country => country))} endpoint={getConfigUrlSrvCountires()} initialValue={this.state.countries}/>
       </div>
     )
   }

@@ -1,12 +1,12 @@
 import { AxiosRequestConfig } from 'axios';
 import axios from 'configAxios';
-import { config as appConfing } from 'config';
+import { getConfigBlog } from 'config';
 
 
 class TokenInterceptor {
   initInterceptor() {
     axios.interceptors.request.use((config: AxiosRequestConfig) => {
-      const token = localStorage.getItem(appConfing.tokenKey);
+      const token = localStorage.getItem(getConfigBlog('tokenKey'));
       let headers = {...config.headers};
       if (token) {
         headers = {

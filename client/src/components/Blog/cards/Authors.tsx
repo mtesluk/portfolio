@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Authors.scss';
 
-import { config  } from 'config';
+import { getConfigUrlSrvBlog } from 'config';
 import { User } from 'shared/interfaces/user';
 import SelectCardList from 'components/Blog/common/SelectCardList';
 
@@ -17,7 +17,7 @@ interface State {
 
 
 class Authors extends React.Component<Props, State> {
-  endpoint: string = config.endpoints.blog.authors;
+  endpoint: string = getConfigUrlSrvBlog('authors');
   filters = {user_id: 'id'};
   selector: string = 'username';
   state = {

@@ -10,7 +10,7 @@ import ButtonWidget from 'shared/components/widgets/button/button';
 import { notifySuccess } from 'actions/notify';
 import { setToken } from 'actions/token';
 import { RegisterFormType } from 'shared/interfaces/user';
-import { config  } from "config";
+import { getConfigBlog, getConfigUrlSrvAuth  } from "config";
 import HttpService from 'shared/services/HttpService'
 
 
@@ -37,10 +37,10 @@ export const LoginFormComponent = (props: Props) => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     if (credentials.username && credentials.password) {
-      const url = config.endpoints.auth.login;
+      const url = getConfigUrlSrvAuth('login');
       _httpService.post(url, credentials).then(response => {
         props.setToken(response.access);
-        localStorage.setItem(config.refreshTokenKey, response.refresh);
+        localStorage.setItem(getConfigBlog('refreshTokenKey'), response.refresh);
         props.handleClose(true);
         props.notifySuccess('Now you are logged in!');
       }).catch(err => {});

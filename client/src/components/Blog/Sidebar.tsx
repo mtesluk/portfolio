@@ -7,7 +7,7 @@ import HomeIcon from '@material-ui/icons/Menu';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import FlightLandIcon from '@material-ui/icons/FlightLand';
 
-import { config } from 'config';
+import { getConfigBlog, getConfigRoutesBlog } from 'config';
 import { setOpenLoginDialog } from 'actions/login-dialog';
 import { User } from 'shared/interfaces/user';
 import { resetToken } from 'actions/token';
@@ -68,8 +68,8 @@ class BlogSidebarComponent extends React.Component <Props, ComponentState>  {
     this.handleToggleSidebarIfSmallScreen();
     if (this.props.token) {
       this.props.resetToken();
-      localStorage.removeItem(config.tokenKey);
-      localStorage.removeItem(config.refreshTokenKey);
+      localStorage.removeItem(getConfigBlog('tokenKey'));
+      localStorage.removeItem(getConfigBlog('refreshTokenKey'));
       this.props.setUserData({});
       this.props.notifySuccess('Logout confirmed');
     } else {
@@ -105,14 +105,14 @@ class BlogSidebarComponent extends React.Component <Props, ComponentState>  {
             </div>
           </Link>
           <div className="blog__navs">
-            <Link to={config.routes.blog.dashboard} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Dashboard</Link>
-            <Link to={config.routes.blog.authors} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Authors</Link>
-            <Link to={config.routes.blog.sites} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Sites</Link>
-            <Link to={config.routes.blog.addNew} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Add blog</Link>
+            <Link to={getConfigRoutesBlog('dashboard')} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Dashboard</Link>
+            <Link to={getConfigRoutesBlog('authors')} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Authors</Link>
+            <Link to={getConfigRoutesBlog('sites')} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Sites</Link>
+            <Link to={getConfigRoutesBlog('addNew')} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="">Add blog</Link>
           </div>
         </div>
         <div className="blog__bottom">
-          {this.props.token && <Link to={config.routes.blog.profile} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="blog__profile">{this.props.user?.username}</Link>}
+          {this.props.token && <Link to={getConfigRoutesBlog('profile')} onClick={() => this.handleToggleSidebarIfSmallScreen()} className="blog__profile">{this.props.user?.username}</Link>}
           <div className="blog__login" onClick={() => this.handleLogin()}>
             {this.renderLoginButton()}
           </div>

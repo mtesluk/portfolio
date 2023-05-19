@@ -7,7 +7,7 @@ import {
 import './Entry.scss';
 import ButtonWidget from 'shared/components/widgets/button/button';
 
-import { config  } from 'config';
+import { getConfigRoutesBlog } from 'config';
 import { Blog, Element, ElementType } from 'shared/interfaces/blog';
 import { Link } from 'react-router-dom';
 import { User } from 'shared/interfaces/user';
@@ -108,7 +108,7 @@ class Entry extends React.Component<Props, State> {
                 {this.state.blog.countries.map((country: string, index: number) => {
                   return <span className="blog-detail__region-element" key={index}>
                           <Link to={{
-                            pathname: config.routes.blog.sites,
+                            pathname: getConfigRoutesBlog('sites'),
                             state: {
                               countries: [country]
                             }}}
@@ -121,7 +121,7 @@ class Entry extends React.Component<Props, State> {
             <div className="blog-detail__author">
               Author:	{'\u00A0'}
               <Link to={{
-                pathname: config.routes.blog.authors,
+                pathname: getConfigRoutesBlog('authors'),
                 state: {
                   authors: [this.state.authors.main]
                 }}}
@@ -132,7 +132,7 @@ class Entry extends React.Component<Props, State> {
             <div className="blog-detail__support">
               {this.state.authors.support.length ? 'Support:' : ''}
               <Link to={{
-                pathname: config.routes.blog.authors,
+                pathname: getConfigRoutesBlog('authors'),
                 state: {
                   authors: this.state.authors.support
                 }}}

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FacebookLogin from 'react-facebook-login';
 
-import { config } from 'config';
+import { getConfigUrlSrvAuth } from 'config';
 import { setToken } from 'actions/token';
 import { RegisterFormType } from 'shared/interfaces/user';
 import { notifySuccess } from 'actions/notify';
@@ -45,7 +45,7 @@ export const FacebookComponent = (props: Props) => {
   const _httpService: HttpService = new HttpService();
 
   const responseFacebook = (responseFb: FacebookResponse) => {
-    const url = config.endpoints.auth.exists_fb;
+    const url = getConfigUrlSrvAuth('exists_fb');
     _httpService.get(`${url}?fb_id=${responseFb.userID}`).then(response => {
       const exists = response.exists;
       if (exists) {

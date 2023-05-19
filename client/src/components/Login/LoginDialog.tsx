@@ -8,7 +8,7 @@ import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
 import { User, RegisterFormType } from 'shared/interfaces/user';
 import { Dialog } from 'shared/components/Dialog';
-import { config  } from "config";
+import { getConfigUrlSrvAuth  } from "config";
 import { setUserData } from 'actions/user';
 import HttpService from 'shared/services/HttpService';
 
@@ -32,7 +32,7 @@ const LoginComponent = (props: Props) => {
   const [isRegistration, setRegistration] = useState<number>(RegisterFormType.NONE);
 
   const getUserData = () => {
-    _httpService.get(config.endpoints.auth.me).then((response: User) => {
+    _httpService.get(getConfigUrlSrvAuth('me')).then((response: User) => {
       props.setUserData(response);
     }).catch(err => {});
   }

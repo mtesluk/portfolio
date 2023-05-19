@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './Blog.scss';
 
-import { config } from 'config';
+import { getConfigRoutesBlog } from 'config';
 import { BlogSidebar } from './Sidebar';
 import { AuthGuard } from 'shared/guards/AuthGuard'
 import AddForm  from './add/Add';
@@ -24,13 +24,13 @@ const BlogComponent = (props: Props) => {
   const renderContent = () => {
     return (
       <Switch>
-          <Route path={config.routes.blog.dashboard} exact component={Dashboard} />
-          <Route path={config.routes.blog.authors} component={Authors} />
-          <AuthGuard path={config.routes.blog.addNew} component={AddForm} app="blog" />
-          <Route path={config.routes.blog.updateBlog()} component={Update} />
-          <Route path={config.routes.blog.sites} component={Sites} />
-          <Route path={config.routes.blog.profile} component={Account} />
-          <Route path={config.routes.blog.detail()} component={Entry} />
+          <Route path={getConfigRoutesBlog('dashboard')} exact component={Dashboard} />
+          <Route path={getConfigRoutesBlog('authors')} component={Authors} />
+          <AuthGuard path={getConfigRoutesBlog('addNew')} component={AddForm} app="blog" />
+          <Route path={getConfigRoutesBlog('updateBlog')()} component={Update} />
+          <Route path={getConfigRoutesBlog('sites')} component={Sites} />
+          <Route path={getConfigRoutesBlog('profile')} component={Account} />
+          <Route path={getConfigRoutesBlog('detail')()} component={Entry} />
       </Switch>
     )
   }
